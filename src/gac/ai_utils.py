@@ -342,17 +342,17 @@ def _ensure_oauth_token(provider: str) -> None:
         "claude-code": {
             "provider_key": "claude-code",
             "env_var": "CLAUDE_CODE_ACCESS_TOKEN",
-            "login_cmd": "gac auth claude-code login",
+            "login_cmd": "uvx gac auth claude-code login",
         },
         "chatgpt-oauth": {
             "provider_key": "chatgpt-oauth",
             "env_var": "CHATGPT_OAUTH_API_KEY",
-            "login_cmd": "gac auth chatgpt login",
+            "login_cmd": "uvx gac auth chatgpt login",
         },
         "copilot": {
             "provider_key": "copilot",
             "env_var": "COPILOT_OAUTH_TOKEN",
-            "login_cmd": "gac auth copilot login",
+            "login_cmd": "uvx gac auth copilot login",
         },
     }
 

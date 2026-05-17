@@ -52,16 +52,16 @@ def auth(ctx: click.Context) -> None:
     - copilot: GitHub Copilot Device Flow
 
     Examples:
-        gac auth                        # Show authentication status
-        gac auth claude-code login      # Login to Claude Code
-        gac auth claude-code logout     # Logout from Claude Code
-        gac auth claude-code status     # Check Claude Code auth status
-        gac auth chatgpt login          # Login to ChatGPT
-        gac auth chatgpt logout         # Logout from ChatGPT
-        gac auth chatgpt status         # Check ChatGPT auth status
-        gac auth copilot login          # Login to GitHub Copilot
-        gac auth copilot logout         # Logout from GitHub Copilot
-        gac auth copilot status         # Check Copilot auth status
+        uvx gac auth                        # Show authentication status
+        uvx gac auth claude-code login      # Login to Claude Code
+        uvx gac auth claude-code logout     # Logout from Claude Code
+        uvx gac auth claude-code status     # Check Claude Code auth status
+        uvx gac auth chatgpt login          # Login to ChatGPT
+        uvx gac auth chatgpt logout         # Logout from ChatGPT
+        uvx gac auth chatgpt status         # Check ChatGPT auth status
+        uvx gac auth copilot login          # Login to GitHub Copilot
+        uvx gac auth copilot logout         # Logout from GitHub Copilot
+        uvx gac auth copilot status         # Check Copilot auth status
     """
     if ctx.invoked_subcommand is None:
         _show_auth_status()
@@ -208,7 +208,7 @@ def chatgpt_login(quiet: bool = False) -> None:
     securely in ~/.gac/oauth/chatgpt-oauth.json.
 
     After authentication, you can use ChatGPT Codex models like:
-        gac -m chatgpt-oauth:gpt-5.4
+        uvx gac -m chatgpt-oauth:gpt-5.4
     """
     if not quiet:
         setup_logging("INFO")
@@ -235,7 +235,7 @@ def chatgpt_login(quiet: bool = False) -> None:
             click.echo()
             click.echo("✅ ChatGPT authentication completed successfully!")
             click.echo(f"   Available models: {', '.join(DEFAULT_CODEX_MODELS[:4])}")
-            click.echo("   Use: gac -m chatgpt-oauth:gpt-5.4")
+            click.echo("   Use: uvx gac -m chatgpt-oauth:gpt-5.4")
     else:
         click.echo("❌ ChatGPT authentication failed.")
         click.echo("   Please try again or check your network connection.")
@@ -306,7 +306,7 @@ def copilot_login(quiet: bool = False, host: str = "github.com") -> None:
     via the --host flag (e.g. --host ghe.mycompany.com).
 
     After authentication, you can use Copilot models like:
-        gac -m copilot:gpt-4o-mini
+        uvx gac -m copilot:gpt-4o-mini
     """
     if not quiet:
         setup_logging("INFO")
@@ -337,7 +337,7 @@ def copilot_login(quiet: bool = False, host: str = "github.com") -> None:
         if not quiet:
             click.echo()
             click.echo("✅ Copilot authentication completed successfully!")
-            click.echo("   Use: gac -m copilot:gpt-5-mini")
+            click.echo("   Use: uvx gac -m copilot:gpt-5-mini")
     else:
         click.echo("❌ Copilot authentication failed.")
         click.echo("   Ensure your GitHub account has Copilot access.")

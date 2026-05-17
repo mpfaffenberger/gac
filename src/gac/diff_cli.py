@@ -145,8 +145,8 @@ def diff(
     This command shows the raw diff without generating a commit message.
 
     You can also compare specific commits or branches by providing one or two arguments:
-        gac diff <commit1> - Shows diff between working tree and <commit1>
-        gac diff <commit1> <commit2> - Shows diff between <commit1> and <commit2>
+        uvx gac diff <commit1> - Shows diff between working tree and <commit1>
+        uvx gac diff <commit1> <commit2> - Shows diff between <commit1> and <commit2>
 
     Commit references can be commit hashes, branch names, or other Git references.
     """

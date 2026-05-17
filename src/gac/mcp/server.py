@@ -8,7 +8,7 @@ Two primary tools:
     - gac_status: Get repository status and diff information
 
 Usage:
-    gac serve            # Start MCP server (stdio transport)
+    uvx gac serve        # Start MCP server (stdio transport)
     uvx gac serve        # Same, via uvx
 """
 
