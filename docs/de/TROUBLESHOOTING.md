@@ -8,7 +8,7 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 
 - [Fehlersuche bei gac](#fehlersuche-bei-gac)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
-  - [1. Installationsprobleme](#1-installationsprobleme)
+  - [1. Einrichtungsprobleme](#1-einrichtungsprobleme)
   - [2. Konfigurationsprobleme](#2-konfigurationsprobleme)
   - [3. Anbieter/API-Fehler](#3-anbieterapi-fehler)
   - [4. Commit-Gruppierungsprobleme](#4-commit-gruppierungsprobleme)
@@ -19,26 +19,21 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
   - [Immer noch festgefahren?](#immer-noch-festgefahren)
   - [Wo man weitere Hilfe bekommt](#wo-man-weitere-hilfe-bekommt)
 
-## 1. Installationsprobleme
+## 1. Einrichtungsprobleme
 
-**Problem:** `gac` Befehl nach der Installation nicht gefunden
+**Problem:** `uvx` Befehl nicht gefunden
 
-- Stellen Sie sicher, dass Sie mit `uvx gac` installiert haben
+- Installieren Sie uv gemäß den Anweisungen unter [astral.sh/uv](https://astral.sh/uv)
 - Stellen Sie sicher, dass `uv` installiert ist und in Ihrem `$PATH` liegt
 - Starten Sie Ihr Terminal nach der Installation neu
-
-**Problem:** Berechtigung verweigert oder Dateien können nicht geschrieben werden
-
-- Verzeichnisberechtigungen überprüfen
-- Versuchen Sie, mit geeigneten Berechtigungen auszuführen oder Verzeichniseigentümer zu ändern
 
 ## 2. Konfigurationsprobleme
 
 **Problem:** gac kann Ihren API-Schlüssel oder Ihr Modell nicht finden
 
-- Wenn Sie neu sind, führen Sie `gac init` aus, um interaktiv Ihren Anbieter, Ihr Modell und Ihre API-Schlüssel einzurichten
+- Wenn Sie neu sind, führen Sie `uvx gac init` aus, um interaktiv Ihren Anbieter, Ihr Modell und Ihre API-Schlüssel einzurichten
 - Stellen Sie sicher, dass Ihre `.gac.env` oder Umgebungsvariablen korrekt gesetzt sind
-- Führen Sie `gac --log-level=debug` aus, um zu sehen, welche Konfigurationsdateien geladen werden und Konfigurationsprobleme zu debuggen
+- Führen Sie `uvx gac --log-level=debug` aus, um zu sehen, welche Konfigurationsdateien geladen werden und Konfigurationsprobleme zu debuggen
 - Überprüfen Sie auf Tippfehler in Variablennamen (z.B. `GAC_GROQ_API_KEY`)
 
 **Problem:** Benutzer-weite `$HOME/.gac.env` Änderungen werden nicht übernommen
@@ -46,22 +41,22 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 - Stellen Sie sicher, dass Sie die richtige Datei für Ihr Betriebssystem bearbeiten:
   - Auf macOS/Linux: `$HOME/.gac.env` (gewöhnlich `/Users/<ihr-benutzername>/.gac.env` oder `/home/<ihr-benutzername>/.gac.env`)
   - Auf Windows: `$HOME/.gac.env` (typischerweise `C:\Users\<ihr-benutzername>\.gac.env` oder verwenden Sie `%USERPROFILE%`)
-- Führen Sie `gac --log-level=debug` aus, um zu bestätigen, dass die Benutzer-weite Konfiguration geladen wird
+- Führen Sie `uvx gac --log-level=debug` aus, um zu bestätigen, dass die Benutzer-weite Konfiguration geladen wird
 - Starten Sie Ihr Terminal neu oder führen Sie Ihre Shell erneut aus, um Umgebungsvariablen neu zu laden
 - Wenn es immer noch nicht funktioniert, überprüfen Sie auf Tippfehler und Dateiberechtigungen
 
 **Problem:** Projekt-weite `.gac.env` Änderungen werden nicht übernommen
 
 - Stellen Sie sicher, dass Ihr Projekt eine `.gac.env`-Datei im Root-Verzeichnis enthält (neben Ihrem `.git`-Ordner)
-- Führen Sie `gac --log-level=debug` aus, um zu bestätigen, dass die projekt-weite Konfiguration geladen wird
+- Führen Sie `uvx gac --log-level=debug` aus, um zu bestätigen, dass die projekt-weite Konfiguration geladen wird
 - Wenn Sie `.gac.env` bearbeiten, starten Sie Ihr Terminal neu oder führen Sie Ihre Shell erneut aus, um Umgebungsvariablen neu zu laden
 - Wenn es immer noch nicht funktioniert, überprüfen Sie auf Tippfehler und Dateiberechtigungen
 
 **Problem:** Sprache für Commit-Nachrichten kann nicht gesetzt oder geändert werden
 
-- Führen Sie `gac language` (oder `gac lang`) aus, um interaktiv aus 25+ unterstützten Sprachen auszuwählen
-- Verwenden Sie `-l <language>`-Flag, um die Sprache für einen einzelnen Commit zu überschreiben (z.B. `gac -l zh-CN`, `gac -l Spanish`)
-- Überprüfen Sie Ihre Konfiguration mit `gac config show`, um die aktuelle Spracheinstellung zu sehen
+- Führen Sie `uvx gac language` (oder `uvx gac lang`) aus, um interaktiv aus 25+ unterstützten Sprachen auszuwählen
+- Verwenden Sie `-l <language>`-Flag, um die Sprache für einen einzelnen Commit zu überschreiben (z.B. `uvx gac -l zh-CN`, `uvx gac -l Spanish`)
+- Überprüfen Sie Ihre Konfiguration mit `uvx gac config show`, um die aktuelle Spracheinstellung zu sehen
 - Spracheinstellung wird in `GAC_LANGUAGE` in Ihrer `.gac.env`-Datei gespeichert
 
 ## 3. Anbieter/API-Fehler
@@ -71,11 +66,11 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 - Stellen Sie sicher, dass Sie die korrekten API-Schlüssel für Ihr gewähltes Modell gesetzt haben (z.B. `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - Überprüfen Sie Ihren API-Schlüssel und Anbieter-Kontostatus doppelt
 - Für Ollama und LM Studio bestätigen Sie, dass die API-URL Ihrer lokalen Instanz entspricht. API-Schlüssel werden nur benötigt, wenn Sie Authentifizierung aktiviert haben.
-- **Für abgelaufene Claude Code Token**: Führen Sie `gac auth` aus, um sich schnell erneut zu authentifizieren und Ihren Token zu aktualisieren. Ihr Browser öffnet sich automatisch für OAuth.
-- **Für abgelaufene ChatGPT OAuth Token**: Führen Sie `gac auth chatgpt login` aus, um sich erneut zu authentifizieren. Ihr Browser öffnet sich automatisch für OAuth.
+- **Für abgelaufene Claude Code Token**: Führen Sie `uvx gac auth` aus, um sich schnell erneut zu authentifizieren und Ihren Token zu aktualisieren. Ihr Browser öffnet sich automatisch für OAuth.
+- **Für abgelaufene ChatGPT OAuth Token**: Führen Sie `uvx gac auth chatgpt login` aus, um sich erneut zu authentifizieren. Ihr Browser öffnet sich automatisch für OAuth.
 - **Für andere Claude Code OAuth-Probleme**, siehe die [Claude Code-Einrichtungsanleitung](CLAUDE_CODE.md) für umfassende Fehlerbehebung.
 - **Für andere ChatGPT OAuth-Probleme**, siehe die [ChatGPT OAuth-Einrichtungsanleitung](CHATGPT_OAUTH.md) für umfassende Fehlerbehebung.
-- **Für abgelaufene GitHub Copilot-Sitzungstoken**: Führen Sie `gac auth copilot login` aus, um sich über Device Flow erneut zu authentifizieren. Sitzungstoken werden automatisch aus dem zwischengespeicherten OAuth-Token erneuert.
+- **Für abgelaufene GitHub Copilot-Sitzungstoken**: Führen Sie `uvx gac auth copilot login` aus, um sich über Device Flow erneut zu authentifizieren. Sitzungstoken werden automatisch aus dem zwischengespeicherten OAuth-Token erneuert.
 - **Für andere GitHub Copilot-Probleme**, siehe die [GitHub Copilot-Einrichtungsanleitung](GITHUB_COPILOT.md) für umfassende Fehlerbehebung.
 
 **Problem:** Modell nicht verfügbar oder nicht unterstützt
@@ -92,7 +87,7 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 - Die KI kann entscheiden, dass ein einzelner Commit für Ihre Menge gestageter Änderungen sinnvoll ist, sogar mit `--group`
 - Dies ist beabsichtigtes Verhalten - die KI gruppiert Änderungen basierend auf logischen Beziehungen, nicht nur auf Menge
 - Stellen Sie sicher, dass Sie mehrere nicht zusammenhängende Änderungen gestagt haben (z.B. Fehlerbehebung + Funktionszusatz) für beste Ergebnisse
-- Verwenden Sie `gac --show-prompt` zum Debuggen, was die KI sieht
+- Verwenden Sie `uvx gac --show-prompt` zum Debuggen, was die KI sieht
 
 **Problem:** Commits falsch gruppiert oder nicht gruppiert, wenn erwartet
 
@@ -121,20 +116,20 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 **Problem:** Geheimnis-Scanning permanent deaktivieren müssen
 
 - Setzen Sie `GAC_SKIP_SECRET_SCAN=true` in Ihrer `.gac.env`-Datei
-- Verwenden Sie `gac config set GAC_SKIP_SECRET_SCAN true`
+- Verwenden Sie `uvx gac config set GAC_SKIP_SECRET_SCAN true`
 - Hinweis: Deaktivieren Sie nur, wenn Sie andere Sicherheitsmaßnahmen an Ort und Stelle haben
 
 ## 6. Pre-commit und Lefthook Hook-Probleme
 
 **Problem:** Pre-commit oder lefthook Hooks schlagen fehl und blockieren Commits
 
-- Verwenden Sie `gac --no-verify`, um alle pre-commit und lefthook Hooks vorübergehend zu überspringen
+- Verwenden Sie `uvx gac --no-verify`, um alle pre-commit und lefthook Hooks vorübergehend zu überspringen
 - Beheben Sie die zugrundeliegenden Probleme, die das Fehlschlagen der Hooks verursachen
 - Erwägen Sie, Ihre pre-commit oder lefthook Konfiguration anzupassen, wenn die Hooks zu streng sind
 
 **Problem:** Pre-commit oder lefthook Hooks dauern zu lange oder stören den Workflow
 
-- Verwenden Sie `gac --no-verify`, um alle pre-commit und lefthook Hooks vorübergehend zu überspringen
+- Verwenden Sie `uvx gac --no-verify`, um alle pre-commit und lefthook Hooks vorübergehend zu überspringen
 - Erwägen Sie, pre-commit Hooks in `.pre-commit-config.yaml` oder lefthook Hooks in `.lefthook.yml` zu konfigurieren, um weniger aggressiv für Ihren Workflow zu sein
 - Überprüfen Sie Ihre Hook-Konfiguration zur Leistungsoptimierung
 
@@ -143,9 +138,9 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 **Problem:** Keine Änderungen zum Committen / nichts gestagt
 
 - gac erfordert gestagete Änderungen, um eine Commit-Nachricht zu generieren
-- Verwenden Sie `git add <files>` zum Stagen von Änderungen, oder verwenden Sie `gac -a`, um alle Änderungen automatisch zu stagen
+- Verwenden Sie `git add <files>` zum Stagen von Änderungen, oder verwenden Sie `uvx gac -a`, um alle Änderungen automatisch zu stagen
 - Überprüfen Sie `git status`, um zu sehen, welche Dateien geändert wurden
-- Verwenden Sie `gac diff`, um eine gefilterte Ansicht Ihrer Änderungen zu sehen
+- Verwenden Sie `uvx gac diff`, um eine gefilterte Ansicht Ihrer Änderungen zu sehen
 
 **Problem:** Commit-Nachricht nicht wie erwartet
 
@@ -156,10 +151,10 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 
 **Problem:** gac ist zu langsam
 
-- Verwenden Sie `gac -y`, um den Bestätigungs-Prompt zu überspringen
-- Verwenden Sie `gac -q` für den stillen Modus mit weniger Ausgabe
+- Verwenden Sie `uvx gac -y`, um den Bestätigungs-Prompt zu überspringen
+- Verwenden Sie `uvx gac -q` für den stillen Modus mit weniger Ausgabe
 - Erwägen Sie die Verwendung schnellerer/billigerer Modelle für routinemäßige Commits
-- Verwenden Sie `gac --no-verify`, um Hooks zu überspringen, wenn sie Sie verlangsamen
+- Verwenden Sie `uvx gac --no-verify`, um Hooks zu überspringen, wenn sie Sie verlangsamen
 
 **Problem:** Kann nicht bearbeiten oder Feedback nach Nachrichtengenerierung geben
 
@@ -170,11 +165,11 @@ Dieser Leitfaden behandelt häufige Probleme und Lösungen für die Installation
 
 ## 8. Allgemeines Debugging
 
-- Verwenden Sie `gac init`, um Ihre Konfiguration interaktiv zurückzusetzen oder zu aktualisieren
-- Verwenden Sie `gac --log-level=debug` für detaillierte Debug-Ausgabe und Logging
-- Verwenden Sie `gac --show-prompt`, um zu sehen, welcher Prompt an die KI gesendet wird
-- Verwenden Sie `gac --help`, um alle verfügbaren Kommandozeilen-Flags zu sehen
-- Verwenden Sie `gac config show`, um alle aktuellen Konfigurationswerte zu sehen
+- Verwenden Sie `uvx gac init`, um Ihre Konfiguration interaktiv zurückzusetzen oder zu aktualisieren
+- Verwenden Sie `uvx gac --log-level=debug` für detaillierte Debug-Ausgabe und Logging
+- Verwenden Sie `uvx gac --show-prompt`, um zu sehen, welcher Prompt an die KI gesendet wird
+- Verwenden Sie `uvx gac --help`, um alle verfügbaren Kommandozeilen-Flags zu sehen
+- Verwenden Sie `uvx gac config show`, um alle aktuellen Konfigurationswerte zu sehen
 - Überprüfen Sie Logs auf Fehlermeldungen und Stack-Traces
 - Überprüfen Sie das Haupt-[README.md](../README.md) für Funktionen, Beispiele und schnelle Startanweisungen
 

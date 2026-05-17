@@ -8,7 +8,7 @@
 
 - [gac 문제 해결](#gac-문제-해결)
   - [목차](#목차)
-  - [1. 설치 문제](#1-설치-문제)
+  - [1. 설정 문제](#1-설정-문제)
   - [2. 구성 문제](#2-구성-문제)
   - [3. 프로바이더/API 오류](#3-프로바이더api-오류)
   - [4. 커밋 그룹화 문제](#4-커밋-그룹화-문제)
@@ -19,26 +19,21 @@
   - [여전히 막혀있나요?](#여전히-막혀있나요)
   - [추가 도움받을 곳](#추가-도움받을-곳)
 
-## 1. 설치 문제
+## 1. 설정 문제
 
-**문제:** 설치 후 `gac` 명령을 찾을 수 없음
+**문제:** `uvx` 명령을 찾을 수 없음
 
-- `uvx gac`로 설치했는지 확인
+- [astral.sh/uv](https://astral.sh/uv)의 지침에 따라 uv 설치
 - `uv`가 설치되어 있고 `$PATH`에 있는지 확인
 - 설치 후 터미널 재시작
-
-**문제:** 권한 거부 또는 파일을 쓸 수 없음
-
-- 디렉터리 권한 확인
-- 적절한 권한으로 실행하거나 디렉터리 소유권 변경 시도
 
 ## 2. 구성 문제
 
 **문제:** gac가 API 키나 모델을 찾을 수 없음
 
-- 처음 설정하는 경우, `gac init`를 실행하여 프로바이더, 모델 및 API 키를 대화형으로 설정
+- 처음 설정하는 경우, `uvx gac init`를 실행하여 프로바이더, 모델 및 API 키를 대화형으로 설정
 - `.gac.env` 또는 환경 변수가 올바르게 설정되었는지 확인
-- `gac --log-level=debug`를 실행하여 어떤 구성 파일이 로드되는지 확인하고 구성 문제를 디버깅
+- `uvx gac --log-level=debug`를 실행하여 어떤 구성 파일이 로드되는지 확인하고 구성 문제를 디버깅
 - 변수명의 오타 확인 (예: `GAC_GROQ_API_KEY`)
 
 **문제:** 사용자 레벨 `$HOME/.gac.env` 변경 사항이 적용되지 않음
@@ -46,22 +41,22 @@
 - OS에 맞는 올바른 파일을 편집하고 있는지 확인:
   - macOS/Linux: `$HOME/.gac.env` (보통 `/Users/<your-username>/.gac.env` 또는 `/home/<your-username>/.gac.env`)
   - Windows: `$HOME/.gac.env` (보통 `C:\Users\<your-username>\.gac.env` 또는 `%USERPROFILE%` 사용)
-- `gac --log-level=debug`를 실행하여 사용자 레벨 구성이 로드되는지 확인
+- `uvx gac --log-level=debug`를 실행하여 사용자 레벨 구성이 로드되는지 확인
 - 터미널을 재시작하거나 셸을 다시 실행해 환경 변수를 다시 로드
 - 여전히 작동하지 않으면 오타와 파일 권한 확인
 
 **문제:** 프로젝트 레벨 `.gac.env` 변경 사항이 적용되지 않음
 
 - 프로젝트 루트 디렉터리 (`.git` 폴더 옆)에 `.gac.env` 파일이 있는지 확인
-- `gac --log-level=debug`를 실행하여 프로젝트 레벨 구성이 로드되는지 확인
+- `uvx gac --log-level=debug`를 실행하여 프로젝트 레벨 구성이 로드되는지 확인
 - `.gac.env`를 편집한 경우, 터미널을 재시작하거나 셸을 다시 실행해 환경 변수를 다시 로드
 - 여전히 작동하지 않으면 오타와 파일 권한 확인
 
 **문제:** 커밋 메시지용 언어를 설정하거나 변경할 수 없음
 
-- `gac language` (또는 `gac lang`)를 실행하여 25개 이상의 지원되는 언어에서 대화형으로 선택
-- `-l <language>` 플래그를 사용하여 단일 커밋에 대한 언어 재정의 (예: `gac -l zh-CN`, `gac -l Spanish`)
-- `gac config show`로 현재 언어 설정 확인
+- `uvx gac language` (또는 `uvx gac lang`)를 실행하여 25개 이상의 지원되는 언어에서 대화형으로 선택
+- `-l <language>` 플래그를 사용하여 단일 커밋에 대한 언어 재정의 (예: `uvx gac -l zh-CN`, `uvx gac -l Spanish`)
+- `uvx gac config show`로 현재 언어 설정 확인
 - 언어 설정은 `.gac.env` 파일의 `GAC_LANGUAGE`에 저장됨
 
 ## 3. 프로바이더/API 오류
@@ -71,11 +66,11 @@
 - 선택한 모델에 대해 올바른 API 키가 설정되었는지 확인 (예: `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - API 키와 프로바이더 계정 상태를 다시 확인
 - Ollama와 LM Studio의 경우, API URL이 로컬 인스턴스와 일치하는지 확인. 인증을 활성화한 경우에만 API 키가 필요합니다.
-- **Claude Code 토큰 만료의 경우**: `gac auth`를 실행하여 빠르게 재인증하고 토큰을 새로고침합니다. 브라우저가 자동으로 OAuth를 위해 열립니다.
-- **ChatGPT OAuth 토큰 만료의 경우**: `gac auth chatgpt login` 을 실행하여 재인증합니다. 브라우저가 자동으로 OAuth 를 위해 열립니다.
+- **Claude Code 토큰 만료의 경우**: `uvx gac auth`를 실행하여 빠르게 재인증하고 토큰을 새로고침합니다. 브라우저가 자동으로 OAuth를 위해 열립니다.
+- **ChatGPT OAuth 토큰 만료의 경우**: `uvx gac auth chatgpt login` 을 실행하여 재인증합니다. 브라우저가 자동으로 OAuth 를 위해 열립니다.
 - **다른 Claude Code OAuth 문제의 경우**, [Claude Code 설정 가이드](CLAUDE_CODE.md)를 참조하여 포괄적인 문제 해결을 수행하세요.
 - **다른 ChatGPT OAuth 문제의 경우**, [ChatGPT OAuth 설정 가이드](CHATGPT_OAUTH.md) 를 참조하여 포괄적인 문제 해결을 수행하세요.
-- **GitHub Copilot 세션 토큰 만료의 경우**: Device Flow를 통해 재인증하려면 `gac auth copilot login`을 실행합니다. 세션 토큰은 캐시된 OAuth 토큰에서 자동으로 갱신됩니다.
+- **GitHub Copilot 세션 토큰 만료의 경우**: Device Flow를 통해 재인증하려면 `uvx gac auth copilot login`을 실행합니다. 세션 토큰은 캐시된 OAuth 토큰에서 자동으로 갱신됩니다.
 - **다른 GitHub Copilot 문제의 경우**, [GitHub Copilot 설정 가이드](GITHUB_COPILOT.md)를 참조하여 포괄적인 문제 해결을 수행하세요.
 
 **문제:** 모델을 사용할 수 없거나 지원되지 않음
@@ -92,7 +87,7 @@
 - `--group`을 사용하더라도 LLM은 스테이징된 변경 사항에 단일 커밋이 합리적이라고 결정할 수 있습니다
 - 이는 의도된 동작입니다 - LLM은 수량이 아닌 논리적 관계를 기반으로 변경 사항을 그룹화합니다
 - 최상의 결과를 위해 여러 관련 없는 변경 사항을 스테이징했는지 확인 (예: 버그 수정 + 기능 추가)
-- `gac --show-prompt`를 사용하여 LLM이 보고 있는 내용을 디버깅
+- `uvx gac --show-prompt`를 사용하여 LLM이 보고 있는 내용을 디버깅
 
 **문제:** 커밋이 잘못 그룹화되거나 예상할 때 그룹화되지 않음
 
@@ -121,20 +116,20 @@
 **문제:** 비밀 스캔을 영구적으로 비활성화해야 함
 
 - `.gac.env` 파일에서 `GAC_SKIP_SECRET_SCAN=true` 설정
-- `gac config set GAC_SKIP_SECRET_SCAN true` 사용
+- `uvx gac config set GAC_SKIP_SECRET_SCAN true` 사용
 - 참고: 다른 보안 조치가 있는 경우에만 비활성화
 
 ## 6. Pre-commit 및 Lefthook Hook 문제
 
 **문제:** Pre-commit 또는 lefthook hooks가 실패하고 커밋을 차단
 
-- `gac --no-verify`를 사용하여 모든 pre-commit 및 lefthook hooks를 일시적으로 건너뛰기
+- `uvx gac --no-verify`를 사용하여 모든 pre-commit 및 lefthook hooks를 일시적으로 건너뛰기
 - hooks가 실패하게 만드는 근본적인 문제 해결
 - hooks가 너무 엄격한 경우 pre-commit 또는 lefthook 구성 조정 고려
 
 **문제:** Pre-commit 또는 lefthook hooks가 너무 오래 걸리거나 워크플로우를 방해
 
-- `gac --no-verify`를 사용하여 모든 pre-commit 및 lefthook hooks를 일시적으로 건너뛰기
+- `uvx gac --no-verify`를 사용하여 모든 pre-commit 및 lefthook hooks를 일시적으로 건너뛰기
 - `.pre-commit-config.yaml`의 pre-commit hooks 또는 `.lefthook.yml`의 lefthook hooks를 워크플로우에 덜 공격적으로 구성 고려
 - 성능 최적화를 위해 hooks 구성 검토
 
@@ -143,9 +138,9 @@
 **문제:** 커밋할 변경 사항 없음 / 스테이징된 것이 없음
 
 - gac는 커밋 메시지를 생성하기 위해 스테이징된 변경 사항이 필요합니다
-- `git add <files>`를 사용하여 변경 사항을 스테이징하거나, `gac -a`를 사용하여 모든 변경 사항을 자동으로 스테이징
+- `git add <files>`를 사용하여 변경 사항을 스테이징하거나, `uvx gac -a`를 사용하여 모든 변경 사항을 자동으로 스테이징
 - 수정된 파일을 보려면 `git status` 확인
-- 변경 사항의 필터링된 뷰를 보려면 `gac diff` 사용
+- 변경 사항의 필터링된 뷰를 보려면 `uvx gac diff` 사용
 
 **문제:** 커밋 메시지가 예상과 다름
 
@@ -156,10 +151,10 @@
 
 **문제:** gac가 너무 느림
 
-- `gac -y`를 사용하여 확인 프롬프트 건너뛰기
-- `gac -q`를 사용하여 출력이 적은 조용한 모드
+- `uvx gac -y`를 사용하여 확인 프롬프트 건너뛰기
+- `uvx gac -q`를 사용하여 출력이 적은 조용한 모드
 - 일상적인 커밋에는 더 빠르고 저렴한 모델 사용 고려
-- hooks가 속도를 늦추는 경우 `gac --no-verify`로 hooks 건너뛰기
+- hooks가 속도를 늦추는 경우 `uvx gac --no-verify`로 hooks 건너뛰기
 
 **문제:** 메시지 생성 후 편집하거나 피드백을 제공할 수 없음
 
@@ -170,11 +165,11 @@
 
 ## 8. 일반적인 디버깅
 
-- 구성을 재설정하거나 업데이트하려면 `gac init` 사용
-- 상세한 디버깅 출력과 로깅을 위해 `gac --log-level=debug` 사용
-- LLM에 보내진 프롬프트를 보려면 `gac --show-prompt` 사용
-- 사용 가능한 모든 명령줄 플래그를 보려면 `gac --help` 사용
-- 모든 현재 구성 값을 보려면 `gac config show` 사용
+- 구성을 재설정하거나 업데이트하려면 `uvx gac init` 사용
+- 상세한 디버깅 출력과 로깅을 위해 `uvx gac --log-level=debug` 사용
+- LLM에 보내진 프롬프트를 보려면 `uvx gac --show-prompt` 사용
+- 사용 가능한 모든 명령줄 플래그를 보려면 `uvx gac --help` 사용
+- 모든 현재 구성 값을 보려면 `uvx gac config show` 사용
 - 오류 메시지와 스택 트레이스를 보려면 로그를 확인하세요
 - 기능, 예제 및 빠른 시작 지침은 메인 [README.md](../README.md)를 확인하세요
 

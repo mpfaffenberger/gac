@@ -8,7 +8,7 @@
 
 - [gac 故障排除](#gac-故障排除)
   - [目錄](#目錄)
-  - [1. 安裝問題](#1-安裝問題)
+  - [1. 設定問題](#1-設定問題)
   - [2. 設定問題](#2-設定問題)
   - [3. 提供者/API 錯誤](#3-提供者api-錯誤)
   - [4. 提交分組問題](#4-提交分組問題)
@@ -19,26 +19,21 @@
   - [仍然遇到問題？](#仍然遇到問題)
   - [獲取更多幫助](#獲取更多幫助)
 
-## 1. 安裝問題
+## 1. 設定問題
 
-**問題：** 安裝後找不到 `gac` 命令
+**問題：** 找不到 `uvx` 命令
 
-- 確保你使用 `uvx gac` 安裝
+- 按照 [astral.sh/uv](https://astral.sh/uv) 上的說明安裝 uv
 - 確保 `uv` 已安裝並在你的 `$PATH` 中
 - 安裝後重新啟動你的終端機
-
-**問題：** 權限被拒絕或無法寫入檔案
-
-- 檢查目錄權限
-- 嘗試使用適當的權限執行或更改目錄擁有權
 
 ## 2. 設定問題
 
 **問題：** gac 找不到你的 API 密鑰或模型
 
-- 如果你是新使用者，執行 `gac init` 以互動方式設定你的提供者、模型和 API 密鑰
+- 如果你是新使用者，執行 `uvx gac init` 以互動方式設定你的提供者、模型和 API 密鑰
 - 確保你的 `.gac.env` 或環境變數設定正確
-- 執行 `gac --log-level=debug` 查看載入了哪些設定檔並除錯設定問題
+- 執行 `uvx gac --log-level=debug` 查看載入了哪些設定檔並除錯設定問題
 - 檢查變數名稱中的拼寫錯誤（例如，`GAC_GROQ_API_KEY`）
 
 **問題：** 使用者級 `$HOME/.gac.env` 變更未生效
@@ -46,22 +41,22 @@
 - 確保你正在編輯作業系統的正確檔案：
   - 在 macOS/Linux 上：`$HOME/.gac.env`（通常是 `/Users/<your-username>/.gac.env` 或 `/home/<your-username>/.gac.env`）
   - 在 Windows 上：`$HOME/.gac.env`（通常是 `C:\Users\<your-username>\.gac.env` 或使用 `%USERPROFILE%`）
-- 執行 `gac --log-level=debug` 確認載入了使用者級設定
+- 執行 `uvx gac --log-level=debug` 確認載入了使用者級設定
 - 重新啟動你的終端機或重新執行你的 shell 以重新載入環境變數
 - 如果仍然無效，檢查拼寫錯誤和檔案權限
 
 **問題：** 專案級 `.gac.env` 變更未生效
 
 - 確保你的專案在根目錄（`.git` 資料夾旁邊）包含一個 `.gac.env` 檔案
-- 執行 `gac --log-level=debug` 確認載入了專案級設定
+- 執行 `uvx gac --log-level=debug` 確認載入了專案級設定
 - 如果你編輯了 `.gac.env`，重新啟動你的終端機或重新執行你的 shell 以重新載入環境變數
 - 如果仍然無效，檢查拼寫錯誤和檔案權限
 
 **問題：** 無法設定或更改提交訊息的語言
 
-- 執行 `gac language`（或 `gac lang`）以互動方式從 25+ 種支援的語言中選擇
-- 使用 `-l <語言>` 標誌為單次提交覆寫語言（例如，`gac -l zh-TW`，`gac -l Spanish`）
-- 使用 `gac config show` 檢查你的設定以查看當前語言設定
+- 執行 `uvx gac language`（或 `uvx gac lang`）以互動方式從 25+ 種支援的語言中選擇
+- 使用 `-l <語言>` 標誌為單次提交覆寫語言（例如，`uvx gac -l zh-TW`，`uvx gac -l Spanish`）
+- 使用 `uvx gac config show` 檢查你的設定以查看當前語言設定
 - 語言設定儲存在你的 `.gac.env` 檔案中的 `GAC_LANGUAGE`
 
 ## 3. 提供者/API 錯誤
@@ -71,11 +66,11 @@
 - 確保你為所選模型設定了正確的 API 密鑰（例如，`ANTHROPIC_API_KEY`，`GROQ_API_KEY`）
 - 仔細檢查你的 API 密鑰和提供者帳戶狀態
 - 對於 Ollama 和 LM Studio，確認 API URL 與你的本地實例匹配。僅在啟用身份驗證時才需要 API 密鑰。
-- **對於Claude Code令牌過期**：執行 `gac auth` 快速重新驗證並重新整理令牌。瀏覽器將自動打開進行OAuth。
-- **對於 ChatGPT OAuth 令牌過期**：執行 `gac auth chatgpt login` 重新驗證。瀏覽器將自動打開進行 OAuth。
+- **對於Claude Code令牌過期**：執行 `uvx gac auth` 快速重新驗證並重新整理令牌。瀏覽器將自動打開進行OAuth。
+- **對於 ChatGPT OAuth 令牌過期**：執行 `uvx gac auth chatgpt login` 重新驗證。瀏覽器將自動打開進行 OAuth。
 - **對於其他Claude Code OAuth問題**，請參閱[Claude Code設定指南](CLAUDE_CODE.md)取得完整的故障排除。
 - **對於其他 ChatGPT OAuth 問題**，請參閱 [ChatGPT OAuth 設定指南](CHATGPT_OAUTH.md) 取得完整的故障排除。
-- **對於 GitHub Copilot 工作階段令牌過期**：執行 `gac auth copilot login` 透過 Device Flow 重新驗證。工作階段令牌會從快取的 OAuth 令牌自動重新整理。
+- **對於 GitHub Copilot 工作階段令牌過期**：執行 `uvx gac auth copilot login` 透過 Device Flow 重新驗證。工作階段令牌會從快取的 OAuth 令牌自動重新整理。
 - **對於其他 GitHub Copilot 問題**，請參閱 [GitHub Copilot 設定指南](GITHUB_COPILOT.md) 取得全面的疑難排解。
 
 **問題：** 模型不可用或不受支援
@@ -92,7 +87,7 @@
 - 即使使用 `--group`，LLM 也可能決定為你的一組暫存變更建立單個提交
 - 這是有意為之的行為 - LLM 基於邏輯關係而不僅僅是數量來分組變更
 - 確保你暫存了多個不相關的變更（例如，錯誤修復 + 功能新增）以獲得最佳結果
-- 使用 `gac --show-prompt` 除錯 LLM 看到的內容
+- 使用 `uvx gac --show-prompt` 除錯 LLM 看到的內容
 
 **問題：** 提交分組不正確或未按預期分組
 
@@ -121,20 +116,20 @@
 **問題：** 需要永久停用密鑰掃描
 
 - 在你的 `.gac.env` 檔案中設定 `GAC_SKIP_SECRET_SCAN=true`
-- 使用 `gac config set GAC_SKIP_SECRET_SCAN true`
+- 使用 `uvx gac config set GAC_SKIP_SECRET_SCAN true`
 - 注意：僅在你有其他安全措施時才停用
 
 ## 6. Pre-commit 和 Lefthook 鉤子問題
 
 **問題：** Pre-commit 或 lefthook 鉤子失敗並阻止提交
 
-- 使用 `gac --no-verify` 暫時跳過所有 pre-commit 和 lefthook 鉤子
+- 使用 `uvx gac --no-verify` 暫時跳過所有 pre-commit 和 lefthook 鉤子
 - 修復導致鉤子失敗的根本問題
 - 如果鉤子太嚴格，考慮調整你的 pre-commit 或 lefthook 設定
 
 **問題：** Pre-commit 或 lefthook 鉤子執行時間過長或干擾工作流
 
-- 使用 `gac --no-verify` 暫時跳過所有 pre-commit 和 lefthook 鉤子
+- 使用 `uvx gac --no-verify` 暫時跳過所有 pre-commit 和 lefthook 鉤子
 - 考慮在 `.pre-commit-config.yaml` 或 `.lefthook.yml` 中設定 pre-commit 鉤子或 lefthook 鉤子，使其對你的工作流不那麼激進
 - 查看你的鉤子設定以最佳化效能
 
@@ -143,9 +138,9 @@
 **問題：** 沒有要提交的變更 / 沒有暫存內容
 
 - gac 需要暫存的變更來生成提交訊息
-- 使用 `git add <檔案>` 暫存變更，或使用 `gac -a` 自動暫存所有變更
+- 使用 `git add <檔案>` 暫存變更，或使用 `uvx gac -a` 自動暫存所有變更
 - 檢查 `git status` 查看哪些檔案已被修改
-- 使用 `gac diff` 查看你的變更的篩選視圖
+- 使用 `uvx gac diff` 查看你的變更的篩選視圖
 
 **問題：** 提交訊息不符合預期
 
@@ -156,10 +151,10 @@
 
 **問題：** gac 太慢
 
-- 使用 `gac -y` 跳過確認提示
-- 使用 `gac -q` 以靜默模式減少輸出
+- 使用 `uvx gac -y` 跳過確認提示
+- 使用 `uvx gac -q` 以靜默模式減少輸出
 - 考慮為常規提交使用更快/更便宜的模型
-- 如果鉤子讓你慢下來，使用 `gac --no-verify` 跳過鉤子
+- 如果鉤子讓你慢下來，使用 `uvx gac --no-verify` 跳過鉤子
 
 **問題：** 生成訊息後無法編輯或提供反饋
 
@@ -170,11 +165,11 @@
 
 ## 8. 常規除錯
 
-- 使用 `gac init` 以互動方式重置或更新你的設定
-- 使用 `gac --log-level=debug` 獲取詳細的除錯輸出和日誌記錄
-- 使用 `gac --show-prompt` 查看傳送給 LLM 的提示
-- 使用 `gac --help` 查看所有可用的命令列標誌
-- 使用 `gac config show` 查看所有當前設定值
+- 使用 `uvx gac init` 以互動方式重置或更新你的設定
+- 使用 `uvx gac --log-level=debug` 獲取詳細的除錯輸出和日誌記錄
+- 使用 `uvx gac --show-prompt` 查看傳送給 LLM 的提示
+- 使用 `uvx gac --help` 查看所有可用的命令列標誌
+- 使用 `uvx gac config show` 查看所有當前設定值
 - 檢查日誌以尋找錯誤訊息和堆疊追蹤
 - 查看主 [README.md](../README.md) 了解功能、範例和快速入門說明
 

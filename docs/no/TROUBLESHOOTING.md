@@ -8,7 +8,7 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 
 - [Feilsøking av gac](#feilsøking-av-gac)
   - [Table of Contents](#table-of-contents)
-  - [1. Installation Problems](#1-installation-problems)
+  - [1. Oppsettsproblemer](#1-oppsettsproblemer)
   - [2. Configuration Issues](#2-configuration-issues)
   - [3. Provider/API Errors](#3-providerapi-errors)
   - [4. Commit Grouping Issues](#4-commit-grouping-issues)
@@ -19,26 +19,21 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
   - [Still Stuck?](#still-stuck)
   - [Where to Get Further Help](#where-to-get-further-help)
 
-## 1. Installation Problems
+## 1. Oppsettsproblemer
 
-**Problem:** `gac` command not found after install
+**Problem:** `uvx`-kommando ikke funnet
 
-- Ensure you installed with `uvx gac`
-- Make sure `uv` is installed and in your `$PATH`
-- Restart your terminal after installation
-
-**Problem:** Permission denied or cannot write files
-
-- Check directory permissions
-- Try running with appropriate privileges or change directory ownership
+- Installer uv ved å følge instruksjonene på [astral.sh/uv](https://astral.sh/uv)
+- Sørg for at `uv` er installert og i din `$PATH`
+- Start terminalen på nytt etter installasjon
 
 ## 2. Configuration Issues
 
 **Problem:** gac can't find your API key or model
 
-- If you are new, run `gac init` to interactively set up your provider, model, and API keys
+- If you are new, run `uvx gac init` to interactively set up your provider, model, and API keys
 - Make sure your `.gac.env` or environment variables are set correctly
-- Run `gac --log-level=debug` to see which config files are loaded and debug configuration issues
+- Run `uvx gac --log-level=debug` to see which config files are loaded and debug configuration issues
 - Check for typos in variable names (e.g., `GAC_GROQ_API_KEY`)
 
 **Problem:** User-level `$HOME/.gac.env` changes are not picked up
@@ -46,22 +41,22 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 - Make sure you are editing the correct file for your OS:
   - On macOS/Linux: `$HOME/.gac.env` (usually `/Users/<your-username>/.gac.env` or `/home/<your-username>/.gac.env`)
   - On Windows: `$HOME/.gac.env` (typically `C:\Users\<your-username>\.gac.env` or use `%USERPROFILE%`)
-- Run `gac --log-level=debug` to confirm the user-level config is loaded
+- Run `uvx gac --log-level=debug` to confirm the user-level config is loaded
 - Restart your terminal or re-run your shell to reload environment variables
 - If still not working, check for typos and file permissions
 
 **Problem:** Project-level `.gac.env` changes are not picked up
 
 - Ensure your project contains a `.gac.env` file in the root directory (next to your `.git` folder)
-- Run `gac --log-level=debug` to confirm the project-level config is loaded
+- Run `uvx gac --log-level=debug` to confirm the project-level config is loaded
 - If you edit `.gac.env`, restart your terminal or re-run your shell to reload environment variables
 - If still not working, check for typos and file permissions
 
 **Problem:** Cannot set or change language for commit messages
 
-- Run `gac language` (or `gac lang`) to interactively select from 25+ supported languages
-- Use `-l <language>` flag to override language for a single commit (e.g., `gac -l zh-CN`, `gac -l Spanish`)
-- Check your config with `gac config show` to see current language setting
+- Run `uvx gac language` (or `uvx gac lang`) to interactively select from 25+ supported languages
+- Use `-l <language>` flag to override language for a single commit (e.g., `uvx gac -l zh-CN`, `uvx gac -l Spanish`)
+- Check your config with `uvx gac config show` to see current language setting
 - Language setting is stored in `GAC_LANGUAGE` in your `.gac.env` file
 
 ## 3. Provider/API Errors
@@ -71,11 +66,11 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 - Ensure you have set the correct API keys for your chosen model (e.g., `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - Double-check your API key and provider account status
 - For Ollama and LM Studio, confirm the API URL matches your local instance. API keys are only needed if you enabled authentication.
-- **For Claude Code token-utløp**: Kjør `gac auth` for raskt å autentisere på nytt og oppdatere tokenet ditt. Nettleseren åpnes automatisk for OAuth.
-- **For ChatGPT OAuth token-utløp**: Kjør `gac auth chatgpt login` for å autentisere på nytt. Nettleseren åpnes automatisk for OAuth.
+- **For Claude Code token-utløp**: Kjør `uvx gac auth` for raskt å autentisere på nytt og oppdatere tokenet ditt. Nettleseren åpnes automatisk for OAuth.
+- **For ChatGPT OAuth token-utløp**: Kjør `uvx gac auth chatgpt login` for å autentisere på nytt. Nettleseren åpnes automatisk for OAuth.
 - **For andre Claude Code OAuth-problemer**, se [Claude Code oppsettguide](CLAUDE_CODE.md) for omfattende feilsøking.
 - **For andre ChatGPT OAuth-problemer**, se [ChatGPT OAuth oppsettguide](CHATGPT_OAUTH.md) for omfattende feilsøking.
-- **For utløpte GitHub Copilot-økttokens**: Kjør `gac auth copilot login` for å re-autentisere via Device Flow. Økttokens fornyes automatisk fra den bufrede OAuth-tokenen.
+- **For utløpte GitHub Copilot-økttokens**: Kjør `uvx gac auth copilot login` for å re-autentisere via Device Flow. Økttokens fornyes automatisk fra den bufrede OAuth-tokenen.
 - **For andre GitHub Copilot-problemer**, se [GitHub Copilot-oppsettsguiden](GITHUB_COPILOT.md) for omfattende feilsøking.
 
 **Problem:** Model not available or unsupported
@@ -92,7 +87,7 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 - The LLM may decide that a single commit makes sense for your set of staged changes, even with `--group`
 - This is intentional behavior - the LLM groups changes based on logical relationships, not just quantity
 - Ensure you have multiple unrelated changes staged (e.g., bug fix + feature addition) for best results
-- Use `gac --show-prompt` to debug what the LLM is seeing
+- Use `uvx gac --show-prompt` to debug what the LLM is seeing
 
 **Problem:** Commits grouped incorrectly or not grouped when expected
 
@@ -121,20 +116,20 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 **Problem:** Need to disable secret scanning permanently
 
 - Set `GAC_SKIP_SECRET_SCAN=true` in your `.gac.env` file
-- Use `gac config set GAC_SKIP_SECRET_SCAN true`
+- Use `uvx gac config set GAC_SKIP_SECRET_SCAN true`
 - Note: Only disable if you have other security measures in place
 
 ## 6. Pre-commit and Lefthook Hook Issues
 
 **Problem:** Pre-commit or lefthook hooks are failing and blocking commits
 
-- Use `gac --no-verify` to skip all pre-commit and lefthook hooks temporarily
+- Use `uvx gac --no-verify` to skip all pre-commit and lefthook hooks temporarily
 - Fix the underlying issues causing the hooks to fail
 - Consider adjusting your pre-commit or lefthook configuration if hooks are too strict
 
 **Problem:** Pre-commit or lefthook hooks take too long or are interfering with workflow
 
-- Use `gac --no-verify` to skip all pre-commit and lefthook hooks temporarily
+- Use `uvx gac --no-verify` to skip all pre-commit and lefthook hooks temporarily
 - Consider configuring pre-commit hooks in `.pre-commit-config.yaml` or lefthook hooks in `.lefthook.yml` to be less aggressive for your workflow
 - Review your hook configuration to optimize performance
 
@@ -143,9 +138,9 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 **Problem:** No changes to commit / nothing staged
 
 - gac requires staged changes to generate a commit message
-- Use `git add <files>` to stage changes, or use `gac -a` to stage all changes automatically
+- Use `git add <files>` to stage changes, or use `uvx gac -a` to stage all changes automatically
 - Check `git status` to see what files have been modified
-- Use `gac diff` to see a filtered view of your changes
+- Use `uvx gac diff` to see a filtered view of your changes
 
 **Problem:** Commit message not what I expected
 
@@ -156,10 +151,10 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 
 **Problem:** gac is too slow
 
-- Use `gac -y` to skip the confirmation prompt
-- Use `gac -q` for quiet mode with less output
+- Use `uvx gac -y` to skip the confirmation prompt
+- Use `uvx gac -q` for quiet mode with less output
 - Consider using faster/cheaper models for routine commits
-- Use `gac --no-verify` to skip hooks if they're slowing you down
+- Use `uvx gac --no-verify` to skip hooks if they're slowing you down
 
 **Problem:** Can't edit or provide feedback after message generation
 
@@ -170,11 +165,11 @@ Denne guiden dekker vanlige problemer og løsninger for installasjon, konfiguras
 
 ## 8. General Debugging
 
-- Use `gac init` to reset or update your configuration interactively
-- Use `gac --log-level=debug` for detailed debug output and logging
-- Use `gac --show-prompt` to see what prompt is being sent to the LLM
-- Use `gac --help` to see all available command-line flags
-- Use `gac config show` to see all current configuration values
+- Use `uvx gac init` to reset or update your configuration interactively
+- Use `uvx gac --log-level=debug` for detailed debug output and logging
+- Use `uvx gac --show-prompt` to see what prompt is being sent to the LLM
+- Use `uvx gac --help` to see all available command-line flags
+- Use `uvx gac config show` to see all current configuration values
 - Check logs for error messages and stack traces
 - Check the main [README.md](../README.md) for features, examples, and quick start instructions
 

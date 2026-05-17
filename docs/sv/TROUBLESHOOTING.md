@@ -8,7 +8,7 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 
 - [Felsökning av gac](#felsökning-av-gac)
   - [Innehållsförteckning](#innehållsförteckning)
-  - [1. Installationsproblem](#1-installationsproblem)
+  - [1. Uppstartsproblem](#1-uppstartsproblem)
   - [2. Konfigurationsproblem](#2-konfigurationsproblem)
   - [3. Leverantör/API fel](#3-leverantörapi-fel)
   - [4. Problem med commitgruppering](#4-problem-med-commitgruppering)
@@ -19,26 +19,21 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
   - [Fortfarande fast?](#fortfarande-fast)
   - [Var får man ytterligare hjälp](#var-får-man-ytterligare-hjälp)
 
-## 1. Installationsproblem
+## 1. Uppstartsproblem
 
-**Problem:** `gac` kommandot hittas inte efter installation
+**Problem:** `uvx`-kommando hittas inte
 
-- Säkerställ att du installerade med `uvx gac`
+- Installera uv genom att följa instruktionerna på [astral.sh/uv](https://astral.sh/uv)
 - Säkerställ att `uv` är installerat och i din `$PATH`
 - Starta om din terminal efter installation
-
-**Problem:** Åtkomst nekad eller kan inte skriva filer
-
-- Kontrollera katalogbehörigheter
-- Försök köra med lämpliga privilegier eller ändra katalogägandeskap
 
 ## 2. Konfigurationsproblem
 
 **Problem:** gac kan inte hitta din API-nyckel eller modell
 
-- Om du är ny, kör `gac init` för att interaktivt konfigurera din leverantör, modell och API-nycklar
+- Om du är ny, kör `uvx gac init` för att interaktivt konfigurera din leverantör, modell och API-nycklar
 - Säkerställ att dina `.gac.env` eller miljövariabler är korrekt inställda
-- Kör `gac --log-level=debug` för att se vilka konfigurationsfiler som laddas och felsöka konfigurationsproblem
+- Kör `uvx gac --log-level=debug` för att se vilka konfigurationsfiler som laddas och felsöka konfigurationsproblem
 - Kontrollera stavfel i variabelnamn (t.ex. `GAC_GROQ_API_KEY`)
 
 **Problem:** Användarnivå `$HOME/.gac.env` ändringar läses inte in
@@ -46,22 +41,22 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 - Säkerställ att du redigerar rätt fil för ditt operativsystem:
   - På macOS/Linux: `$HOME/.gac.env` (vanligtvis `/Users/<ditt-användarnamn>/.gac.env` eller `/home/<ditt-användarnamn>/.gac.env`)
   - På Windows: `$HOME/.gac.env` (vanligtvis `C:\Users\<ditt-användarnamn>\.gac.env` eller använd `%USERPROFILE%`)
-- Kör `gac --log-level=debug` för att bekräfta att användarnivåns konfiguration läses in
+- Kör `uvx gac --log-level=debug` för att bekräfta att användarnivåns konfiguration läses in
 - Starta om din terminal eller kör ditt skal igen för att ladda om miljövariabler
 - Om det fortfarande inte fungerar, kontrollera stavfel och filbehörigheter
 
 **Problem:** Projekt-nivå `.gac.env` ändringar läses inte in
 
 - Säkerställ att ditt projekt innehåller en `.gac.env` fil i rotkatalogen (bredvid din `.git` mapp)
-- Kör `gac --log-level=debug` för att bekräfta att projekt-nivå konfigurationen läses in
+- Kör `uvx gac --log-level=debug` för att bekräfta att projekt-nivå konfigurationen läses in
 - Om du redigerar `.gac.env`, starta om din terminal eller kör ditt skal igen för att ladda om miljövariabler
 - Om det fortfarande inte fungerar, kontrollera stavfel och filbehörigheter
 
 **Problem:** Kan inte ställa in eller ändra språk för commit-meddelanden
 
-- Kör `gac language` (eller `gac lang`) för att interaktivt välja bland 25+ stödda språk
-- Använd `-l <språk>` flaggan för att åsidosätta språk för en enskild commit (t.ex. `gac -l sv`, `gac -l Spanish`)
-- Kontrollera din konfiguration med `gac config show` för att se nuvarande språkinställning
+- Kör `uvx gac language` (eller `uvx gac lang`) för att interaktivt välja bland 25+ stödda språk
+- Använd `-l <språk>` flaggan för att åsidosätta språk för en enskild commit (t.ex. `uvx gac -l sv`, `uvx gac -l Spanish`)
+- Kontrollera din konfiguration med `uvx gac config show` för att se nuvarande språkinställning
 - Språkinställningen lagras i `GAC_LANGUAGE` i din `.gac.env` fil
 
 ## 3. Leverantör/API fel
@@ -71,11 +66,11 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 - Säkerställ att du har ställt in rätt API-nycklar för din valda modell (t.ex. `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - Dubbelkolla din API-nyckel och leverantörskontostatus
 - För Ollama och LM Studio, bekräfta att API-URL:en matchar din lokala instans. API-nycklar behövs endast om du aktiverat autentisering.
-- **För Claude Code token-utgång**: Kör `gac auth` för att snabbt autentisera på nytt och uppdatera din token. Din webbläsare öppnas automatiskt för OAuth.
-- **För ChatGPT OAuth token-utgång**: Kör `gac auth chatgpt login` för att autentisera på nytt. Din webbläsare öppnas automatiskt för OAuth.
+- **För Claude Code token-utgång**: Kör `uvx gac auth` för att snabbt autentisera på nytt och uppdatera din token. Din webbläsare öppnas automatiskt för OAuth.
+- **För ChatGPT OAuth token-utgång**: Kör `uvx gac auth chatgpt login` för att autentisera på nytt. Din webbläsare öppnas automatiskt för OAuth.
 - **För andra Claude Code OAuth-problem**, se [Claude Code installationsguide](CLAUDE_CODE.md) för omfattande felsökning.
 - **För andra ChatGPT OAuth-problem**, se [ChatGPT OAuth installationsguide](CHATGPT_OAUTH.md) för omfattande felsökning.
-- **För utgångna GitHub Copilot-sessionstokens**: Kör `gac auth copilot login` för att återautentisera via Device Flow. Sessionstokens förnyas automatiskt från den cachade OAuth-tokenen.
+- **För utgångna GitHub Copilot-sessionstokens**: Kör `uvx gac auth copilot login` för att återautentisera via Device Flow. Sessionstokens förnyas automatiskt från den cachade OAuth-tokenen.
 - **För andra GitHub Copilot-problem**, se [GitHub Copilot-installationsguiden](GITHUB_COPILOT.md) för omfattande felsökning.
 
 **Problem:** Modellen är inte tillgänglig eller stöds inte
@@ -92,7 +87,7 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 - LLM:n kan avgöra att en enda commit är meningsfull för din uppsättning stageade ändringar, även med `--group`
 - Detta är avsiktligt beteende - LLM:n grupperar ändringar baserat på logiska relationer, inte bara kvantitet
 - Säkerställ att du har flera orelaterade ändringar stageade (t.ex. buggfix + ny funktion) för bästa resultat
-- Använd `gac --show-prompt` för att felsöka vad LLM:n ser
+- Använd `uvx gac --show-prompt` för att felsöka vad LLM:n ser
 
 **Problem:** Commits grupperas felaktigt eller inte grupperas när det förväntas
 
@@ -121,20 +116,20 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 **Problem:** Behöver inaktivera hemlighetsskanning permanent
 
 - Ställ in `GAC_SKIP_SECRET_SCAN=true` i din `.gac.env` fil
-- Använd `gac config set GAC_SKIP_SECRET_SCAN true`
+- Använd `uvx gac config set GAC_SKIP_SECRET_SCAN true`
 - Obs: Inaktivera endast om du har andra säkerhetsåtgärder på plats
 
 ## 6. Pre-commit och Lefthook hook-problem
 
 **Problem:** Pre-commit eller lefthook hooks misslyckas och blockerar commits
 
-- Använd `gac --no-verify` för att hoppa över alla pre-commit och lefthook hooks tillfälligt
+- Använd `uvx gac --no-verify` för att hoppa över alla pre-commit och lefthook hooks tillfälligt
 - Åtgärda de underliggande problemen som orsakar att hooks misslyckas
 - Överväg att justera din pre-commit eller lefthook konfiguration om hooks är för strikta
 
 **Problem:** Pre-commit eller lefthook hooks tar för lång tid eller stör arbetsflödet
 
-- Använd `gac --no-verify` för att hoppa över alla pre-commit och lefthook hooks tillfälligt
+- Använd `uvx gac --no-verify` för att hoppa över alla pre-commit och lefthook hooks tillfälligt
 - Överväg att konfigurera pre-commit hooks i `.pre-commit-config.yaml` eller lefthook hooks i `.lefthook.yml` för att vara mindre aggressiva för ditt arbetsflöde
 - Granska din hook-konfiguration för att optimera prestanda
 
@@ -143,9 +138,9 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 **Problem:** Inga ändringar att committa / inget är staged
 
 - gac kräver stageade ändringar för att generera ett commit-meddelande
-- Använd `git add <filer>` för att stage ändringar, eller använd `gac -a` för att automatiskt stagea alla ändringar
+- Använd `git add <filer>` för att stage ändringar, eller använd `uvx gac -a` för att automatiskt stagea alla ändringar
 - Kontrollera `git status` för att se vilka filer som har ändrats
-- Använd `gac diff` för att se en filtrerad vy av dina ändringar
+- Använd `uvx gac diff` för att se en filtrerad vy av dina ändringar
 
 **Problem:** Commit-meddelandet är inte som jag förväntade mig
 
@@ -156,10 +151,10 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 
 **Problem:** gac är för långsamt
 
-- Använd `gac -y` för att hoppa över bekräftelseprompten
-- Använd `gac -q` för tyst läge med mindre output
+- Använd `uvx gac -y` för att hoppa över bekräftelseprompten
+- Använd `uvx gac -q` för tyst läge med mindre output
 - Överväg att använda snabbare/billigare modeller för rutinmässiga commits
-- Använd `gac --no-verify` för att hoppa över hooks om de saktar ner dig
+- Använd `uvx gac --no-verify` för att hoppa över hooks om de saktar ner dig
 
 **Problem:** Kan inte redigera eller ge feedback efter meddelandegenerering
 
@@ -170,11 +165,11 @@ Denna guide täcker vanliga problem och lösningar för installation, konfigurat
 
 ## 8. Allmän felsökning
 
-- Använd `gac init` för att återställa eller uppdatera din konfiguration interaktivt
-- Använd `gac --log-level=debug` för detaljerad debugoutput och loggning
-- Använd `gac --show-prompt` för att se vilken prompt som skickas till LLM:n
-- Använd `gac --help` för att se alla tillgängliga kommandoradsflaggor
-- Använd `gac config show` för att se alla nuvarande konfigurationsvärden
+- Använd `uvx gac init` för att återställa eller uppdatera din konfiguration interaktivt
+- Använd `uvx gac --log-level=debug` för detaljerad debugoutput och loggning
+- Använd `uvx gac --show-prompt` för att se vilken prompt som skickas till LLM:n
+- Använd `uvx gac --help` för att se alla tillgängliga kommandoradsflaggor
+- Använd `uvx gac config show` för att se alla nuvarande konfigurationsvärden
 - Kontrollera loggar för felmeddelanden och stacktraces
 - Kontrollera huvud [README.md](../README.md) för funktioner, exempel och snabbstartsinstruktioner
 

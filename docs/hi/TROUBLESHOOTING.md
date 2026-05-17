@@ -8,7 +8,7 @@
 
 - [Troubleshooting gac](#troubleshooting-gac)
   - [Table of Contents](#table-of-contents)
-  - [1. Installation Problems](#1-installation-problems)
+  - [1. सेटअप समस्याएँ](#1-सेटअप-समस्याएँ)
   - [2. Configuration Issues](#2-configuration-issues)
   - [3. Provider/API Errors](#3-providerapi-errors)
   - [4. Commit Grouping Issues](#4-commit-grouping-issues)
@@ -19,26 +19,21 @@
   - [Still Stuck?](#still-stuck)
   - [Where to Get Further Help](#where-to-get-further-help)
 
-## 1. Installation Problems
+## 1. सेटअप समस्याएँ
 
-**Problem:** `gac` command not found after install
+**समस्या:** `uvx` कमांड नहीं मिला
 
-- सुनिश्चित करें कि आपने `uvx gac` के साथ इंस्टॉल किया है
+- [astral.sh/uv](https://astral.sh/uv) पर दिए गए निर्देशों का पालन करके uv इंस्टॉल करें
 - सुनिश्चित करें कि `uv` इंस्टॉल है और आपके `$PATH` में है
 - इंस्टॉलेशन के बाद अपना टर्मिनल रीस्टार्ट करें
-
-**Problem:** Permission denied or cannot write files
-
-- डायरेक्टरी अनुमतियाँ जांचें
-- उचित विशेषाधिकारों के साथ चलाने का प्रयास करें या डायरेक्टरी स्वामित्व बदलें
 
 ## 2. Configuration Issues
 
 **Problem:** gac can't find your API key or model
 
-- यदि आप नए हैं, तो अपने provider, model, और API keys को इंटरैक्टिव रूप से सेट करने के लिए `gac init` चलाएं
+- यदि आप नए हैं, तो अपने provider, model, और API keys को इंटरैक्टिव रूप से सेट करने के लिए `uvx gac init` चलाएं
 - सुनिश्चित करें कि आपका `.gac.env` या environment variables सही तरीके से सेट हैं
-- कौन सी config फाइलें लोड हो रही हैं और configuration issues को डीबग करने के लिए `gac --log-level=debug` चलाएं
+- कौन सी config फाइलें लोड हो रही हैं और configuration issues को डीबग करने के लिए `uvx gac --log-level=debug` चलाएं
 - वेरिएबल नामों में टाइपो के लिए जांचें (जैसे `GAC_GROQ_API_KEY`)
 
 **Problem:** User-level `$HOME/.gac.env` changes are not picked up
@@ -46,22 +41,22 @@
 - सुनिश्चित करें कि आप अपने OS के लिए सही फाइल संपादित कर रहे हैं:
   - macOS/Linux पर: `$HOME/.gac.env` (आमतौर पर `/Users/<your-username>/.gac.env` या `/home/<your-username>/.gac.env`)
   - Windows पर: `$HOME/.gac.env` (आमतौर पर `C:\Users\<your-username>\.gac.env` या `%USERPROFILE%` का उपयोग करें)
-- User-level config लोड हो रहा है यह पुष्टि करने के लिए `gac --log-level=debug` चलाएं
+- User-level config लोड हो रहा है यह पुष्टि करने के लिए `uvx gac --log-level=debug` चलाएं
 - Environment variables को रीलोड करने के लिए अपना टर्मिनल रीस्टार्ट करें या अपना shell फिर से चलाएं
 - यदि फिर भी काम नहीं कर रहा है, तो टाइपो और फाइल अनुमतियों के लिए जांचें
 
 **Problem:** Project-level `.gac.env` changes are not picked up
 
 - सुनिश्चित करें कि आपका प्रोजेक्ट रूट डायरेक्टरी में (आपके `.git` फोल्डर के बगल में) एक `.gac.env` फाइल है
-- Project-level config लोड हो रहा है यह पुष्टि करने के लिए `gac --log-level=debug` चलाएं
+- Project-level config लोड हो रहा है यह पुष्टि करने के लिए `uvx gac --log-level=debug` चलाएं
 - यदि आप `.gac.env` संपादित करते हैं, तो environment variables को रीलोड करने के लिए अपना टर्मिनल रीस्टार्ट करें या अपना shell फिर से चलाएं
 - यदि फिर भी काम नहीं कर रहा है, तो टाइपो और फाइल अनुमतियों के लिए जांचें
 
 **Problem:** Cannot set or change language for commit messages
 
-- 25+ समर्थित भाषाओं से इंटरैक्टिव रूप से चुनने के लिए `gac language` (या `gac lang`) चलाएं
-- एकल कमिट के लिए भाषा को ओवरराइड करने के लिए `-l <language>` फ्लैग का उपयोग करें (जैसे `gac -l zh-CN`, `gac -l Spanish`)
-- वर्तमान भाषा सेटिंग देखने के लिए `gac config show` के साथ अपनी config जांचें
+- 25+ समर्थित भाषाओं से इंटरैक्टिव रूप से चुनने के लिए `uvx gac language` (या `uvx gac lang`) चलाएं
+- एकल कमिट के लिए भाषा को ओवरराइड करने के लिए `-l <language>` फ्लैग का उपयोग करें (जैसे `uvx gac -l zh-CN`, `uvx gac -l Spanish`)
+- वर्तमान भाषा सेटिंग देखने के लिए `uvx gac config show` के साथ अपनी config जांचें
 - भाषा सेटिंग आपकी `.gac.env` फाइल में `GAC_LANGUAGE` में संग्रहीत है
 
 ## 3. Provider/API Errors
@@ -71,11 +66,11 @@
 - सुनिश्चित करें कि आपने अपने चुने हुए मॉडल के लिए सही API keys सेट किए हैं (जैसे `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - अपनी API key और provider खाता स्थिति की दोबारा जांच करें
 - Ollama और LM Studio के लिए, पुष्टि करें कि API URL आपके स्थानीय instance से मेल खाता है। API keys केवल तभी आवश्यक हैं यदि आपने प्रमाणीकरण सक्षम किया है।
-- **Claude Code टोकन समाप्ति के लिए**: जल्दी से पुनः प्रमाणीकरण और अपने टोकन को ताज़ा करने के लिए `gac auth` चलाएं। आपका ब्राउज़र OAuth के लिए स्वचालित रूप से खुल जाएगा।
-- **ChatGPT OAuth टोकन समाप्ति के लिए**: पुनः प्रमाणीकरण के लिए `gac auth chatgpt login` चलाएं। आपका ब्राउज़र OAuth के लिए स्वचालित रूप से खुल जाएगा।
+- **Claude Code टोकन समाप्ति के लिए**: जल्दी से पुनः प्रमाणीकरण और अपने टोकन को ताज़ा करने के लिए `uvx gac auth` चलाएं। आपका ब्राउज़र OAuth के लिए स्वचालित रूप से खुल जाएगा।
+- **ChatGPT OAuth टोकन समाप्ति के लिए**: पुनः प्रमाणीकरण के लिए `uvx gac auth chatgpt login` चलाएं। आपका ब्राउज़र OAuth के लिए स्वचालित रूप से खुल जाएगा।
 - **Claude Code OAuth की अन्य समस्याओं के लिए**, व्यापक समस्या निवारण के लिए [Claude Code सेटअप गाइड](CLAUDE_CODE.md) देखें।
 - **ChatGPT OAuth की अन्य समस्याओं के लिए**, व्यापक समस्या निवारण के लिए [ChatGPT OAuth सेटअप गाइड](CHATGPT_OAUTH.md) देखें।
-- **GitHub Copilot सेशन टोकन समाप्ति के लिए**: Device Flow के माध्यम से पुनः प्रमाणीकरण करने के लिए `gac auth copilot login` चलाएं। सेशन टोकन स्वचालित रूप से कैश्ड OAuth टोकन से नवीनीकृत होते हैं।
+- **GitHub Copilot सेशन टोकन समाप्ति के लिए**: Device Flow के माध्यम से पुनः प्रमाणीकरण करने के लिए `uvx gac auth copilot login` चलाएं। सेशन टोकन स्वचालित रूप से कैश्ड OAuth टोकन से नवीनीकृत होते हैं।
 - **अन्य GitHub Copilot समस्याओं के लिए**, व्यापक समस्या निवारण के लिए [GitHub Copilot सेटअप गाइड](GITHUB_COPILOT.md) देखें।
 
 **Problem:** Model not available or unsupported
@@ -92,7 +87,7 @@
 - LLM यह तय कर सकता है कि आपके staged changes के सेट के लिए एकल कमिट समझ में आता है, भले ही `--group` के साथ हो
 - यह जानबूझकर व्यवहार है - LLM logical relationships के आधार पर changes को ग्रुप करता है, केवल मात्रा के आधार पर नहीं
 - सर्वोत्तम परिणामों के लिए सुनिश्चित करें कि आपके पास कई असंबंधित changes staged हैं (जैसे bug fix + feature addition)
-- LLM क्या देख रहा है यह डीबग करने के लिए `gac --show-prompt` का उपयोग करें
+- LLM क्या देख रहा है यह डीबग करने के लिए `uvx gac --show-prompt` का उपयोग करें
 
 **Problem:** Commits grouped incorrectly or not grouped when expected
 
@@ -121,20 +116,20 @@
 **Problem:** Need to disable secret scanning permanently
 
 - अपनी `.gac.env` फाइल में `GAC_SKIP_SECRET_SCAN=true` सेट करें
-- `gac config set GAC_SKIP_SECRET_SCAN true` का उपयोग करें
+- `uvx gac config set GAC_SKIP_SECRET_SCAN true` का उपयोग करें
 - नोट: केवल तभी अक्षम करें यदि आपके पास अन्य security measures हैं
 
 ## 6. Pre-commit and Lefthook Hook Issues
 
 **Problem:** Pre-commit or lefthook hooks are failing and blocking commits
 
-- सभी pre-commit और lefthook hooks को अस्थायी रूप से छोड़ने के लिए `gac --no-verify` का उपयोग करें
+- सभी pre-commit और lefthook hooks को अस्थायी रूप से छोड़ने के लिए `uvx gac --no-verify` का उपयोग करें
 - Hooks को विफल करने वाले अंतर्निहित मुद्दों को ठीक करें
 - यदि hooks बहुत सख्त हैं तो अपनी pre-commit या lefthook configuration को समायोजित करने पर विचार करें
 
 **Problem:** Pre-commit or lefthook hooks take too long or are interfering with workflow
 
-- सभी pre-commit और lefthook hooks को अस्थायी रूप से छोड़ने के लिए `gac --no-verify` का उपयोग करें
+- सभी pre-commit और lefthook hooks को अस्थायी रूप से छोड़ने के लिए `uvx gac --no-verify` का उपयोग करें
 - अपने workflow के लिए `.pre-commit-config.yaml` में pre-commit hooks या `.lefthook.yml` में lefthook hooks को कम aggressive होने के लिए कॉन्फ़िगर करने पर विचार करें
 - प्रदर्शन को अनुकूलित करने के लिए अपनी hook configuration की समीक्षा करें
 
@@ -143,9 +138,9 @@
 **Problem:** No changes to commit / nothing staged
 
 - gac को कमिट मैसेज जेनरेट करने के लिए staged changes की आवश्यकता होती है
-- Changes को stage करने के लिए `git add <files>` का उपयोग करें, या सभी changes को स्वचालित रूप से stage करने के लिए `gac -a` का उपयोग करें
+- Changes को stage करने के लिए `git add <files>` का उपयोग करें, या सभी changes को स्वचालित रूप से stage करने के लिए `uvx gac -a` का उपयोग करें
 - संशोधित फाइलें देखने के लिए `git status` जांचें
-- अपने changes का filtered view देखने के लिए `gac diff` का उपयोग करें
+- अपने changes का filtered view देखने के लिए `uvx gac diff` का उपयोग करें
 
 **Problem:** Commit message not what I expected
 
@@ -156,10 +151,10 @@
 
 **Problem:** gac is too slow
 
-- Confirmation prompt को छोड़ने के लिए `gac -y` का उपयोग करें
-- कम output के साथ quiet mode के लिए `gac -q` का उपयोग करें
+- Confirmation prompt को छोड़ने के लिए `uvx gac -y` का उपयोग करें
+- कम output के साथ quiet mode के लिए `uvx gac -q` का उपयोग करें
 - नियमित commits के लिए तेज़/सस्ते मॉडल का उपयोग करने पर विचार करें
-- यदि वे आपको धीमा कर रहे हैं तो hooks को छोड़ने के लिए `gac --no-verify` का उपयोग करें
+- यदि वे आपको धीमा कर रहे हैं तो hooks को छोड़ने के लिए `uvx gac --no-verify` का उपयोग करें
 
 **Problem:** Can't edit or provide feedback after message generation
 
@@ -170,11 +165,11 @@
 
 ## 8. General Debugging
 
-- अपनी configuration को इंटरैक्टिव रूप से रीसेट या अपडेट करने के लिए `gac init` का उपयोग करें
-- विस्तृत debug output और logging के लिए `gac --log-level=debug` का उपयोग करें
-- LLM को कौन सा prompt भेजा जा रहा है यह देखने के लिए `gac --show-prompt` का उपयोग करें
-- सभी उपलब्ध command-line flags देखने के लिए `gac --help` का उपयोग करें
-- सभी वर्तमान configuration मान देखने के लिए `gac config show` का उपयोग करें
+- अपनी configuration को इंटरैक्टिव रूप से रीसेट या अपडेट करने के लिए `uvx gac init` का उपयोग करें
+- विस्तृत debug output और logging के लिए `uvx gac --log-level=debug` का उपयोग करें
+- LLM को कौन सा prompt भेजा जा रहा है यह देखने के लिए `uvx gac --show-prompt` का उपयोग करें
+- सभी उपलब्ध command-line flags देखने के लिए `uvx gac --help` का उपयोग करें
+- सभी वर्तमान configuration मान देखने के लिए `uvx gac config show` का उपयोग करें
 - Error messages और stack traces के लिए logs जांचें
 - features, examples, और quick start instructions के लिए मुख्य [README.md](../../README.md) जांचें
 

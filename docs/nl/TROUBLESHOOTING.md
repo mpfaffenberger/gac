@@ -21,24 +21,19 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 
 ## 1. Installatieproblemen
 
-**Probleem:** `gac` commando niet gevonden na installatie
+**Probleem:** `uvx` commando niet gevonden
 
-- Zorg ervoor dat u installeerde met `uvx gac`
+- Installeer uv door de instructies te volgen op [astral.sh/uv](https://astral.sh/uv)
 - Zorg ervoor dat `uv` geïnstalleerd is en in uw `$PATH` staat
 - Herstart uw terminal na installatie
-
-**Probleem:** Toestemming geweigerd of kan geen bestanden schrijven
-
-- Controleer maprechten
-- Probeer uit te voeren met passende privileges of verander mapeigendom
 
 ## 2. Configuratieproblemen
 
 **Probleem:** gac kan uw API sleutel of model niet vinden
 
-- Als u nieuw bent, voer `gac init` uit om uw provider, model en API sleutels interactief in te stellen
+- Als u nieuw bent, voer `uvx gac init` uit om uw provider, model en API sleutels interactief in te stellen
 - Zorg ervoor dat uw `.gac.env` of omgevingsvariabelen correct ingesteld zijn
-- Voer `gac --log-level=debug` uit om te zien welke config bestanden worden geladen en configuratieproblemen te debuggen
+- Voer `uvx gac --log-level=debug` uit om te zien welke config bestanden worden geladen en configuratieproblemen te debuggen
 - Controleer op typefouten in variabele namen (bv., `GAC_GROQ_API_KEY`)
 
 **Probleem:** Gebruiker-niveau `$HOME/.gac.env` wijzigingen worden niet opgepikt
@@ -46,22 +41,22 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 - Zorg ervoor dat u het juiste bestand bewerkt voor uw OS:
   - Op macOS/Linux: `$HOME/.gac.env` (meestal `/Users/<uw-gebruikersnaam>/.gac.env` of `/home/<uw-gebruikersnaam>/.gac.env`)
   - Op Windows: `$HOME/.gac.env` (meestal `C:\Users\<uw-gebruikersnaam>\.gac.env` of gebruik `%USERPROFILE%`)
-- Voer `gac --log-level=debug` uit om te bevestigen dat de gebruiker-niveau config wordt geladen
+- Voer `uvx gac --log-level=debug` uit om te bevestigen dat de gebruiker-niveau config wordt geladen
 - Herstart uw terminal of voer uw shell opnieuw uit om omgevingsvariabelen te herladen
 - Als het nog steeds niet werkt, controleer op typefouten en bestandsrechten
 
 **Probleem:** Project-niveau `.gac.env` wijzigingen worden niet opgepikt
 
 - Zorg ervoor dat uw project een `.gac.env` bestand bevat in de rootmap (naast uw `.git` map)
-- Voer `gac --log-level=debug` uit om te bevestigen dat de project-niveau config wordt geladen
+- Voer `uvx gac --log-level=debug` uit om te bevestigen dat de project-niveau config wordt geladen
 - Als u `.gac.env` bewerkt, herstart uw terminal of voer uw shell opnieuw uit om omgevingsvariabelen te herladen
 - Als het nog steeds niet werkt, controleer op typefouten en bestandsrechten
 
 **Probleem:** Kan taal voor commitberichten niet instellen of wijzigen
 
-- Voer `gac language` (of `gac lang`) uit om interactief te kiezen uit 25+ ondersteunde talen
-- Gebruik `-l <taal>` vlag om taal voor een enkele commit te overschrijven (bv., `gac -l zh-CN`, `gac -l Spanish`)
-- Controleer uw config met `gac config show` om huidige taalinstelling te zien
+- Voer `uvx gac language` (of `uvx gac lang`) uit om interactief te kiezen uit 25+ ondersteunde talen
+- Gebruik `-l <taal>` vlag om taal voor een enkele commit te overschrijven (bv., `uvx gac -l zh-CN`, `uvx gac -l Spanish`)
+- Controleer uw config met `uvx gac config show` om huidige taalinstelling te zien
 - Taalinstelling wordt opgeslagen in `GAC_LANGUAGE` in uw `.gac.env` bestand
 
 ## 3. Provider/API Fouten
@@ -71,11 +66,11 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 - Zorg ervoor dat u de juiste API sleutels heeft ingesteld voor uw gekozen model (bv., `ANTHROPIC_API_KEY`, `GROQ_API_KEY`)
 - Controleer dubbel uw API sleutel en provider accountstatus
 - Voor Ollama en LM Studio, bevestig dat de API URL overeenkomt met uw lokale instance. API sleutels zijn alleen nodig als u authenticatie heeft ingeschakeld.
-- **Voor verlopen Claude Code token**: Voer `gac auth` uit om snel opnieuw in te loggen en uw token te vernieuwen. Uw browser opent automatisch voor OAuth.
-- **Voor verlopen ChatGPT OAuth token**: Voer `gac auth chatgpt login` uit om opnieuw in te loggen. Uw browser opent automatisch voor OAuth.
+- **Voor verlopen Claude Code token**: Voer `uvx gac auth` uit om snel opnieuw in te loggen en uw token te vernieuwen. Uw browser opent automatisch voor OAuth.
+- **Voor verlopen ChatGPT OAuth token**: Voer `uvx gac auth chatgpt login` uit om opnieuw in te loggen. Uw browser opent automatisch voor OAuth.
 - **Voor andere Claude Code OAuth-problemen**, zie de [Claude Code installatiehandleiding](CLAUDE_CODE.md) voor uitgebreide probleemoplossing.
 - **Voor andere ChatGPT OAuth-problemen**, zie de [ChatGPT OAuth installatiehandleiding](CHATGPT_OAUTH.md) voor uitgebreide probleemoplossing.
-- **Voor verlopen GitHub Copilot-sessietokens**: Voer `gac auth copilot login` uit om opnieuw te authentiseren via Device Flow. Sessietokens worden automatisch vernieuwd vanuit de gecachte OAuth-token.
+- **Voor verlopen GitHub Copilot-sessietokens**: Voer `uvx gac auth copilot login` uit om opnieuw te authentiseren via Device Flow. Sessietokens worden automatisch vernieuwd vanuit de gecachte OAuth-token.
 - **Voor andere GitHub Copilot-problemen**, zie de [GitHub Copilot-installatiehandleiding](GITHUB_COPILOT.md) voor uitgebreide probleemoplossing.
 
 **Probleem:** Model niet beschikbaar of niet ondersteund
@@ -92,7 +87,7 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 - De LLM kan besluiten dat een enkele commit logisch is voor uw set van staged wijzigingen, zelfs met `--group`
 - Dit is opzettelijk gedrag - de LLM groepeert wijzigingen op basis van logische relaties, niet alleen kwantiteit
 - Zorg ervoor dat u meerdere niet-gerelateerde wijzigingen gestaged heeft (bv., bug fix + feature toevoeging) voor beste resultaten
-- Gebruik `gac --show-prompt` om te debuggen wat de LLM ziet
+- Gebruik `uvx gac --show-prompt` om te debuggen wat de LLM ziet
 
 **Probleem:** Commits onjuist gegroepeerd of niet gegroepeerd wanneer verwacht
 
@@ -121,20 +116,20 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 **Probleem:** Moet geheim scanning permanent uitschakelen
 
 - Stel `GAC_SKIP_SECRET_SCAN=true` in uw `.gac.env` bestand
-- Gebruik `gac config set GAC_SKIP_SECRET_SCAN true`
+- Gebruik `uvx gac config set GAC_SKIP_SECRET_SCAN true`
 - Let op: Schakel alleen uit als u andere beveiligingsmaatregelen heeft
 
 ## 6. Pre-commit en Lefthook Hook Problemen
 
 **Probleem:** Pre-commit of lefthook hooks falen en blokkeren commits
 
-- Gebruik `gac --no-verify` om tijdelijk alle pre-commit en lefthook hooks over te slaan
+- Gebruik `uvx gac --no-verify` om tijdelijk alle pre-commit en lefthook hooks over te slaan
 - Fix de onderliggende problemen die de hooks laten falen
 - Overweeg om uw pre-commit of lefthook configuratie aan te passen als hooks te streng zijn
 
 **Probleem:** Pre-commit of lefthook hooks duren te lang of verstoren workflow
 
-- Gebruik `gac --no-verify` om tijdelijk alle pre-commit en lefthook hooks over te slaan
+- Gebruik `uvx gac --no-verify` om tijdelijk alle pre-commit en lefthook hooks over te slaan
 - Overweeg om pre-commit hooks in `.pre-commit-config.yaml` of lefthook hooks in `.lefthook.yml` te configureren om minder agressief te zijn voor uw workflow
 - Bekijk uw hook configuratie om prestaties te optimaliseren
 
@@ -143,9 +138,9 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 **Probleem:** Geen wijzigingen om te commit / niets gestaged
 
 - gac vereist staged wijzigingen om een commitbericht te genereren
-- Gebruik `git add <bestanden>` om wijzigingen te stage, of gebruik `gac -a` om automatisch alle wijzigingen te stage
+- Gebruik `git add <bestanden>` om wijzigingen te stage, of gebruik `uvx gac -a` om automatisch alle wijzigingen te stage
 - Controleer `git status` om te zien welke bestanden zijn gewijzigd
-- Gebruik `gac diff` om een gefilterde weergave van uw wijzigingen te zien
+- Gebruik `uvx gac diff` om een gefilterde weergave van uw wijzigingen te zien
 
 **Probleem:** Commitbericht niet wat ik verwachtte
 
@@ -156,10 +151,10 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 
 **Probleem:** gac is te traag
 
-- Gebruik `gac -y` om de bevestigingsprompt over te slaan
-- Gebruik `gac -q` voor stille modus met minder output
+- Gebruik `uvx gac -y` om de bevestigingsprompt over te slaan
+- Gebruik `uvx gac -q` voor stille modus met minder output
 - Overweeg om snellere/goedkopere modellen te gebruiken voor routine commits
-- Gebruik `gac --no-verify` om hooks over te slaan als u vertragen
+- Gebruik `uvx gac --no-verify` om hooks over te slaan als u vertragen
 
 **Probleem:** Kan niet bewerken of feedback geven na berichtgeneratie
 
@@ -170,11 +165,11 @@ Deze gids behandelt veelvoorkomende problemen en oplossingen voor het installere
 
 ## 8. Algemeen Debuggen
 
-- Gebruik `gac init` om uw configuratie te resetten of bij te werken interactief
-- Gebruik `gac --log-level=debug` voor gedetailleerde debug output en logging
-- Gebruik `gac --show-prompt` om te zien welke prompt naar de LLM wordt gestuurd
-- Gebruik `gac --help` om alle beschikbare command-line vlaggen te zien
-- Gebruik `gac config show` om alle huidige configuratiewaarden te zien
+- Gebruik `uvx gac init` om uw configuratie te resetten of bij te werken interactief
+- Gebruik `uvx gac --log-level=debug` voor gedetailleerde debug output en logging
+- Gebruik `uvx gac --show-prompt` om te zien welke prompt naar de LLM wordt gestuurd
+- Gebruik `uvx gac --help` om alle beschikbare command-line vlaggen te zien
+- Gebruik `uvx gac config show` om alle huidige configuratiewaarden te zien
 - Controleer logs op foutmeldingen en stack traces
 - Controleer de hoofd [README.md](../README.md) voor features, voorbeelden en snelle startinstructies
 
