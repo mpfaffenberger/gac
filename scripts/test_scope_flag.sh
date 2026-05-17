@@ -3,7 +3,7 @@
 
 set -e
 
-echo "=== Testing gac --scope flag ==="
+echo "=== Testing uvx gac --scope flag ==="
 echo
 
 # Create a temporary test directory
@@ -30,8 +30,8 @@ def login(username, password):
 EOF
 git add auth.py
 
-echo "   Running: gac preview --scope"
-gac preview --scope || echo "Note: Preview may fail if AI providers aren't configured"
+echo "   Running: uvx gac preview --scope"
+uvx gac preview --scope || echo "Note: Preview may fail if AI providers aren't configured"
 echo
 
 echo "2. Testing without --scope flag"
@@ -42,8 +42,8 @@ This is a test project for gac scope testing.
 EOF
 git add README.md
 
-echo "   Running: gac preview"
-gac preview || echo "Note: Preview may fail if AI providers aren't configured"
+echo "   Running: uvx gac preview"
+uvx gac preview || echo "Note: Preview may fail if AI providers aren't configured"
 echo
 
 echo "3. Testing --scope with other flags"
@@ -51,8 +51,8 @@ echo "   Modifying auth.py with hint..."
 echo "def logout(): pass" >> auth.py
 git add auth.py
 
-echo "   Running: gac preview --scope --one-liner --hint 'Add logout functionality'"
-gac preview --scope --one-liner --hint "Add logout functionality" || echo "Note: Preview may fail if AI providers aren't configured"
+echo "   Running: uvx gac preview --scope --one-liner --hint 'Add logout functionality'"
+uvx gac preview --scope --one-liner --hint "Add logout functionality" || echo "Note: Preview may fail if AI providers aren't configured"
 echo
 
 # Cleanup

@@ -55,8 +55,8 @@ run_test() {
   fi
 }
 
-echo "First test: default gac"
-run_test "First test: default gac" gac -y
+echo "First test: default uvx gac"
+run_test "First test: default uvx gac" uvx gac -y
 gac_status=$?
 run_test "gac -y exited 0" [ $gac_status -eq 0 ]
 run_test "Commit for alpha.txt found" git log --oneline -- alpha.txt 2>/dev/null | grep -q .
@@ -82,7 +82,7 @@ run_test "Commit was undone" sh -c '! git log --oneline -- alpha.txt 2>/dev/null
 echo "Second test: one-liner"
 echo "beta" > beta.txt
 git add beta.txt
-run_test "Second test: one-liner" gac -yo
+run_test "Second test: one-liner" uvx gac -yo
 gac_status=$?
 run_test "gac -yo exited 0" [ $gac_status -eq 0 ]
 run_test "One-liner commit for beta.txt found" git log --oneline -- beta.txt 2>/dev/null | grep -q .
@@ -91,7 +91,7 @@ run_test "One-liner commit for beta.txt found" git log --oneline -- beta.txt 2>/
 echo "Third test: with hint"
 echo "gamma" > gamma.txt
 git add gamma.txt
-run_test "Third test: with hint" gac -y --hint "testing hint flag"
+run_test "Third test: with hint" uvx gac -y --hint "testing hint flag"
 gac_status=$?
 run_test "gac -y --hint exited 0" [ $gac_status -eq 0 ]
 run_test "Commit for gamma.txt with hint found" git log --oneline -- gamma.txt 2>/dev/null | grep -q .
@@ -100,7 +100,7 @@ run_test "Commit for gamma.txt with hint found" git log --oneline -- gamma.txt 2
 echo "Fourth test: dry run (should not commit)"
 echo "delta" > delta.txt
 git add delta.txt
-run_test "Fourth test: dry run" gac -y --dry-run
+run_test "Fourth test: dry run" uvx gac -y --dry-run
 gac_status=$?
 run_test "gac -y --dry-run exited 0" [ $gac_status -eq 0 ]
 run_test "Dry run did not create a commit for delta.txt" sh -c '! git log --oneline -- delta.txt 2>/dev/null | grep -q .'
@@ -128,7 +128,7 @@ echo "epsilon" > epsilon.txt
 git add epsilon.txt
 ensure_github_remote
 (git remote -v || true)
-output=$(gac -ypo --hint "final test for push" 2>&1)
+output=$(uvx gac -ypo --hint "final test for push" 2>&1)
 gac_status=$?
 run_test "gac -ypo --hint exited 0" [ $gac_status -eq 0 ]
 run_test "Commit for epsilon.txt found" git log --oneline -- epsilon.txt 2>/dev/null | grep -q .

@@ -73,7 +73,7 @@ EOF
 # Test diff on modified files (unstaged)
 echo
 echo "== Testing diff on unstaged changes =="
-gac diff --unstaged
+uvx gac diff --unstaged
 
 # Stage some changes
 git add main.py
@@ -81,7 +81,7 @@ git add main.py
 # Test diff on staged changes
 echo
 echo "== Testing diff on staged changes =="
-gac diff --staged
+uvx gac diff --staged
 
 # Test diff with both staged and unstaged
 echo
@@ -91,7 +91,7 @@ import sys
 import os
 import json
 EOF
-gac diff
+uvx gac diff
 
 # Commit changes
 git add .
@@ -112,7 +112,7 @@ EOF
 # Test diff between commits
 echo
 echo "== Testing diff between commits =="
-gac diff $INITIAL_COMMIT $SECOND_COMMIT
+uvx gac diff $INITIAL_COMMIT $SECOND_COMMIT
 
 # Test diff with filter disabled
 echo
@@ -126,12 +126,12 @@ def hello():
 def goodbye():
     print('Goodbye!')
 EOF
-gac diff --unstaged --no-filter
+uvx gac diff --unstaged --no-filter
 
 # Test diff with no-color flag
 echo
 echo "== Testing diff with no-color flag =="
-gac diff --unstaged --no-color
+uvx gac diff --unstaged --no-color
 
 # Create multiple file changes with different extensions
 echo
@@ -187,14 +187,14 @@ EOF
 # Test diff with multiple complex changes
 echo
 echo "== Testing diff with multiple file types =="
-gac diff --unstaged
+uvx gac diff --unstaged
 
 # Test diff with specific file (using commit reference)
 echo
 echo "== Testing diff for specific file =="
 # First stage the changes to have something to compare
 git add .
-gac diff HEAD -- config.py
+uvx gac diff HEAD -- config.py
 
 # Test diff with truncation disabled
 echo
@@ -252,43 +252,43 @@ class TestClass:
     def method3(self):
         return self.value + 3
 EOF
-gac diff --unstaged --no-truncate -- large_file.py
+uvx gac diff --unstaged --no-truncate -- large_file.py
 
 # Test diff with max-tokens option
 echo
 echo "== Testing diff with max-tokens option =="
-gac diff --unstaged --max-tokens 100
+uvx gac diff --unstaged --max-tokens 100
 
 # Test diff against HEAD
 echo
 echo "== Testing diff against HEAD =="
 # Create changes first
 echo "# Additional comment" >> config.py
-gac diff HEAD
+uvx gac diff HEAD
 
 # Test diff with commit range
 echo
 echo "== Testing diff with commit range =="
-gac diff HEAD~1..HEAD
+uvx gac diff HEAD~1..HEAD
 
 # Create a binary file
 echo
 echo "== Testing diff with binary file =="
 printf '\x00\x01\x02\x03' > binary.dat
 git add binary.dat
-gac diff --staged
+uvx gac diff --staged
 
 # Test an invalid hash scenario (should fail gracefully)
 echo
 echo "== Testing diff with invalid hash (should fail) =="
-gac diff invalid_hash 2>&1 || echo "Test passed: Invalid hash correctly failed"
+uvx gac diff invalid_hash 2>&1 || echo "Test passed: Invalid hash correctly failed"
 
 # Test diff with no changes
 echo
 echo "== Testing diff with no changes =="
 git add .
 git commit -m "Commit all changes" > /dev/null 2>&1
-gac diff || echo "Test passed: No changes detected"
+uvx gac diff || echo "Test passed: No changes detected"
 
 echo
 echo "===== Finished gac Diff Tests ====="
