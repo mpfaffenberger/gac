@@ -23,7 +23,7 @@ GAC inkluderar inbyggd OAuth-autentisering för ChatGPT. Konfigurationsprocessen
 
 ### Alternativ 1: Under första konfigurationen (Rekommenderas)
 
-När du kör `gac init`, välj helt enkelt «ChatGPT OAuth» som din leverantör:
+När du kör `uvx gac init`, välj helt enkelt «ChatGPT OAuth» som din leverantör:
 
 ```bash
 gac init
@@ -180,7 +180,7 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-Kör sedan `gac auth chatgpt login` igen.
+Kör sedan `uvx gac auth chatgpt login` igen.
 
 ## Skillnader från OpenAI-leverantören
 
@@ -188,7 +188,7 @@ Kör sedan `gac auth chatgpt login` igen.
 | -------------- | ----------------------------- | ------------------------------------------------------------ |
 | Autentisering  | API-nyckel (`OPENAI_API_KEY`) | OAuth (automatiserat webbläsarflöde)                         |
 | Fakturering    | Tokenbaserad API-fakturering  | Abonnemangsbaserat (ChatGPT Plus/Pro)                        |
-| Konfiguration  | Manuell API-nyckelinmatning   | Automatisk OAuth via `gac init` eller `gac model`            |
+| Konfiguration  | Manuell API-nyckelinmatning   | Automatisk OAuth via `uvx gac init` eller `uvx gac model`    |
 | Tokenhantering | Långlivade API-nycklar        | OAuth-tokens (automatisk uppdatering med uppdateringstokens) |
 | Modeller       | Alla OpenAI-modeller          | Codex-optimerade modeller                                    |
 

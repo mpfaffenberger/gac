@@ -22,7 +22,7 @@ GAC bevat ingebouwde OAuth-authenticatie voor Claude Code. Het installatieproces
 
 ### Optie 1: Tijdens de initiële installatie (Aanbevolen)
 
-Voer `gac init` uit en selecteer eenvoudig "Claude Code" als uw provider:
+Voer `uvx gac init` uit en selecteer eenvoudig "Claude Code" als uw provider:
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ Als u authenticatiefouten ziet, is uw token mogelijk verlopen. Authenticeer opni
 gac auth claude-code login
 ```
 
-Uw browser opent automatisch voor een nieuwe OAuth-authenticatie. Alternatief kunt u `gac model` uitvoeren, "Claude Code (OAuth)" selecteren en "Opnieuw authenticeren (nieuwe token krijgen)" kiezen.
+Uw browser opent automatisch voor een nieuwe OAuth-authenticatie. Alternatief kunt u `uvx gac model` uitvoeren, "Claude Code (OAuth)" selecteren en "Opnieuw authenticeren (nieuwe token krijgen)" kiezen.
 
 ### Authenticatiestatus controleren
 
@@ -135,7 +135,7 @@ Als OAuth-authenticatie mislukt:
 | ------------- | --------------------------------- | ----------------------------------------------------------------------- |
 | Authenticatie | API-sleutel (`ANTHROPIC_API_KEY`) | OAuth (automatische browser-flow)                                       |
 | Facturering   | Per-token API-facturering         | Abonnement-gebaseerd                                                    |
-| Instellingen  | Handmatige API-sleutel-invoer     | Automatische OAuth via `gac init` of `gac model`                        |
+| Instellingen  | Handmatige API-sleutel-invoer     | Automatische OAuth via `uvx gac init` of `uvx gac model`                |
 | Token-beheer  | Lange-termijn API-sleutels        | OAuth-tokens (kunnen verlopen, eenvoudige herauthenticatie via `model`) |
 | Modellen      | Zelfde modellen                   | Zelfde modellen                                                         |
 
@@ -143,7 +143,7 @@ Als OAuth-authenticatie mislukt:
 
 - **Commit nooit uw toegangstoken** naar versiebeheer
 - GAC slaat tokens automatisch op in `~/.gac.env` (buiten uw projectmap)
-- Tokens kunnen verlopen en vereisen herauthenticatie via `gac model`
+- Tokens kunnen verlopen en vereisen herauthenticatie via `uvx gac model`
 - De OAuth-flow gebruikt PKCE (Proof Key for Code Exchange) voor verbeterde beveiliging
 - De lokale callback-server draait alleen op localhost (poorten 8765-8795)
 

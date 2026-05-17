@@ -25,7 +25,7 @@ Dit geeft u toegang tot modellen van meerdere providers via één abonnement:
 
 ### Optie 1: Tijdens eerste installatie (Aanbevolen)
 
-Wanneer u `gac init` uitvoert, selecteert u eenvoudig «Copilot» als uw provider:
+Wanneer u `uvx gac init` uitvoert, selecteert u eenvoudig «Copilot» als uw provider:
 
 ```bash
 gac init
@@ -166,7 +166,7 @@ gac auth copilot login
 Dit betekent dat GAC een GitHub OAuth-token kreeg, maar deze niet kon inwisselen voor een Copilot-sessietoken. Meestal betekent dit:
 
 1. **Geen Copilot-abonnement** — Uw GitHub-account heeft geen actief Copilot-abonnement
-2. **Token ingetrokken** — De OAuth-token is ingetrokken; herauthenticeer met `gac auth copilot login`
+2. **Token ingetrokken** — De OAuth-token is ingetrokken; herauthenticeer met `uvx gac auth copilot login`
 
 ### Sessietoken verlopen
 
@@ -191,7 +191,7 @@ Als GHE-authenticatie mislukt:
 1. Controleer of uw GHE-instantie Copilot heeft ingeschakeld
 2. Controleer of uw GHE-hostnaam bereikbaar is vanaf uw machine
 3. Zorg ervoor dat uw GHE-account een Copilot-licentie heeft
-4. Probeer met de `--host` vlag expliciet: `gac auth copilot login --host ghe.mycompany.com`
+4. Probeer met de `--host` vlag expliciet: `uvx gac auth copilot login --host ghe.mycompany.com`
 
 ## Verschillen met andere OAuth-providers
 

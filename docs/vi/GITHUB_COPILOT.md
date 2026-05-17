@@ -25,7 +25,7 @@ GitHub Copilot OAuth sử dụng **Device Flow** — một phương thức xác 
 
 ### Tùy chọn 1: Trong quá trình thiết lập ban đầu (Khuyến nghị)
 
-Khi chạy `gac init`, chỉ cần chọn "Copilot" làm nhà cung cấp của bạn:
+Khi chạy `uvx gac init`, chỉ cần chọn "Copilot" làm nhà cung cấp của bạn:
 
 ```bash
 gac init
@@ -166,7 +166,7 @@ gac auth copilot login
 Điều này có nghĩa là GAC đã nhận được token OAuth GitHub nhưng không thể trao đổi nó lấy token phiên Copilot. Thường thì điều này có nghĩa là:
 
 1. **Không có gói đăng ký Copilot** — Tài khoản GitHub của bạn không có gói đăng ký Copilot đang hoạt động
-2. **Token bị thu hồi** — Token OAuth đã bị thu hồi; xác thực lại với `gac auth copilot login`
+2. **Token bị thu hồi** — Token OAuth đã bị thu hồi; xác thực lại với `uvx gac auth copilot login`
 
 ### Token phiên hết hạn
 
@@ -191,7 +191,7 @@ Nếu xác thực GHE thất bại:
 1. Xác minh rằng phiên bản GHE của bạn đã bật Copilot
 2. Kiểm tra tên máy chủ GHE của bạn có thể truy cập được từ máy của bạn
 3. Đảm bảo tài khoản GHE của bạn có giấy phép Copilot
-4. Thử với flag `--host` một cách rõ ràng: `gac auth copilot login --host ghe.mycompany.com`
+4. Thử với flag `--host` một cách rõ ràng: `uvx gac auth copilot login --host ghe.mycompany.com`
 
 ## Sự khác biệt so với các nhà cung cấp OAuth khác
 

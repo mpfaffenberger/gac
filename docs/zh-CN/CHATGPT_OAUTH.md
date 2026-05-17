@@ -23,7 +23,7 @@ GAC 包含用于 ChatGPT 的内置 OAuth 身份验证。设置过程完全自动
 
 ### 选项 1：初始设置期间（推荐）
 
-运行 `gac init` 时，只需选择 "ChatGPT OAuth" 作为您的提供商：
+运行 `uvx gac init` 时，只需选择 "ChatGPT OAuth" 作为您的提供商：
 
 ```bash
 gac init
@@ -180,17 +180,17 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-然后重新运行 `gac auth chatgpt login`。
+然后重新运行 `uvx gac auth chatgpt login`。
 
 ## 与 OpenAI 提供商的区别
 
-| 特性     | OpenAI (`openai:`)          | ChatGPT OAuth (`chatgpt-oauth:`)          |
-| -------- | --------------------------- | ----------------------------------------- |
-| 身份验证 | API 密钥 (`OPENAI_API_KEY`) | OAuth（自动化浏览器流程）                 |
-| 计费     | 按令牌 API 计费             | 基于订阅（ChatGPT Plus/Pro）              |
-| 设置     | 手动输入 API 密钥           | 通过 `gac init` 或 `gac model` 自动 OAuth |
-| 令牌管理 | 长期有效的 API 密钥         | OAuth 令牌（使用刷新令牌自动刷新）        |
-| 模型     | 所有 OpenAI 模型            | Codex 优化模型                            |
+| 特性     | OpenAI (`openai:`)          | ChatGPT OAuth (`chatgpt-oauth:`)                  |
+| -------- | --------------------------- | ------------------------------------------------- |
+| 身份验证 | API 密钥 (`OPENAI_API_KEY`) | OAuth（自动化浏览器流程）                         |
+| 计费     | 按令牌 API 计费             | 基于订阅（ChatGPT Plus/Pro）                      |
+| 设置     | 手动输入 API 密钥           | 通过 `uvx gac init` 或 `uvx gac model` 自动 OAuth |
+| 令牌管理 | 长期有效的 API 密钥         | OAuth 令牌（使用刷新令牌自动刷新）                |
+| 模型     | 所有 OpenAI 模型            | Codex 优化模型                                    |
 
 ## 安全说明
 

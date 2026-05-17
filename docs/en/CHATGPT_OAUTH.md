@@ -23,7 +23,7 @@ GAC includes built-in OAuth authentication for ChatGPT. The setup process is ful
 
 ### Option 1: During Initial Setup (Recommended)
 
-When running `gac init`, simply select "ChatGPT OAuth" as your provider:
+When running `uvx gac init`, simply select "ChatGPT OAuth" as your provider:
 
 ```bash
 gac init
@@ -180,17 +180,17 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-Then re-run `gac auth chatgpt login`.
+Then re-run `uvx gac auth chatgpt login`.
 
 ## Differences from OpenAI Provider
 
-| Feature          | OpenAI (`openai:`)         | ChatGPT OAuth (`chatgpt-oauth:`)                 |
-| ---------------- | -------------------------- | ------------------------------------------------ |
-| Authentication   | API Key (`OPENAI_API_KEY`) | OAuth (automated browser flow)                   |
-| Billing          | Per-token API billing      | Subscription-based (ChatGPT Plus/Pro)            |
-| Setup            | Manual API key entry       | Automatic OAuth via `gac init` or `gac model`    |
-| Token Management | Long-lived API keys        | OAuth tokens (auto-refresh using refresh tokens) |
-| Models           | All OpenAI models          | Codex-optimized models                           |
+| Feature          | OpenAI (`openai:`)         | ChatGPT OAuth (`chatgpt-oauth:`)                      |
+| ---------------- | -------------------------- | ----------------------------------------------------- |
+| Authentication   | API Key (`OPENAI_API_KEY`) | OAuth (automated browser flow)                        |
+| Billing          | Per-token API billing      | Subscription-based (ChatGPT Plus/Pro)                 |
+| Setup            | Manual API key entry       | Automatic OAuth via `uvx gac init` or `uvx gac model` |
+| Token Management | Long-lived API keys        | OAuth tokens (auto-refresh using refresh tokens)      |
+| Models           | All OpenAI models          | Codex-optimized models                                |
 
 ## Security Notes
 

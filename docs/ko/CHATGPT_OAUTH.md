@@ -23,7 +23,7 @@ GAC 에는 ChatGPT 용 내장 OAuth 인증이 포함되어 있습니다. 설정 
 
 ### 옵션 1: 초기 설정 중 (권장)
 
-`gac init` 을 실행할 때 제공업체로 "ChatGPT OAuth"를 선택하기만 하면 됩니다:
+`uvx gac init` 을 실행할 때 제공업체로 "ChatGPT OAuth"를 선택하기만 하면 됩니다:
 
 ```bash
 gac init
@@ -180,17 +180,17 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-그런 다음 `gac auth chatgpt login` 을 다시 실행합니다.
+그런 다음 `uvx gac auth chatgpt login` 을 다시 실행합니다.
 
 ## OpenAI 제공업체와의 차이점
 
-| 기능      | OpenAI (`openai:`)        | ChatGPT OAuth (`chatgpt-oauth:`)               |
-| --------- | ------------------------- | ---------------------------------------------- |
-| 인증      | API 키 (`OPENAI_API_KEY`) | OAuth (자동화된 브라우저 플로우)               |
-| 청구      | 토큰당 API 청구           | 구독 기반 (ChatGPT Plus/Pro)                   |
-| 설정      | 수동 API 키 입력          | `gac init` 또는 `gac model` 을 통한 자동 OAuth |
-| 토큰 관리 | 장수명 API 키             | OAuth 토큰 (리프레시 토큰으로 자동 새로 고침)  |
-| 모델      | 모든 OpenAI 모델          | Codex 최적화 모델                              |
+| 기능      | OpenAI (`openai:`)        | ChatGPT OAuth (`chatgpt-oauth:`)                       |
+| --------- | ------------------------- | ------------------------------------------------------ |
+| 인증      | API 키 (`OPENAI_API_KEY`) | OAuth (자동화된 브라우저 플로우)                       |
+| 청구      | 토큰당 API 청구           | 구독 기반 (ChatGPT Plus/Pro)                           |
+| 설정      | 수동 API 키 입력          | `uvx gac init` 또는 `uvx gac model` 을 통한 자동 OAuth |
+| 토큰 관리 | 장수명 API 키             | OAuth 토큰 (리프레시 토큰으로 자동 새로 고침)          |
+| 모델      | 모든 OpenAI 모델          | Codex 최적화 모델                                      |
 
 ## 보안 참고 사항
 

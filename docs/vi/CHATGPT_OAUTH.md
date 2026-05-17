@@ -23,7 +23,7 @@ GAC bao gồm xác thực OAuth tích hợp cho ChatGPT. Quy trình thiết lậ
 
 ### Tùy chọn 1: Trong quá trình thiết lập ban đầu (Khuyến nghị)
 
-Khi chạy `gac init`, chỉ cần chọn "ChatGPT OAuth" làm nhà cung cấp của bạn:
+Khi chạy `uvx gac init`, chỉ cần chọn "ChatGPT OAuth" làm nhà cung cấp của bạn:
 
 ```bash
 gac init
@@ -180,17 +180,17 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-Sau đó chạy lại `gac auth chatgpt login`.
+Sau đó chạy lại `uvx gac auth chatgpt login`.
 
 ## Sự khác biệt so với nhà cung cấp OpenAI
 
-| Tính năng     | OpenAI (`openai:`)          | ChatGPT OAuth (`chatgpt-oauth:`)                 |
-| ------------- | --------------------------- | ------------------------------------------------ |
-| Xác thực      | Khóa API (`OPENAI_API_KEY`) | OAuth (luồng trình duyệt tự động)                |
-| Thanh toán    | Thanh toán API theo token   | Dựa trên gói đăng ký (ChatGPT Plus/Pro)          |
-| Thiết lập     | Nhập khóa API thủ công      | OAuth tự động qua `gac init` hoặc `gac model`    |
-| Quản lý token | Khóa API tồn tại lâu dài    | Token OAuth (tự động làm mới bằng token làm mới) |
-| Mô hình       | Tất cả các mô hình OpenAI   | Mô hình tối ưu hóa Codex                         |
+| Tính năng     | OpenAI (`openai:`)          | ChatGPT OAuth (`chatgpt-oauth:`)                      |
+| ------------- | --------------------------- | ----------------------------------------------------- |
+| Xác thực      | Khóa API (`OPENAI_API_KEY`) | OAuth (luồng trình duyệt tự động)                     |
+| Thanh toán    | Thanh toán API theo token   | Dựa trên gói đăng ký (ChatGPT Plus/Pro)               |
+| Thiết lập     | Nhập khóa API thủ công      | OAuth tự động qua `uvx gac init` hoặc `uvx gac model` |
+| Quản lý token | Khóa API tồn tại lâu dài    | Token OAuth (tự động làm mới bằng token làm mới)      |
+| Mô hình       | Tất cả các mô hình OpenAI   | Mô hình tối ưu hóa Codex                              |
 
 ## Lưu ý bảo mật
 

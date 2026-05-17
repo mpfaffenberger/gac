@@ -22,7 +22,7 @@ GAC inclui autenticação OAuth integrada para Claude Code. O processo de config
 
 ### Opção 1: Durante a Configuração Inicial (Recomendado)
 
-Ao executar `gac init`, simplesmente selecione "Claude Code" como seu provedor:
+Ao executar `uvx gac init`, simplesmente selecione "Claude Code" como seu provedor:
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ Se você vir erros de autenticação, seu token pode ter expirado. Reautentique-
 gac auth claude-code login
 ```
 
-Seu navegador abrirá automaticamente para uma nova autenticação OAuth. Alternativamente, você pode executar `gac model`, selecionar "Claude Code (OAuth)" e escolher "Reautenticar (obter novo token)".
+Seu navegador abrirá automaticamente para uma nova autenticação OAuth. Alternativamente, você pode executar `uvx gac model`, selecionar "Claude Code (OAuth)" e escolher "Reautenticar (obter novo token)".
 
 ### Verificar status de autenticação
 
@@ -135,7 +135,7 @@ Se a autenticação OAuth falhar:
 | ----------------------- | ------------------------------- | -------------------------------------------------------------- |
 | Autenticação            | Chave API (`ANTHROPIC_API_KEY`) | OAuth (fluxo automático do navegador)                          |
 | Cobrança                | Cobrança API por token          | Baseada em assinatura                                          |
-| Configuração            | Entrada manual de chave API     | OAuth automático via `gac init` ou `gac model`                 |
+| Configuração            | Entrada manual de chave API     | OAuth automático via `uvx gac init` ou `uvx gac model`         |
 | Gerenciamento de Tokens | Chaves API de longa duração     | Tokens OAuth (podem expirar, fácil reautenticação via `model`) |
 | Modelos                 | Mesmos modelos                  | Mesmos modelos                                                 |
 
@@ -143,7 +143,7 @@ Se a autenticação OAuth falhar:
 
 - **Nunca faça commit do seu token de acesso** no controle de versão
 - GAC armazena automaticamente tokens em `~/.gac.env` (fora do seu diretório de projeto)
-- Tokens podem expirar e requererão reautenticação via `gac model`
+- Tokens podem expirar e requererão reautenticação via `uvx gac model`
 - O fluxo OAuth usa PKCE (Proof Key for Code Exchange) para segurança aprimorada
 - O servidor de callback local roda apenas em localhost (portas 8765-8795)
 

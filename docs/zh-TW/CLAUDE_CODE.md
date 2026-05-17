@@ -22,7 +22,7 @@ GAC 包含內建的 Claude Code OAuth 身份驗證。設定過程完全自動化
 
 ### 選項 1：在初始設定期間（推薦）
 
-執行 `gac init` 時，只需選擇"Claude Code"作為您的提供者：
+執行 `uvx gac init` 時，只需選擇"Claude Code"作為您的提供者：
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ Claude Code 提供與 Anthropic API 相同的模型存取權限。當前的 Clau
 gac auth claude-code login
 ```
 
-您的瀏覽器將自動打開進行新的 OAuth 身份驗證。或者，您可以執行 `gac model`，選擇 "Claude Code (OAuth)"，然後選擇 "重新身份驗證（取得新令牌）"。
+您的瀏覽器將自動打開進行新的 OAuth 身份驗證。或者，您可以執行 `uvx gac model`，選擇 "Claude Code (OAuth)"，然後選擇 "重新身份驗證（取得新令牌）"。
 
 ### 檢查身份驗證狀態
 
@@ -135,7 +135,7 @@ gac model
 | -------- | ------------------------------ | ----------------------------------------------------- |
 | 身份驗證 | API 金鑰 (`ANTHROPIC_API_KEY`) | OAuth（自動瀏覽器流程）                               |
 | 計費     | 按令牌 API 計費                | 基於訂閱                                              |
-| 設定     | 手動 API 金鑰輸入              | 透過 `gac init` 或 `gac model` 自動 OAuth             |
+| 設定     | 手動 API 金鑰輸入              | 透過 `uvx gac init` 或 `uvx gac model` 自動 OAuth     |
 | 令牌管理 | 長期 API 金鑰                  | OAuth 令牌（可能過期，透過 `model` 易於重新身份驗證） |
 | 模型     | 相同模型                       | 相同模型                                              |
 
@@ -143,7 +143,7 @@ gac model
 
 - **永遠不要提交您的存取令牌**到版本控制
 - GAC 自動將令牌儲存在 `~/.gac.env` 中（在您的專案目錄外）
-- 令牌可能過期，需要透過 `gac model` 重新身份驗證
+- 令牌可能過期，需要透過 `uvx gac model` 重新身份驗證
 - OAuth 流程使用 PKCE（Proof Key for Code Exchange）增強安全性
 - 本地回呼伺服器僅在本地主機執行（埠 8765-8795）
 

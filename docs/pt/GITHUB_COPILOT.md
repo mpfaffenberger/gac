@@ -25,7 +25,7 @@ Isso lhe dá acesso a modelos de múltiplos provedores através de uma única as
 
 ### Opção 1: Durante a configuração inicial (Recomendado)
 
-Ao executar `gac init`, basta selecionar «Copilot» como seu provedor:
+Ao executar `uvx gac init`, basta selecionar «Copilot» como seu provedor:
 
 ```bash
 gac init
@@ -166,7 +166,7 @@ gac auth copilot login
 Isso significa que o GAC obteve um token OAuth do GitHub, mas não conseguiu trocá-lo por um token de sessão do Copilot. Geralmente isso significa:
 
 1. **Sem assinatura do Copilot** — Sua conta do GitHub não tem uma assinatura ativa do Copilot
-2. **Token revogado** — O token OAuth foi revogado; reautentique-se com `gac auth copilot login`
+2. **Token revogado** — O token OAuth foi revogado; reautentique-se com `uvx gac auth copilot login`
 
 ### Token de sessão expirado
 
@@ -191,7 +191,7 @@ Se a autenticação GHE falhar:
 1. Verifique se sua instância GHE tem o Copilot habilitado
 2. Verifique se o nome de host do GHE está acessível a partir da sua máquina
 3. Certifique-se de que sua conta GHE tem uma licença do Copilot
-4. Tente com o flag `--host` explicitamente: `gac auth copilot login --host ghe.mycompany.com`
+4. Tente com o flag `--host` explicitamente: `uvx gac auth copilot login --host ghe.mycompany.com`
 
 ## Diferenças em relação a outros provedores OAuth
 

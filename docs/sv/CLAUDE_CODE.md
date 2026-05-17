@@ -22,7 +22,7 @@ GAC inkluderar inbyggd OAuth-autentisering för Claude Code. Konfigureringsproce
 
 ### Alternativ 1: Under initial konfiguration (Rekommenderas)
 
-När du kör `gac init`, välj helt enkelt "Claude Code" som din leverantör:
+När du kör `uvx gac init`, välj helt enkelt "Claude Code" som din leverantör:
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ Om du ser autentiseringsfel kan din token ha löpt ut. Autentisera igen genom at
 gac auth claude-code login
 ```
 
-Din webbläsare öppnas automatiskt för ny OAuth-autentisering. Alternativt kan du köra `gac model`, välja "Claude Code (OAuth)" och välja "Autentisera igen (få ny token)".
+Din webbläsare öppnas automatiskt för ny OAuth-autentisering. Alternativt kan du köra `uvx gac model`, välja "Claude Code (OAuth)" och välja "Autentisera igen (få ny token)".
 
 ### Kontrollera autentiseringsstatus
 
@@ -135,7 +135,7 @@ Om OAuth-autentisering misslyckas:
 | --------------- | -------------------------------- | ------------------------------------------------------------ |
 | Autentisering   | API-nyckel (`ANTHROPIC_API_KEY`) | OAuth (automatisk webbläsarflöde)                            |
 | Fakturering     | Per-token API-fakturering        | Prenumerationsbaserat                                        |
-| Konfiguration   | Manuell API-nyckelinmatning      | Automatisk OAuth via `gac init` eller `gac model`            |
+| Konfiguration   | Manuell API-nyckelinmatning      | Automatisk OAuth via `uvx gac init` eller `uvx gac model`    |
 | Token-hantering | Långlivade API-nycklar           | OAuth-tokens (kan utgå, enkel återautentisering via `model`) |
 | Modeller        | Samma modeller                   | Samma modeller                                               |
 
@@ -143,7 +143,7 @@ Om OAuth-autentisering misslyckas:
 
 - **Committa aldrig din åtkomsttoken** till versionskontroll
 - GAC lagrar automatiskt tokens i `~/.gac.env` (utanför din projektkatalog)
-- Tokens kan utgå och kommer att kräva återautentisering via `gac model`
+- Tokens kan utgå och kommer att kräva återautentisering via `uvx gac model`
 - OAuth-flödet använder PKCE (Proof Key for Code Exchange) för förbättrad säkerhet
 - Lokal callback-server körs endast på localhost (portar 8765-8795)
 

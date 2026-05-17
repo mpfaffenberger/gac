@@ -22,7 +22,7 @@ GAC inclut une authentification OAuth intégrée pour Claude Code. Le processus 
 
 ### Option 1 : Lors de la configuration initiale (Recommandé)
 
-Lors de l'exécution de `gac init`, sélectionnez simplement "Claude Code" comme votre fournisseur :
+Lors de l'exécution de `uvx gac init`, sélectionnez simplement "Claude Code" comme votre fournisseur :
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ Si vous voyez des erreurs d'authentification, votre jeton a peut-être expiré. 
 gac auth claude-code login
 ```
 
-Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OAuth. Alternativement, vous pouvez exécuter `gac model`, sélectionner "Claude Code (OAuth)" et choisir "Se réauthentifier (obtenir un nouveau jeton)".
+Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OAuth. Alternativement, vous pouvez exécuter `uvx gac model`, sélectionner "Claude Code (OAuth)" et choisir "Se réauthentifier (obtenir un nouveau jeton)".
 
 ### Vérifier l'état d'authentification
 
@@ -135,7 +135,7 @@ Si l'authentification OAuth échoue :
 | ------------------ | ----------------------------- | --------------------------------------------------------- |
 | Authentification   | Clé API (`ANTHROPIC_API_KEY`) | OAuth (flux navigateur automatique)                       |
 | Facturation        | Facturation API par token     | Basé sur l'abonnement                                     |
-| Configuration      | Saisie manuelle de clé API    | OAuth automatique via `gac init` ou `gac model`           |
+| Configuration      | Saisie manuelle de clé API    | OAuth automatique via `uvx gac init` ou `uvx gac model`   |
 | Gestion des jetons | Clés API longue durée         | Jetons OAuth (peuvent expirer, réauth facile via `model`) |
 | Modèles            | Mêmes modèles                 | Mêmes modèles                                             |
 
@@ -143,7 +143,7 @@ Si l'authentification OAuth échoue :
 
 - **Ne commitez jamais votre jeton d'accès** dans le contrôle de version
 - GAC stocke automatiquement les jetons dans `~/.gac.env` (en dehors de votre répertoire de projet)
-- Les jetons peuvent expirer et nécessiteront une réauthentification via `gac model`
+- Les jetons peuvent expirer et nécessiteront une réauthentification via `uvx gac model`
 - Le flux OAuth utilise PKCE (Proof Key for Code Exchange) pour une sécurité renforcée
 - Le serveur de callback local ne s'exécute que sur localhost (ports 8765-8795)
 

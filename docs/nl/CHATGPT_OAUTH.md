@@ -23,7 +23,7 @@ GAC bevat ingebouwde OAuth-authenticatie voor ChatGPT. Het installatieproces is 
 
 ### Optie 1: Tijdens eerste installatie (Aanbevolen)
 
-Wanneer u `gac init` uitvoert, selecteert u eenvoudig «ChatGPT OAuth» als uw provider:
+Wanneer u `uvx gac init` uitvoert, selecteert u eenvoudig «ChatGPT OAuth» als uw provider:
 
 ```bash
 gac init
@@ -180,7 +180,7 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-Voer vervolgens `gac auth chatgpt login` opnieuw uit.
+Voer vervolgens `uvx gac auth chatgpt login` opnieuw uit.
 
 ## Verschillen met de OpenAI-provider
 
@@ -188,7 +188,7 @@ Voer vervolgens `gac auth chatgpt login` opnieuw uit.
 | ------------- | ------------------------------- | -------------------------------------------------------------- |
 | Authenticatie | API-sleutel (`OPENAI_API_KEY`)  | OAuth (geautomatiseerde browser-flow)                          |
 | Facturatie    | Token-gebaseerde API-facturatie | Abonnement-gebaseerd (ChatGPT Plus/Pro)                        |
-| Installatie   | Handmatige API-sleutelinvoer    | Automatische OAuth via `gac init` of `gac model`               |
+| Installatie   | Handmatige API-sleutelinvoer    | Automatische OAuth via `uvx gac init` of `uvx gac model`       |
 | Token-beheer  | Langlevende API-sleutels        | OAuth-tokens (automatische vernieuwing met vernieuwingstokens) |
 | Modellen      | Alle OpenAI-modellen            | Codex-geoptimaliseerde modellen                                |
 

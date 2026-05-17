@@ -23,7 +23,7 @@ GAC inclut une authentification OAuth intégrée pour ChatGPT. Le processus de c
 
 ### Option 1 : Lors de la configuration initiale (Recommandé)
 
-Lors de l'exécution de `gac init`, sélectionnez simplement « ChatGPT OAuth » comme fournisseur :
+Lors de l'exécution de `uvx gac init`, sélectionnez simplement « ChatGPT OAuth » comme fournisseur :
 
 ```bash
 gac init
@@ -180,7 +180,7 @@ lsof -ti:1455-1465 | xargs kill -9
 Get-NetTCPConnection -LocalPort 1455,1456,1457,1458,1459,1460,1461,1462,1463,1464,1465 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
-Puis ré-exécutez `gac auth chatgpt login`.
+Puis ré-exécutez `uvx gac auth chatgpt login`.
 
 ## Différences avec le fournisseur OpenAI
 
@@ -188,7 +188,7 @@ Puis ré-exécutez `gac auth chatgpt login`.
 | ------------------ | ----------------------------- | -------------------------------------------------------------------- |
 | Authentification   | Clé API (`OPENAI_API_KEY`)    | OAuth (flux de navigateur automatisé)                                |
 | Facturation        | Facturation API par jeton     | Basée sur l'abonnement (ChatGPT Plus/Pro)                            |
-| Configuration      | Saisie manuelle de la clé API | OAuth automatique via `gac init` ou `gac model`                      |
+| Configuration      | Saisie manuelle de la clé API | OAuth automatique via `uvx gac init` ou `uvx gac model`              |
 | Gestion des jetons | Clés API de longue durée      | Jetons OAuth (actualisation automatique avec jetons d'actualisation) |
 | Modèles            | Tous les modèles OpenAI       | Modèles optimisés pour Codex                                         |
 

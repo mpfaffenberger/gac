@@ -22,7 +22,7 @@ GAC includes built-in OAuth authentication for Claude Code. The setup process is
 
 ### Option 1: During Initial Setup (Recommended)
 
-When running `gac init`, simply select "Claude Code" as your provider:
+When running `uvx gac init`, simply select "Claude Code" as your provider:
 
 ```bash
 gac init
@@ -85,7 +85,7 @@ If you see authentication errors, your token may have expired. Re-authenticate b
 gac auth claude-code login
 ```
 
-Your browser will open automatically for fresh OAuth authentication. Alternatively, you can run `gac model`, select "Claude Code (OAuth)", and choose "Re-authenticate (get new token)".
+Your browser will open automatically for fresh OAuth authentication. Alternatively, you can run `uvx gac model`, select "Claude Code (OAuth)", and choose "Re-authenticate (get new token)".
 
 ### Check Authentication Status
 
@@ -131,19 +131,19 @@ If OAuth authentication fails:
 
 ## Differences from Anthropic Provider
 
-| Feature          | Anthropic (`anthropic:`)      | Claude Code (`claude-code:`)                        |
-| ---------------- | ----------------------------- | --------------------------------------------------- |
-| Authentication   | API Key (`ANTHROPIC_API_KEY`) | OAuth (automated browser flow)                      |
-| Billing          | Per-token API billing         | Subscription-based                                  |
-| Setup            | Manual API key entry          | Automatic OAuth via `gac init` or `gac model`       |
-| Token Management | Long-lived API keys           | OAuth tokens (can expire, easy re-auth via `model`) |
-| Models           | Same models                   | Same models                                         |
+| Feature          | Anthropic (`anthropic:`)      | Claude Code (`claude-code:`)                          |
+| ---------------- | ----------------------------- | ----------------------------------------------------- |
+| Authentication   | API Key (`ANTHROPIC_API_KEY`) | OAuth (automated browser flow)                        |
+| Billing          | Per-token API billing         | Subscription-based                                    |
+| Setup            | Manual API key entry          | Automatic OAuth via `uvx gac init` or `uvx gac model` |
+| Token Management | Long-lived API keys           | OAuth tokens (can expire, easy re-auth via `model`)   |
+| Models           | Same models                   | Same models                                           |
 
 ## Security Notes
 
 - **Never commit your access token** to version control
 - GAC automatically stores tokens in `~/.gac.env` (outside your project directory)
-- Tokens may expire and will require re-authentication via `gac model`
+- Tokens may expire and will require re-authentication via `uvx gac model`
 - The OAuth flow uses PKCE (Proof Key for Code Exchange) for enhanced security
 - Local callback server runs on localhost only (ports 8765-8795)
 

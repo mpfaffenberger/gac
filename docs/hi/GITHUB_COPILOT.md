@@ -25,7 +25,7 @@ GitHub Copilot OAuth **Device Flow** का उपयोग करता है 
 
 ### विकल्प 1: प्रारंभिक सेटअप के दौरान (अनुशंसित)
 
-`gac init` चलाते समय, बस अपने प्रदाता के रूप में "Copilot" चुनें:
+`uvx gac init` चलाते समय, बस अपने प्रदाता के रूप में "Copilot" चुनें:
 
 ```bash
 gac init
@@ -166,7 +166,7 @@ gac auth copilot login
 इसका मतलब है कि GAC ने GitHub OAuth टोकन प्राप्त किया लेकिन इसे Copilot सेशन टोकन के लिए विनिमय नहीं कर सका। आमतौर पर इसका मतलब है:
 
 1. **कोई Copilot सदस्यता नहीं** — आपके GitHub खाते में सक्रिय Copilot सदस्यता नहीं है
-2. **टोकन रद्द किया गया** — OAuth टोकन रद्द किया गया था; `gac auth copilot login` से पुनः प्रमाणित करें
+2. **टोकन रद्द किया गया** — OAuth टोकन रद्द किया गया था; `uvx gac auth copilot login` से पुनः प्रमाणित करें
 
 ### सेशन टोकन समाप्त हो गया
 
@@ -191,7 +191,7 @@ gac auth copilot login
 1. सत्यापित करें कि आपके GHE इंस्टेंस में Copilot सक्षम है
 2. जांचें कि आपका GHE होस्टनाम आपकी मशीन से पहुंच योग्य है
 3. सुनिश्चित करें कि आपके GHE खाते में Copilot लाइसेंस है
-4. स्पष्ट रूप से `--host` फ्लैग के साथ प्रयास करें: `gac auth copilot login --host ghe.mycompany.com`
+4. स्पष्ट रूप से `--host` फ्लैग के साथ प्रयास करें: `uvx gac auth copilot login --host ghe.mycompany.com`
 
 ## अन्य OAuth प्रदाताओं से अंतर
 
