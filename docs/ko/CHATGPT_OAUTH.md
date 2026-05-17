@@ -26,7 +26,7 @@ GAC 에는 ChatGPT 용 내장 OAuth 인증이 포함되어 있습니다. 설정 
 `uvx gac init` 을 실행할 때 제공업체로 "ChatGPT OAuth"를 선택하기만 하면 됩니다:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 마법사가 다음을 수행합니다:
@@ -41,7 +41,7 @@ gac init
 이미 GAC 를 다른 제공업체로 구성했고 ChatGPT OAuth 로 전환하려는 경우:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 그런 다음:
@@ -60,10 +60,10 @@ gac model
 git add .
 
 # ChatGPT OAuth 로 생성 및 커밋
-gac
+uvx gac
 
 # 또는 단일 커밋에 대해 모델 재정의
-gac -m chatgpt-oauth:gpt-5.5
+uvx gac -m chatgpt-oauth:gpt-5.5
 ```
 
 ## 사용 가능한 모델
@@ -85,7 +85,7 @@ GAC 는 ChatGPT OAuth 관리를 위한 전용 CLI 명령을 제공합니다:
 ChatGPT OAuth 로 인증 또는 재인증합니다:
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 브라우저가 자동으로 열려 OAuth 플로우가 완료됩니다. 이미 인증된 경우 토큰을 새로 고칩니다.
@@ -95,7 +95,7 @@ gac auth chatgpt login
 저장된 ChatGPT OAuth 토큰을 제거합니다:
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 이렇게 하면 `~/.gac/oauth/chatgpt-oauth.json` 에 저장된 토큰 파일이 삭제됩니다.
@@ -105,13 +105,13 @@ gac auth chatgpt logout
 현재 ChatGPT OAuth 인증 상태를 확인합니다:
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 또는 모든 제공업체를 한 번에 확인합니다:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## 문제 해결
@@ -121,7 +121,7 @@ gac auth
 인증 오류가 표시되면 토큰이 만료되었을 수 있습니다. 다음 명령을 실행하여 재인증합니다:
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 브라우저가 자동으로 열려 새 OAuth 인증이 수행됩니다. GAC 는 가능할 경우 리프레시 토큰을 사용하여 재인증 없이 액세스를 자동으로 갱신합니다.
@@ -131,13 +131,13 @@ gac auth chatgpt login
 현재 인증되어 있는지 확인하려면:
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 또는 모든 제공업체를 한 번에 확인합니다:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### 로그아웃
@@ -145,7 +145,7 @@ gac auth
 저장된 토큰을 제거하려면:
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 ### "ChatGPT OAuth 토큰을 찾을 수 없음"
@@ -153,7 +153,7 @@ gac auth chatgpt logout
 이는 GAC 가 액세스 토큰을 찾을 수 없음을 의미합니다. 다음 명령을 실행하여 인증합니다:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 그런 다음 제공업체 목록에서 "ChatGPT OAuth"를 선택합니다. OAuth 플로우가 자동으로 시작됩니다.

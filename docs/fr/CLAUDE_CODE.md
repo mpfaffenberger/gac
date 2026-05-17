@@ -25,7 +25,7 @@ GAC inclut une authentification OAuth intégrée pour Claude Code. Le processus 
 Lors de l'exécution de `uvx gac init`, sélectionnez simplement "Claude Code" comme votre fournisseur :
 
 ```bash
-gac init
+uvx gac init
 ```
 
 L'assistant va :
@@ -40,7 +40,7 @@ L'assistant va :
 Si vous avez déjà configuré GAC avec un autre fournisseur et souhaitez passer à Claude Code :
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Ensuite :
@@ -59,10 +59,10 @@ Une fois authentifié, utilisez GAC comme d'habitude :
 git add .
 
 # Générez et commitez avec Claude Code
-gac
+uvx gac
 
 # Ou substituez le modèle pour un commit unique
-gac -m claude-code:claude-sonnet-4-5
+uvx gac -m claude-code:claude-sonnet-4-5
 ```
 
 ## Modèles disponibles
@@ -82,7 +82,7 @@ Consultez la [documentation Claude](https://docs.claude.com/en/docs/about-claude
 Si vous voyez des erreurs d'authentification, votre jeton a peut-être expiré. Réauthentifiez-vous en exécutant :
 
 ```bash
-gac auth claude-code login
+uvx gac auth claude-code login
 ```
 
 Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OAuth. Alternativement, vous pouvez exécuter `uvx gac model`, sélectionner "Claude Code (OAuth)" et choisir "Se réauthentifier (obtenir un nouveau jeton)".
@@ -92,13 +92,13 @@ Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OA
 Pour vérifier si vous êtes actuellement authentifié :
 
 ```bash
-gac auth claude-code status
+uvx gac auth claude-code status
 ```
 
 Ou vérifiez tous les fournisseurs à la fois :
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Déconnexion
@@ -106,7 +106,7 @@ gac auth
 Pour supprimer votre jeton stocké :
 
 ```bash
-gac auth claude-code logout
+uvx gac auth claude-code logout
 ```
 
 ### "CLAUDE_CODE_ACCESS_TOKEN non trouvé"
@@ -114,7 +114,7 @@ gac auth claude-code logout
 Cela signifie que GAC ne peut pas trouver votre jeton d'accès. Authentifiez-vous en exécutant :
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Ensuite sélectionnez "Claude Code" dans la liste des fournisseurs. Le flux OAuth démarrera automatiquement.

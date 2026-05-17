@@ -25,7 +25,7 @@ GAC enthält integrierte OAuth-Authentifizierung für Claude Code. Der Einrichtu
 Führen Sie `uvx gac init` aus und wählen Sie einfach "Claude Code" als Ihren Anbieter:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 Der Assistent wird:
@@ -40,7 +40,7 @@ Der Assistent wird:
 Wenn Sie GAC bereits mit einem anderen Anbieter konfiguriert haben und zu Claude Code wechseln möchten:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Dann:
@@ -59,10 +59,10 @@ Nach der Authentifizierung verwenden Sie GAC wie gewohnt:
 git add .
 
 # Mit Claude Code generieren und committen
-gac
+uvx gac
 
 # Oder überschreiben Sie das Modell für einen einzelnen Commit
-gac -m claude-code:claude-sonnet-4-5
+uvx gac -m claude-code:claude-sonnet-4-5
 ```
 
 ## Verfügbare Modelle
@@ -82,7 +82,7 @@ Claude Code bietet Zugriff auf die gleichen Modelle wie die Anthropic API. Aktue
 Wenn Sie Authentifizierungsfehler sehen, ist Ihr Token möglicherweise abgelaufen. Authentifizieren Sie sich erneut, indem Sie ausführen:
 
 ```bash
-gac auth claude-code login
+uvx gac auth claude-code login
 ```
 
 Ihr Browser öffnet sich automatisch für eine neue OAuth-Authentifizierung. Alternativ können Sie `uvx gac model` ausführen, "Claude Code (OAuth)" auswählen und "Neu authentifizieren (neues Token erhalten)" wählen.
@@ -92,13 +92,13 @@ Ihr Browser öffnet sich automatisch für eine neue OAuth-Authentifizierung. Alt
 Um zu prüfen, ob Sie derzeit authentifiziert sind:
 
 ```bash
-gac auth claude-code status
+uvx gac auth claude-code status
 ```
 
 Oder prüfen Sie alle Anbieter auf einmal:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Abmelden
@@ -106,7 +106,7 @@ gac auth
 Um Ihren gespeicherten Token zu entfernen:
 
 ```bash
-gac auth claude-code logout
+uvx gac auth claude-code logout
 ```
 
 ### "CLAUDE_CODE_ACCESS_TOKEN nicht gefunden"
@@ -114,7 +114,7 @@ gac auth claude-code logout
 Dies bedeutet, dass GAC Ihren Zugriffstoken nicht finden kann. Authentifizieren Sie sich durch Ausführen von:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Wählen Sie dann "Claude Code" aus der Anbieterliste. Der OAuth-Flow startet automatisch.

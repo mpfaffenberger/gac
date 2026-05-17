@@ -25,7 +25,7 @@ GAC 包含內建的 Claude Code OAuth 身份驗證。設定過程完全自動化
 執行 `uvx gac init` 時，只需選擇"Claude Code"作為您的提供者：
 
 ```bash
-gac init
+uvx gac init
 ```
 
 精靈將：
@@ -40,7 +40,7 @@ gac init
 如果您已經設定另一個提供者的 GAC 並想切換到 Claude Code：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 然後：
@@ -59,10 +59,10 @@ gac model
 git add .
 
 # 使用 Claude Code 生成和提交
-gac
+uvx gac
 
 # 或者為單次提交覆蓋模型
-gac -m claude-code:claude-sonnet-4-5
+uvx gac -m claude-code:claude-sonnet-4-5
 ```
 
 ## 可用模型
@@ -82,7 +82,7 @@ Claude Code 提供與 Anthropic API 相同的模型存取權限。當前的 Clau
 如果您看到身份驗證錯誤，您的令牌可能已過期。透過執行重新身份驗證：
 
 ```bash
-gac auth claude-code login
+uvx gac auth claude-code login
 ```
 
 您的瀏覽器將自動打開進行新的 OAuth 身份驗證。或者，您可以執行 `uvx gac model`，選擇 "Claude Code (OAuth)"，然後選擇 "重新身份驗證（取得新令牌）"。
@@ -92,13 +92,13 @@ gac auth claude-code login
 要檢查您當前是否已通過身份驗證：
 
 ```bash
-gac auth claude-code status
+uvx gac auth claude-code status
 ```
 
 或一次檢查所有提供者：
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### 登出
@@ -106,7 +106,7 @@ gac auth
 要刪除您儲存的令牌：
 
 ```bash
-gac auth claude-code logout
+uvx gac auth claude-code logout
 ```
 
 ### "未找到 CLAUDE_CODE_ACCESS_TOKEN"
@@ -114,7 +114,7 @@ gac auth claude-code logout
 這表示 GAC 找不到您的存取令牌。透過執行身份驗證：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 然後從提供者列表中選擇"Claude Code"。OAuth 流程將自動開始。

@@ -25,7 +25,7 @@ GAC incluye autenticación OAuth incorporada para Claude Code. El proceso de con
 Al ejecutar `uvx gac init`, simplemente selecciona "Claude Code" como tu proveedor:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 El asistente:
@@ -40,7 +40,7 @@ El asistente:
 Si ya tienes GAC configurado con otro proveedor y quieres cambiar a Claude Code:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Luego:
@@ -59,10 +59,10 @@ Una vez autenticado, usa GAC como de costumbre:
 git add .
 
 # Genera y confirma con Claude Code
-gac
+uvx gac
 
 # O anula el modelo para un solo commit
-gac -m claude-code:claude-sonnet-4-5
+uvx gac -m claude-code:claude-sonnet-4-5
 ```
 
 ## Modelos Disponibles
@@ -82,7 +82,7 @@ Consulta la [documentación de Claude](https://docs.claude.com/en/docs/about-cla
 Si ve errores de autenticación, su token puede haber expirado. Vuelva a autenticarse ejecutando:
 
 ```bash
-gac auth claude-code login
+uvx gac auth claude-code login
 ```
 
 Su navegador se abrirá automáticamente para una nueva autenticación OAuth. Alternativamente, puede ejecutar `uvx gac model`, seleccionar "Claude Code (OAuth)" y elegir "Volver a autenticarse (obtener nuevo token)".
@@ -92,13 +92,13 @@ Su navegador se abrirá automáticamente para una nueva autenticación OAuth. Al
 Para comprobar si está actualmente autenticado:
 
 ```bash
-gac auth claude-code status
+uvx gac auth claude-code status
 ```
 
 O compruebe todos los proveedores a la vez:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Cerrar sesión
@@ -106,7 +106,7 @@ gac auth
 Para eliminar su token almacenado:
 
 ```bash
-gac auth claude-code logout
+uvx gac auth claude-code logout
 ```
 
 ### "CLAUDE_CODE_ACCESS_TOKEN no encontrado"
@@ -114,7 +114,7 @@ gac auth claude-code logout
 Esto significa que GAC no puede encontrar tu token de acceso. Autentícate ejecutando:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Luego selecciona "Claude Code" de la lista de proveedores. El flujo OAuth comenzará automáticamente.

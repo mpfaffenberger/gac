@@ -25,7 +25,7 @@ GAC bao gồm xác thực OAuth tích hợp cho Claude Code. Quá trình cài đ
 Khi chạy `uvx gac init`, chỉ cần chọn "Claude Code" làm nhà cung cấp của bạn:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 Trình hướng dẫn sẽ:
@@ -40,7 +40,7 @@ Trình hướng dẫn sẽ:
 Nếu bạn đã cấu hình GAC với nhà cung cấp khác và muốn chuyển sang Claude Code:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Sau đó:
@@ -59,10 +59,10 @@ Sau khi xác thực, sử dụng GAC như bình thường:
 git add .
 
 # Tạo và commit với Claude Code
-gac
+uvx gac
 
 # Hoặc ghi đè mô hình cho một commit duy nhất
-gac -m claude-code:claude-sonnet-4-5
+uvx gac -m claude-code:claude-sonnet-4-5
 ```
 
 ## Các mô hình có sẵn
@@ -82,7 +82,7 @@ Xem [tài liệu Claude](https://docs.claude.com/en/docs/about-claude/models/ove
 Nếu bạn thấy lỗi xác thực, token của bạn có thể đã hết hạn. Xác thực lại bằng cách chạy:
 
 ```bash
-gac auth claude-code login
+uvx gac auth claude-code login
 ```
 
 Trình duyệt của bạn sẽ tự động mở để xác thực OAuth mới. Ngoài ra, bạn có thể chạy `uvx gac model`, chọn "Claude Code (OAuth)" và chọn "Xác thực lại (lấy token mới)".
@@ -92,13 +92,13 @@ Trình duyệt của bạn sẽ tự động mở để xác thực OAuth mới.
 Để kiểm tra xem bạn hiện đang được xác thực hay không:
 
 ```bash
-gac auth claude-code status
+uvx gac auth claude-code status
 ```
 
 Hoặc kiểm tra tất cả các nhà cung cấp cùng lúc:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Đăng xuất
@@ -106,7 +106,7 @@ gac auth
 Để xóa token đã lưu của bạn:
 
 ```bash
-gac auth claude-code logout
+uvx gac auth claude-code logout
 ```
 
 ### "Không tìm thấy CLAUDE_CODE_ACCESS_TOKEN"
@@ -114,7 +114,7 @@ gac auth claude-code logout
 Điều này có nghĩa là GAC không thể tìm thấy token truy cập của bạn. Xác thực bằng cách chạy:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Sau đó chọn "Claude Code" từ danh sách nhà cung cấp. Quy trình OAuth sẽ bắt đầu tự động.

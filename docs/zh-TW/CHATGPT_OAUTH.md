@@ -26,7 +26,7 @@ GAC 包含用於 ChatGPT 的內建 OAuth 身份驗證。設定過程完全自動
 執行 `uvx gac init` 時，只需選擇 "ChatGPT OAuth" 作為您的提供商：
 
 ```bash
-gac init
+uvx gac init
 ```
 
 精靈將：
@@ -41,7 +41,7 @@ gac init
 如果您已經將 GAC 設定為另一個提供商並想切換到 ChatGPT OAuth：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 然後：
@@ -60,10 +60,10 @@ gac model
 git add .
 
 # 使用 ChatGPT OAuth 生成並提交
-gac
+uvx gac
 
 # 或者為單次提交覆蓋模型
-gac -m chatgpt-oauth:gpt-5.5
+uvx gac -m chatgpt-oauth:gpt-5.5
 ```
 
 ## 可用模型
@@ -85,7 +85,7 @@ GAC 提供專用的 CLI 命令用於 ChatGPT OAuth 管理：
 使用 ChatGPT OAuth 進行身份驗證或重新身份驗證：
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 您的瀏覽器將自動開啟以完成 OAuth 流程。如果您已經過身份驗證，這將重新整理您的權杖。
@@ -95,7 +95,7 @@ gac auth chatgpt login
 刪除儲存的 ChatGPT OAuth 權杖：
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 這將刪除儲存在 `~/.gac/oauth/chatgpt-oauth.json` 的權杖檔案。
@@ -105,13 +105,13 @@ gac auth chatgpt logout
 檢查您目前的 ChatGPT OAuth 身份驗證狀態：
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 或一次檢查所有提供商：
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## 疑難排解
@@ -121,7 +121,7 @@ gac auth
 如果您看到身份驗證錯誤，您的權杖可能已過期。透過執行以下命令重新身份驗證：
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 您的瀏覽器將自動開啟進行新的 OAuth 身份驗證。GAC 在可能時會自動使用重新整理權杖來續訂存取而無需重新身份驗證。
@@ -131,13 +131,13 @@ gac auth chatgpt login
 要檢查您目前是否已身份驗證：
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 或一次檢查所有提供商：
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### 登出
@@ -145,7 +145,7 @@ gac auth
 要刪除儲存的權杖：
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 ### "未找到 ChatGPT OAuth 權杖"
@@ -153,7 +153,7 @@ gac auth chatgpt logout
 這意味著 GAC 找不到您的存取權杖。透過執行以下命令進行身份驗證：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 然後從提供商清單中選擇 "ChatGPT OAuth"。OAuth 流程將自動啟動。

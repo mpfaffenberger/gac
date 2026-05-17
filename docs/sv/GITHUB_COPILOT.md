@@ -28,7 +28,7 @@ Detta ger dig tillgång till modeller från flera leverantörer genom ett enda a
 När du kör `uvx gac init`, välj helt enkelt «Copilot» som din leverantör:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 Guiden kommer att:
@@ -43,7 +43,7 @@ Guiden kommer att:
 Om du redan har konfigurerat GAC med en annan leverantör:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Välj sedan «Copilot» från leverantörslistan och autentisera.
@@ -53,7 +53,7 @@ Välj sedan «Copilot» från leverantörslistan och autentisera.
 Autentisera direkt utan att ändra din standardmodell:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### Använd GAC som vanligt
@@ -65,12 +65,12 @@ När du är autentiserad, använd GAC som vanligt:
 git add .
 
 # Generera och commit:a med Copilot
-gac
+uvx gac
 
 # Eller åsidosätt modellen för en enda commit
-gac -m copilot:gpt-4.1
-gac -m copilot:claude-sonnet-4.5
-gac -m copilot:gemini-2.5-pro
+uvx gac -m copilot:gpt-4.1
+uvx gac -m copilot:claude-sonnet-4.5
+uvx gac -m copilot:gemini-2.5-pro
 ```
 
 ## Tillgängliga modeller
@@ -90,7 +90,7 @@ Copilot ger tillgång till modeller från flera leverantörer. Nuvarande modelle
 För att autentisera med en GitHub Enterprise-instans:
 
 ```bash
-gac auth copilot login --host ghe.mycompany.com
+uvx gac auth copilot login --host ghe.mycompany.com
 ```
 
 GAC använder automatiskt rätt Device Flow- och API-ändpunkter för din GHE-instans. Sessionstoken cachelagras per värd, så olika GHE-instanser hanteras oberoende.
@@ -104,7 +104,7 @@ GAC tillhandahåller dedikerade CLI-kommandon för Copilot-autentiseringshanteri
 Autentisera eller autentisera om med GitHub Copilot:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 Din webbläsare öppnas till en Device Flow-sida där du anger en engångskod. Om du redan är autentiserad kommer du att bli tillfrågad om du vill autentisera om.
@@ -112,7 +112,7 @@ Din webbläsare öppnas till en Device Flow-sida där du anger en engångskod. O
 För GitHub Enterprise:
 
 ```bash
-gac auth copilot login --host ghe.mycompany.com
+uvx gac auth copilot login --host ghe.mycompany.com
 ```
 
 ### Logga ut
@@ -120,7 +120,7 @@ gac auth copilot login --host ghe.mycompany.com
 Ta bort lagrade Copilot-tokens:
 
 ```bash
-gac auth copilot logout
+uvx gac auth copilot logout
 ```
 
 Detta tar bort den lagrade tokenfilen på `~/.gac/oauth/copilot.json` och sessionens cache.
@@ -130,13 +130,13 @@ Detta tar bort den lagrade tokenfilen på `~/.gac/oauth/copilot.json` och sessio
 Kontrollera din nuvarande Copilot-autentiseringsstatus:
 
 ```bash
-gac auth copilot status
+uvx gac auth copilot status
 ```
 
 Eller kontrollera alla leverantörer på en gång:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## Hur det fungerar
@@ -158,7 +158,7 @@ Till skillnad från PKCE-baserad OAuth (ChatGPT/Claude Code) kräver inte Device
 Kör inloggningskommandot för att autentisera:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### «Kunde inte hämta Copilot-sessionstoken»
@@ -173,7 +173,7 @@ Detta betyder att GAC fick en GitHub OAuth-token men inte kunde byta den mot en 
 Sessionstokens löper ut efter ca 30 minuter. GAC uppdaterar dem automatiskt från den cachade OAuth-tokenen, så du bör inte behöva autentisera om ofta. Om autouppdatering misslyckas:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### «Ogiltigt eller osäkert värdnamn»

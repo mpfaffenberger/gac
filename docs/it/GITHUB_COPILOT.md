@@ -28,7 +28,7 @@ Questo ti dà accesso a modelli di più provider tramite un singolo abbonamento:
 Quando esegui `uvx gac init`, seleziona semplicemente «Copilot» come tuo provider:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 La procedura guidata:
@@ -43,7 +43,7 @@ La procedura guidata:
 Se hai già configurato GAC con un altro provider:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Poi seleziona «Copilot» dall'elenco dei provider e autenticati.
@@ -53,7 +53,7 @@ Poi seleziona «Copilot» dall'elenco dei provider e autenticati.
 Autenticati direttamente senza cambiare il tuo modello predefinito:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### Usa GAC normalmente
@@ -65,12 +65,12 @@ Una volta autenticato, usa GAC come al solito:
 git add .
 
 # Genera ed esegui il commit con Copilot
-gac
+uvx gac
 
 # Oppure sovrascrivi il modello per un singolo commit
-gac -m copilot:gpt-4.1
-gac -m copilot:claude-sonnet-4.5
-gac -m copilot:gemini-2.5-pro
+uvx gac -m copilot:gpt-4.1
+uvx gac -m copilot:claude-sonnet-4.5
+uvx gac -m copilot:gemini-2.5-pro
 ```
 
 ## Modelli disponibili
@@ -90,7 +90,7 @@ Copilot fornisce accesso a modelli di più provider. I modelli attuali includono
 Per autenticarti con un'istanza GitHub Enterprise:
 
 ```bash
-gac auth copilot login --host ghe.mycompany.com
+uvx gac auth copilot login --host ghe.mycompany.com
 ```
 
 GAC utilizzerà automaticamente gli endpoint Device Flow e API corretti per la tua istanza GHE. Il token di sessione viene memorizzato nella cache per host, quindi diverse istanze GHE vengono gestite indipendentemente.
@@ -104,7 +104,7 @@ GAC fornisce comandi CLI dedicati per la gestione dell'autenticazione Copilot:
 Autenticati o riautenticati con GitHub Copilot:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 Il tuo browser si aprirà su una pagina Device Flow dove inserisci un codice monouso. Se sei già autenticato, ti verrà chiesto se desideri riautenticarti.
@@ -112,7 +112,7 @@ Il tuo browser si aprirà su una pagina Device Flow dove inserisci un codice mon
 Per GitHub Enterprise:
 
 ```bash
-gac auth copilot login --host ghe.mycompany.com
+uvx gac auth copilot login --host ghe.mycompany.com
 ```
 
 ### Disconnettiti
@@ -120,7 +120,7 @@ gac auth copilot login --host ghe.mycompany.com
 Rimuovi i token Copilot memorizzati:
 
 ```bash
-gac auth copilot logout
+uvx gac auth copilot logout
 ```
 
 Questo elimina il file token memorizzato in `~/.gac/oauth/copilot.json` e la cache di sessione.
@@ -130,13 +130,13 @@ Questo elimina il file token memorizzato in `~/.gac/oauth/copilot.json` e la cac
 Controlla il tuo stato di autenticazione Copilot corrente:
 
 ```bash
-gac auth copilot status
+uvx gac auth copilot status
 ```
 
 Oppure controlla tutti i provider in una volta:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## Come Funziona
@@ -158,7 +158,7 @@ A differenza dell'OAuth basato su PKCE (ChatGPT/Claude Code), il Device Flow non
 Esegui il comando di login per autenticarti:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### «Impossibile ottenere il token di sessione Copilot»
@@ -173,7 +173,7 @@ Questo significa che GAC ha ottenuto un token OAuth GitHub ma non ha potuto scam
 I token di sessione scadono dopo ~30 minuti. GAC li rinnova automaticamente dal token OAuth memorizzato nella cache, quindi non dovresti aver bisogno di riautenticarti frequentemente. Se l'aggiornamento automatico fallisce:
 
 ```bash
-gac auth copilot login
+uvx gac auth copilot login
 ```
 
 ### «Hostname non valido o non sicuro»

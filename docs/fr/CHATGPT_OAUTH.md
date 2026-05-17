@@ -26,7 +26,7 @@ GAC inclut une authentification OAuth intégrée pour ChatGPT. Le processus de c
 Lors de l'exécution de `uvx gac init`, sélectionnez simplement « ChatGPT OAuth » comme fournisseur :
 
 ```bash
-gac init
+uvx gac init
 ```
 
 L'assistant :
@@ -41,7 +41,7 @@ L'assistant :
 Si vous avez déjà configuré GAC avec un autre fournisseur et que vous souhaitez passer à ChatGPT OAuth :
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Ensuite :
@@ -60,10 +60,10 @@ Une fois authentifié, utilisez GAC comme d'habitude :
 git add .
 
 # Générer et committer avec ChatGPT OAuth
-gac
+uvx gac
 
 # Ou remplacer le modèle pour un commit unique
-gac -m chatgpt-oauth:gpt-5.5
+uvx gac -m chatgpt-oauth:gpt-5.5
 ```
 
 ## Modèles disponibles
@@ -85,7 +85,7 @@ GAC fournit des commandes CLI dédiées pour la gestion de ChatGPT OAuth :
 Authentifiez-vous ou ré-authentifiez-vous avec ChatGPT OAuth :
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 Votre navigateur s'ouvrira automatiquement pour terminer le flux OAuth. Si vous êtes déjà authentifié, cela actualisera vos jetons.
@@ -95,7 +95,7 @@ Votre navigateur s'ouvrira automatiquement pour terminer le flux OAuth. Si vous 
 Supprimez les jetons ChatGPT OAuth stockés :
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 Cela supprime le fichier de jeton stocké à `~/.gac/oauth/chatgpt-oauth.json`.
@@ -105,13 +105,13 @@ Cela supprime le fichier de jeton stocké à `~/.gac/oauth/chatgpt-oauth.json`.
 Vérifiez votre statut d'authentification ChatGPT OAuth actuel :
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 Ou vérifiez tous les fournisseurs en une fois :
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## Dépannage
@@ -121,7 +121,7 @@ gac auth
 Si vous voyez des erreurs d'authentification, votre jeton a peut-être expiré. Ré-authentifiez-vous en exécutant :
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OAuth. GAC utilise automatiquement les jetons d'actualisation pour renouveler l'accès sans ré-authentification lorsque cela est possible.
@@ -131,13 +131,13 @@ Votre navigateur s'ouvrira automatiquement pour une nouvelle authentification OA
 Pour vérifier si vous êtes actuellement authentifié :
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 Ou vérifiez tous les fournisseurs en une fois :
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Déconnexion
@@ -145,7 +145,7 @@ gac auth
 Pour supprimer votre jeton stocké :
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 ### « Jeton ChatGPT OAuth introuvable »
@@ -153,7 +153,7 @@ gac auth chatgpt logout
 Cela signifie que GAC ne trouve pas votre jeton d'accès. Authentifiez-vous en exécutant :
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Sélectionnez ensuite « ChatGPT OAuth » dans la liste des fournisseurs. Le flux OAuth démarrera automatiquement.

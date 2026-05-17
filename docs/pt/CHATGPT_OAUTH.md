@@ -26,7 +26,7 @@ O GAC inclui autenticação OAuth integrada para o ChatGPT. O processo de config
 Ao executar `uvx gac init`, basta selecionar «ChatGPT OAuth» como seu provedor:
 
 ```bash
-gac init
+uvx gac init
 ```
 
 O assistente:
@@ -41,7 +41,7 @@ O assistente:
 Se você já configurou o GAC com outro provedor e deseja mudar para o ChatGPT OAuth:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Em seguida:
@@ -60,10 +60,10 @@ Após a autenticação, use o GAC como de costume:
 git add .
 
 # Gere e faça commit com o ChatGPT OAuth
-gac
+uvx gac
 
 # Ou substitua o modelo para um único commit
-gac -m chatgpt-oauth:gpt-5.5
+uvx gac -m chatgpt-oauth:gpt-5.5
 ```
 
 ## Modelos disponíveis
@@ -85,7 +85,7 @@ O GAC fornece comandos de CLI dedicados para gerenciamento do ChatGPT OAuth:
 Autentique-se ou reautentique-se com o ChatGPT OAuth:
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 Seu navegador será aberto automaticamente para concluir o fluxo OAuth. Se você já estiver autenticado, isso atualizará seus tokens.
@@ -95,7 +95,7 @@ Seu navegador será aberto automaticamente para concluir o fluxo OAuth. Se você
 Remova os tokens do ChatGPT OAuth armazenados:
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 Isso exclui o arquivo de token armazenado em `~/.gac/oauth/chatgpt-oauth.json`.
@@ -105,13 +105,13 @@ Isso exclui o arquivo de token armazenado em `~/.gac/oauth/chatgpt-oauth.json`.
 Verifique seu status de autenticação do ChatGPT OAuth atual:
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 Ou verifique todos os provedores de uma vez:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## Solução de problemas
@@ -121,7 +121,7 @@ gac auth
 Se você vir erros de autenticação, seu token pode ter expirado. Reautentique-se executando:
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 Seu navegador será aberto automaticamente para nova autenticação OAuth. O GAC usa automaticamente tokens de atualização para renovar o acesso sem reautenticação quando possível.
@@ -131,13 +131,13 @@ Seu navegador será aberto automaticamente para nova autenticação OAuth. O GAC
 Para verificar se você está atualmente autenticado:
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 Ou verifique todos os provedores de uma vez:
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### Logout
@@ -145,7 +145,7 @@ gac auth
 Para remover seu token armazenado:
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 ### «Token do ChatGPT OAuth não encontrado»
@@ -153,7 +153,7 @@ gac auth chatgpt logout
 Isso significa que o GAC não consegue encontrar seu token de acesso. Autentique-se executando:
 
 ```bash
-gac model
+uvx gac model
 ```
 
 Em seguida, selecione «ChatGPT OAuth» na lista de provedores. O fluxo OAuth será iniciado automaticamente.

@@ -26,7 +26,7 @@ GAC には ChatGPT 用の組み込み OAuth 認証が含まれています。セ
 `uvx gac init` を実行するときは、プロバイダーとして「ChatGPT OAuth」を選択するだけです：
 
 ```bash
-gac init
+uvx gac init
 ```
 
 ウィザードは次のことを行います：
@@ -41,7 +41,7 @@ gac init
 すでに GAC を別のプロバイダーで構成していて、ChatGPT OAuth に切り替えたい場合：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 次に：
@@ -60,10 +60,10 @@ gac model
 git add .
 
 # ChatGPT OAuth で生成してコミットする
-gac
+uvx gac
 
 # または、単一のコミットのためにモデルを上書きする
-gac -m chatgpt-oauth:gpt-5.5
+uvx gac -m chatgpt-oauth:gpt-5.5
 ```
 
 ## 利用可能なモデル
@@ -85,7 +85,7 @@ GAC は ChatGPT OAuth 管理用の専用 CLI コマンドを提供します：
 ChatGPT OAuth で認証または再認証します：
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 ブラウザが自動的に開き、OAuth フローが完了します。すでに認証されている場合、これはトークンを更新します。
@@ -95,7 +95,7 @@ gac auth chatgpt login
 保存された ChatGPT OAuth トークンを削除します：
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 これにより、`~/.gac/oauth/chatgpt-oauth.json` に保存されたトークンファイルが削除されます。
@@ -105,13 +105,13 @@ gac auth chatgpt logout
 現在の ChatGPT OAuth 認証ステータスを確認します：
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 または、すべてのプロバイダーを一度に確認します：
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ## トラブルシューティング
@@ -121,7 +121,7 @@ gac auth
 認証エラーが表示された場合、トークンの有効期限が切れている可能性があります。次のコマンドを実行して再認証します：
 
 ```bash
-gac auth chatgpt login
+uvx gac auth chatgpt login
 ```
 
 ブラウザが自動的に開き、新しい OAuth 認証が行われます。GAC は、可能な場合はリフレッシュトークンを使用して、再認証なしでアクセスを更新します。
@@ -131,13 +131,13 @@ gac auth chatgpt login
 現在認証されているかどうかを確認するには：
 
 ```bash
-gac auth chatgpt status
+uvx gac auth chatgpt status
 ```
 
 または、すべてのプロバイダーを一度に確認します：
 
 ```bash
-gac auth
+uvx gac auth
 ```
 
 ### ログアウト
@@ -145,7 +145,7 @@ gac auth
 保存されたトークンを削除するには：
 
 ```bash
-gac auth chatgpt logout
+uvx gac auth chatgpt logout
 ```
 
 ### 「ChatGPT OAuth トークンが見つかりません」
@@ -153,7 +153,7 @@ gac auth chatgpt logout
 これは、GAC がアクセストークンを見つけられないことを意味します。次のコマンドを実行して認証します：
 
 ```bash
-gac model
+uvx gac model
 ```
 
 次に、プロバイダーリストから「ChatGPT OAuth」を選択します。OAuth フローが自動的に開始されます。
