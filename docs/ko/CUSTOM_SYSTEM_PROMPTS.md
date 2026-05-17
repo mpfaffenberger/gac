@@ -274,7 +274,7 @@ routes/auth.ts, routes/api.ts 및 routes/admin.ts 마이그레이션 필요.
 표준 컨벤셔널 커밋 형식은 유지하면서 커밋 메시지 언어만 변경하려면 대화형 언어 선택기를 사용하세요:
 
 ```bash
-gac language
+uvx gac language
 ```
 
 이것은 25개 이상의 언어를 원본 스크립트 (Español, Français, 日本語 등)로 표시하는 대화형 메뉴를 제시합니다. 선호하는 언어를 선택하면 `~/.gac.env` 파일에 `GAC_LANGUAGE`를 자동으로 설정합니다.
@@ -307,7 +307,7 @@ GAC_TRANSLATE_PREFIXES=true
 
 ```bash
 # 옵션 1: 환경 변수 설정 해제
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # 옵션 2: .gac.env에서 주석 처리
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

@@ -274,7 +274,7 @@ routes/auth.ts, routes/api.ts, and routes/admin.ts.
 If you only want to change the language of your commit messages (while keeping the standard conventional commit format), use the interactive language selector:
 
 ```bash
-gac language
+uvx gac language
 ```
 
 This will present an interactive menu with 25+ languages in their native scripts (Español, Français, 日本語, etc.). Select your preferred language, and it will automatically set `GAC_LANGUAGE` in your `~/.gac.env` file.
@@ -307,7 +307,7 @@ This is simpler than creating a custom system prompt if language is your only cu
 
 ```bash
 # Option 1: Unset the environment variable
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # Option 2: Comment it out in .gac.env
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

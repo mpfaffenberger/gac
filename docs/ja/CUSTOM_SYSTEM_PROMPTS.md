@@ -274,7 +274,7 @@ routes/auth.ts、routes/api.ts、routes/admin.tsの移行が必要。
 コミットメッセージの言語だけを変更（標準の従来のコミット形式は維持）したい場合、対話的言語セレクターを使用します：
 
 ```bash
-gac language
+uvx gac language
 ```
 
 これにより、ネイティブスクリプト（Español、Français、日本語など）の25以上の言語の対話的メニューが表示されます。希望の言語を選択すると、自動的に `~/.gac.env` ファイルで `GAC_LANGUAGE` が設定されます。
@@ -307,7 +307,7 @@ GAC_TRANSLATE_PREFIXES=true
 
 ```bash
 # オプション1: 環境変数を設定解除
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # オプション2: .gac.env でコメントアウト
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

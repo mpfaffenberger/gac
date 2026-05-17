@@ -274,7 +274,7 @@ routes/auth.ts、routes/api.ts 和 routes/admin.ts 進行遷移。
 如果你只想更改提交訊息的語言（同時保持標準常規提交格式），請使用互動式語言選擇器：
 
 ```bash
-gac language
+uvx gac language
 ```
 
 這將顯示一個互動式選單，其中包含 25 種以上語言的原生文字（Español、Français、日本語 等）。選擇你的首選語言，它將自動在你的 `~/.gac.env` 檔案中設定 `GAC_LANGUAGE`。
@@ -307,7 +307,7 @@ GAC_TRANSLATE_PREFIXES=true
 
 ```bash
 # 選項 1：取消設定環境變數
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # 選項 2：在 .gac.env 中註解掉它
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

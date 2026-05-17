@@ -274,7 +274,7 @@ routes/auth.ts, routes/api.ts en routes/admin.ts.
 Als u alleen de taal van uw commitberichten wilt wijzigen (terwijl u het standaard conventionele commit formaat behoudt), gebruik de interactieve taalkiezer:
 
 ```bash
-gac language
+uvx gac language
 ```
 
 Dit presenteert een interactief menu met 25+ talen in hun native scripts (Español, Français, 日本語, etc.). Selecteer uw voorkeurstaal, en het zal automatisch `GAC_LANGUAGE` instellen in uw `~/.gac.env` bestand.
@@ -307,7 +307,7 @@ Dit is eenvoudiger dan het creëren van een custom systeemprompt als taal uw eni
 
 ```bash
 # Optie 1: Unset de omgevingsvariabele
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # Optie 2: Commenteer het uit in .gac.env
 # GAC_SYSTEM_PROMPT_PATH=/pad/naar/custom_prompt.txt

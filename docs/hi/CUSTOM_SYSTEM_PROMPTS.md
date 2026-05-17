@@ -274,7 +274,7 @@ routes/auth.ts, routes/api.ts, and routes/admin.ts.
 यदि आप केवल अपने कमिट मैसेज की भाषा बदलना चाहते हैं (जबकि मानक कन्वेंशनल कमिट फॉर्मेट बनाए रखते हुए), इंटरैक्टिव भाषा चयनकर्ता का उपयोग करें:
 
 ```bash
-gac language
+uvx gac language
 ```
 
 यह 25+ भाषाओं के साथ एक इंटरैक्टिव मेनू प्रस्तुत करेगा जो उनकी मूल स्क्रिप्ट में हैं (Español, Français, 日本語, आदि)। अपनी पसंदीदा भाषा का चयन करें, और यह स्वचालित रूप से आपकी `~/.gac.env` फाइल में `GAC_LANGUAGE` सेट कर देगा।
@@ -307,7 +307,7 @@ GAC_TRANSLATE_PREFIXES=true
 
 ```bash
 # Option 1: Unset the environment variable
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # Option 2: Comment it out in .gac.env
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

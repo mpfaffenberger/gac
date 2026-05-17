@@ -274,7 +274,7 @@ routes/auth.ts, routes/api.ts và routes/admin.ts.
 Nếu bạn chỉ muốn thay đổi ngôn ngữ của thông điệp commit (trong khi giữ định dạng commit tiêu chuẩn), sử dụng trình chọn ngôn ngữ tương tác:
 
 ```bash
-gac language
+uvx gac language
 ```
 
 Điều này sẽ trình bày menu tương tác với 25+ ngôn ngữ trong chữ viết gốc của chúng (Español, Français, 日本語, v.v.). Chọn ngôn ngữ ưa thích của bạn, và nó sẽ tự động đặt `GAC_LANGUAGE` trong tệp `~/.gac.env` của bạn.
@@ -307,7 +307,7 @@ GAC_TRANSLATE_PREFIXES=true
 
 ```bash
 # Tùy chọn 1: Bỏ đặt biến môi trường
-gac config unset GAC_SYSTEM_PROMPT_PATH
+uvx gac config unset GAC_SYSTEM_PROMPT_PATH
 
 # Tùy chọn 2: Ghi chú nó ra trong .gac.env
 # GAC_SYSTEM_PROMPT_PATH=/path/to/custom_prompt.txt

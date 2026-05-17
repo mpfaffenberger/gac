@@ -2,7 +2,7 @@
 
 [English](../en/CUSTOM_SYSTEM_PROMPTS.md) | [简体中文](../zh-CN/CUSTOM_SYSTEM_PROMPTS.md) | [繁體中文](../zh-TW/CUSTOM_SYSTEM_PROMPTS.md) | [日本語](../ja/CUSTOM_SYSTEM_PROMPTS.md) | [한국어](../ko/CUSTOM_SYSTEM_PROMPTS.md) | [हिन्दी](../hi/CUSTOM_SYSTEM_PROMPTS.md) | [Tiếng Việt](../vi/CUSTOM_SYSTEM_PROMPTS.md) | [Français](../fr/CUSTOM_SYSTEM_PROMPTS.md) | [Русский](../ru/CUSTOM_SYSTEM_PROMPTS.md) | [Español](../es/CUSTOM_SYSTEM_PROMPTS.md) | [Português](../pt/CUSTOM_SYSTEM_PROMPTS.md) | [Norsk](../no/CUSTOM_SYSTEM_PROMPTS.md) | [Svenska](../sv/CUSTOM_SYSTEM_PROMPTS.md) | [Deutsch](../de/CUSTOM_SYSTEM_PROMPTS.md) | [Nederlands](../nl/CUSTOM_SYSTEM_PROMPTS.md) | **Italiano**
 
-Questa guida ti aiuterà a creare prompt di sistema personalizzati per `gac` che generano messaggi di commit secondo il tuo stile preferito.
+Questa guida ti aiuterà a creare prompt di sistema personalizzati per `uvx gac` che generano messaggi di commit secondo il tuo stile preferito.
 
 ## Sommario
 
@@ -29,11 +29,11 @@ Questa guida ti aiuterà a creare prompt di sistema personalizzati per `gac` che
 
 ## Cos'è un Prompt di Sistema?
 
-Un prompt di sistema è un'istruzione che dice al modello linguistico come comportarsi quando genera messaggi di commit. `gac` usa prompt di sistema per guidare l'AI a produrre messaggi di commit che seguono stili specifici, formati o convenzioni.
+Un prompt di sistema è un'istruzione che dice al modello linguistico come comportarsi quando genera messaggi di commit. `uvx gac` usa prompt di sistema per guidare l'AI a produrre messaggi di commit che seguono stili specifici, formati o convenzioni.
 
 ## Come Funziona
 
-1. `gac` analizza le tue modifiche git (diff)
+1. `uvx gac` analizza le tue modifiche git (diff)
 2. Costruisce un contesto che include il diff e altre informazioni rilevanti
 3. Usa il prompt di sistema per istruire l'AI su come formattare il messaggio di commit
 4. L'AI genera un messaggio di commit seguendo le tue linee guida
