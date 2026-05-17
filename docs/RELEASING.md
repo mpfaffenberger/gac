@@ -74,7 +74,7 @@ Update `CHANGELOG.md` with:
 ### Added
 
 - New Z.AI provider support
-- Interactive language selection with `gac language`
+- Interactive language selection with `uvx gac language`
 
 ### Fixed
 
