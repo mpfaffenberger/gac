@@ -182,7 +182,7 @@ def main(opts: CLIOptions, config: GACConfig | None = None) -> int:
         if model_from_config is None:
             handle_error(
                 AIError.model_error(
-                    "gac init hasn't been run yet. Please run 'gac init' to set up your configuration, then try again."
+                    "uvx gac init hasn't been run yet. Please run 'uvx gac init' to set up your configuration, then try again."
                 ),
                 exit_program=True,
             )

@@ -293,7 +293,7 @@ def gac_commit(request: CommitRequest) -> CommitResult:
             return CommitResult(
                 success=False,
                 commit_message="",
-                error="No model configured. Run 'gac init' or provide model parameter.",
+                error="No model configured. Run 'uvx gac init' or provide model parameter.",
             )
 
         # Stage files if requested

@@ -27,7 +27,7 @@ class ClaudeCodeProvider(AnthropicCompatibleProvider):
             return token
 
         raise AIError.authentication_error(
-            "Claude Code authentication not found. Run 'gac auth claude-code login' to authenticate."
+            "Claude Code authentication not found. Run 'uvx gac auth claude-code login' to authenticate."
         )
 
     def _build_headers(self) -> dict[str, str]:

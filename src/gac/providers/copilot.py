@@ -32,7 +32,7 @@ class CopilotProvider(OpenAICompatibleProvider):
         tokens = load_stored_tokens()
         if not tokens:
             raise AIError.authentication_error(
-                "Copilot authentication not found. Run 'gac auth copilot login' to authenticate."
+                "Copilot authentication not found. Run 'uvx gac auth copilot login' to authenticate."
             )
 
         oauth_token = tokens.get("access_token")
@@ -40,14 +40,14 @@ class CopilotProvider(OpenAICompatibleProvider):
 
         if not oauth_token:
             raise AIError.authentication_error(
-                "Copilot OAuth token missing. Run 'gac auth copilot login' to authenticate."
+                "Copilot OAuth token missing. Run 'uvx gac auth copilot login' to authenticate."
             )
 
         session_token = get_valid_session_token(oauth_token, host)
         if not session_token:
             raise AIError.authentication_error(
                 "Could not obtain Copilot session token. Your GitHub account may not have Copilot access, "
-                "or the OAuth token has been revoked. Run 'gac auth copilot login' to re-authenticate."
+                "or the OAuth token has been revoked. Run 'uvx gac auth copilot login' to re-authenticate."
             )
 
         return session_token

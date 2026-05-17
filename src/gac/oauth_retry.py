@@ -52,7 +52,7 @@ OAUTH_PROVIDERS: list[OAuthProviderConfig] = [
     OAuthProviderConfig(
         provider_prefix="claude-code:",
         display_name="Claude Code",
-        manual_auth_hint="Run 'gac model' to re-authenticate manually.",
+        manual_auth_hint="Run 'uvx gac model' to re-authenticate manually.",
         authenticate=_create_claude_code_authenticator(),
         extra_error_check=_claude_code_extra_check,
     ),
@@ -130,7 +130,7 @@ def handle_oauth_retry(e: AIError, ctx: WorkflowContext, config: GACConfig) -> i
         if "reasoning_effort" in error_str:
             console.print(
                 "[yellow]💡 Your model may not support reasoning_effort. "
-                "Run 'gac model' and select 'Skip' for reasoning effort to disable it.[/yellow]"
+                "Run 'uvx gac model' and select 'Skip' for reasoning effort to disable it.[/yellow]"
             )
         return 1
 

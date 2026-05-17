@@ -79,21 +79,21 @@ def _show_auth_status() -> None:
         click.echo("Claude Code: ✓ Authenticated")
     else:
         click.echo("Claude Code: ✗ Not authenticated")
-        click.echo("             Run 'gac auth claude-code login' to login")
+        click.echo("             Run 'uvx gac auth claude-code login' to login")
 
     chatgpt_token = token_store.get_token("chatgpt-oauth")
     if chatgpt_token:
         click.echo("ChatGPT:      ✓ Authenticated")
     else:
         click.echo("ChatGPT:      ✗ Not authenticated")
-        click.echo("             Run 'gac auth chatgpt login' to login")
+        click.echo("             Run 'uvx gac auth chatgpt login' to login")
 
     copilot_token = token_store.get_token("copilot")
     if copilot_token:
         click.echo("Copilot:      ✓ Authenticated")
     else:
         click.echo("Copilot:      ✗ Not authenticated")
-        click.echo("             Run 'gac auth copilot login' to login")
+        click.echo("             Run 'uvx gac auth copilot login' to login")
 
 
 # Claude Code commands
@@ -181,7 +181,7 @@ def claude_code_status() -> None:
         click.echo("Claude Code Authentication Status: ✓ Authenticated")
     else:
         click.echo("Claude Code Authentication Status: ✗ Not authenticated")
-        click.echo("Run 'gac auth claude-code login' to authenticate.")
+        click.echo("Run 'uvx gac auth claude-code login' to authenticate.")
 
 
 # ---------------------------------------------------------------------------
@@ -273,12 +273,12 @@ def chatgpt_status() -> None:
         expired = chatgpt_is_token_expired()
         if expired:
             click.echo("ChatGPT Authentication Status: ⚠️ Token expired")
-            click.echo("Run 'gac auth chatgpt login' to re-authenticate.")
+            click.echo("Run 'uvx gac auth chatgpt login' to re-authenticate.")
         else:
             click.echo("ChatGPT Authentication Status: ✓ Authenticated")
     else:
         click.echo("ChatGPT Authentication Status: ✗ Not authenticated")
-        click.echo("Run 'gac auth chatgpt login' to authenticate.")
+        click.echo("Run 'uvx gac auth chatgpt login' to authenticate.")
 
 
 # ---------------------------------------------------------------------------
@@ -373,7 +373,7 @@ def copilot_status() -> None:
 
     if not token:
         click.echo("Copilot Authentication Status: ✗ Not authenticated")
-        click.echo("Run 'gac auth copilot login' to authenticate.")
+        click.echo("Run 'uvx gac auth copilot login' to authenticate.")
         return
 
     # Try to verify the session token is still valid
@@ -382,4 +382,4 @@ def copilot_status() -> None:
         click.echo("Copilot Authentication Status: ✓ Authenticated")
     else:
         click.echo("Copilot Authentication Status: ⚠️ Token may be expired or revoked")
-        click.echo("Run 'gac auth copilot login' to re-authenticate.")
+        click.echo("Run 'uvx gac auth copilot login' to re-authenticate.")

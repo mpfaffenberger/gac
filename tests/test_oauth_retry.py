@@ -216,7 +216,7 @@ class TestOAuthRetry:
         # Claude Code provider
         claude_provider = next(p for p in OAUTH_PROVIDERS if p.provider_prefix == "claude-code:")
         assert claude_provider.display_name == "Claude Code"
-        assert claude_provider.manual_auth_hint == "Run 'gac model' to re-authenticate manually."
+        assert claude_provider.manual_auth_hint == "Run 'uvx gac model' to re-authenticate manually."
         assert claude_provider.extra_error_check is not None
 
     def test_oauth_retry_no_browser_opening(self):

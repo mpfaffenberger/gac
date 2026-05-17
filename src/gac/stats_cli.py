@@ -59,7 +59,7 @@ def show() -> None:
 
     if total_gacs == 0 and total_commits == 0 and total_tokens == 0:
         console.print("[yellow]No gacs yet! Time to start gaccing! 🚀[/yellow]")
-        console.print("[dim]Run 'gac' or 'uvx gac' in a git repository to make your first commit.[/dim]")
+        console.print("[dim]Run 'uvx gac' in a git repository to make your first commit.[/dim]")
         return
 
     # Main stats panel
@@ -523,7 +523,7 @@ def reset(ctx: click.Context) -> None:
         # Default behavior: reset all stats (backward compatibility)
         console.print("[red]⚠️  This will delete all your gac statistics![/red]")
         console.print("[dim]Total commits, streaks, and history will be lost.[/dim]")
-        console.print("[dim]Use 'gac stats reset model <model-id>' to reset a specific model.[/dim]")
+        console.print("[dim]Use 'uvx gac stats reset model <model-id>' to reset a specific model.[/dim]")
         console.print()
 
         confirm = click.confirm("Are you sure you want to reset all your stats?")

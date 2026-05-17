@@ -40,7 +40,7 @@ class ModelIdentifier:
         if ":" not in normalized:
             raise ConfigError(
                 f"Invalid model format: '{model_string}'. Expected 'provider:model', "
-                "e.g. 'openai:gpt-4o-mini'. Use 'gac config set model <provider:model>' "
+                "e.g. 'openai:gpt-4o-mini'. Use 'uvx gac config set model <provider:model>' "
                 "to update your configuration."
             )
 

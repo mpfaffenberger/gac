@@ -58,7 +58,7 @@ class ChatGPTOAuthProvider(BaseConfiguredProvider):
         """Get OAuth token from token store, refreshing if needed."""
         if not refresh_token_if_expired(quiet=True):
             raise AIError.authentication_error(
-                "ChatGPT OAuth token not found or expired. Run 'gac auth chatgpt login' to authenticate."
+                "ChatGPT OAuth token not found or expired. Run 'uvx gac auth chatgpt login' to authenticate."
             )
 
         token = load_stored_token()
@@ -66,7 +66,7 @@ class ChatGPTOAuthProvider(BaseConfiguredProvider):
             return token
 
         raise AIError.authentication_error(
-            "ChatGPT OAuth authentication not found. Run 'gac auth chatgpt login' to authenticate."
+            "ChatGPT OAuth authentication not found. Run 'uvx gac auth chatgpt login' to authenticate."
         )
 
     def _get_api_url(self, model: str | None = None) -> str:
@@ -259,7 +259,7 @@ class ChatGPTOAuthProvider(BaseConfiguredProvider):
                 if "text/html" in content_type:
                     raise AIError.authentication_error(
                         f"ChatGPT OAuth: HTTP {response.status_code} — Cloudflare block. "
-                        "Try re-authenticating with 'gac auth chatgpt login'."
+                        "Try re-authenticating with 'uvx gac auth chatgpt login'."
                     )
                 raise AIError.model_error(f"ChatGPT OAuth: HTTP {response.status_code}: {body_text[:500]}")
             parsed = self._parse_sse_stream(response)

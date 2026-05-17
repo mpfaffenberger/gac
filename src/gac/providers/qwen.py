@@ -22,7 +22,7 @@ _QWEN_OAUTH_DEPRECATION_MESSAGE = (
     "including the free tier, on 2026-04-15 "
     "(see https://github.com/QwenLM/qwen-code/issues/3203). "
     "Switch to 'qwen-api' (international) or 'qwen-api-cn' (mainland China) and provide a "
-    "QWEN_API_KEY from https://dashscope.aliyuncs.com. Run 'gac model' to reconfigure."
+    "QWEN_API_KEY from https://dashscope.aliyuncs.com. Run 'uvx gac model' to reconfigure."
 )
 
 
