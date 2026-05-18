@@ -182,7 +182,8 @@ def main(opts: CLIOptions, config: GACConfig | None = None) -> int:
         if model_from_config is None:
             handle_error(
                 AIError.model_error(
-                    "uvx gac init hasn't been run yet. Please run 'uvx gac init' to set up your configuration, then try again."
+                    "No AI model configured",
+                    suggestion="Run 'uvx gac init' to set up your model and API key, then try again.",
                 ),
                 exit_program=True,
             )
@@ -190,17 +191,26 @@ def main(opts: CLIOptions, config: GACConfig | None = None) -> int:
 
     temperature_val = config["temperature"]
     if temperature_val is None:
-        raise ConfigError("temperature configuration missing")
+        raise ConfigError(
+            "temperature configuration missing",
+            suggestion="Run 'uvx gac init' to set up your configuration.",
+        )
     temperature = float(temperature_val)
 
     max_tokens_val = config["max_output_tokens"]
     if max_tokens_val is None:
-        raise ConfigError("max_output_tokens configuration missing")
+        raise ConfigError(
+            "max_output_tokens configuration missing",
+            suggestion="Run 'uvx gac init' to set up your configuration.",
+        )
     max_output_tokens = int(max_tokens_val)
 
     max_retries_val = config["max_retries"]
     if max_retries_val is None:
-        raise ConfigError("max_retries configuration missing")
+        raise ConfigError(
+            "max_retries configuration missing",
+            suggestion="Run 'uvx gac init' to set up your configuration.",
+        )
     max_retries = int(max_retries_val)
 
     reasoning_effort = config.get("reasoning_effort")  # str | None

@@ -22,7 +22,10 @@ class SyntheticProvider(OpenAICompatibleProvider):
         if not api_key:
             api_key = os.getenv("SYN_API_KEY")
         if not api_key:
-            raise AIError.authentication_error("SYNTHETIC_API_KEY or SYN_API_KEY not found in environment variables")
+            raise AIError.authentication_error(
+                "SYNTHETIC_API_KEY or SYN_API_KEY not found",
+                suggestion="Set SYNTHETIC_API_KEY in your environment, or run 'uvx gac init' to configure.",
+            )
         return api_key
 
     def _build_request_body(

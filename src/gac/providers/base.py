@@ -102,7 +102,12 @@ class BaseConfiguredProvider(ABC, ProviderProtocol):
         """Get API key from environment variables."""
         api_key = os.getenv(self.config.api_key_env)
         if not api_key:
-            raise AIError.authentication_error(f"{self.config.api_key_env} not found in environment variables")
+            provider_display = self.config.name
+            raise AIError.authentication_error(
+                f"{self.config.api_key_env} is not set",
+                suggestion=f"Run 'uvx gac init' to configure {provider_display}, "
+                f"or set {self.config.api_key_env} in your environment.",
+            )
         return api_key
 
     @abstractmethod

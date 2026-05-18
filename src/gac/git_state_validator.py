@@ -40,9 +40,19 @@ class GitStateValidator:
         try:
             result = run_git_command(["rev-parse", "--show-toplevel"])
             if not result.success:
-                raise GitError(result.fail_message("Not in a git repository"))
+                detail = result.stderr.strip() if result.stderr else None
+                msg = "Not in a git repository"
+                if detail:
+                    msg = f"Not in a git repository ({detail})"
+                raise GitError(
+                    msg,
+                    suggestion="Run 'git init' to create one, or cd into an existing repository.",
+                )
             if not result.output:
-                raise GitError("Not in a git repository")
+                raise GitError(
+                    "Not in a git repository",
+                    suggestion="Run 'git init' to create one, or cd into an existing repository.",
+                )
             return result.output
         except (subprocess.SubprocessError, GitError, OSError) as e:
             logger.error(f"Error checking git repository: {e}")
@@ -50,7 +60,13 @@ class GitStateValidator:
             if isinstance(e, GitError):
                 handle_error(e, exit_program=True)
             else:
-                handle_error(GitError(f"Not in a git repository: {e}"), exit_program=True)
+                handle_error(
+                    GitError(
+                        "Not in a git repository",
+                        suggestion="Run 'git init' to create one, or cd into an existing repository.",
+                    ),
+                    exit_program=True,
+                )
             return ""  # Never reached, but required for type safety
 
     def stage_all_if_requested(self, stage_all: bool, dry_run: bool) -> None:

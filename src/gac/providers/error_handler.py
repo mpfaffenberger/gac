@@ -96,17 +96,22 @@ def handle_provider_errors(provider_name: str) -> Callable[[Callable[..., Any]],
                 sanitized_response = sanitize_error_response(e.response.text)
                 if e.response.status_code == 401:
                     raise AIError.authentication_error(
-                        f"{provider_name}: Invalid API key or authentication failed"
+                        f"{provider_name}: Invalid API key or authentication failed",
+                        suggestion="Check your API key in ~/.gac.env, or run 'uvx gac init' to reconfigure.",
                     ) from e
                 elif e.response.status_code == 429:
                     raise AIError.rate_limit_error(
                         f"{provider_name}: Rate limit exceeded. Please try again later."
                     ) from e
                 elif e.response.status_code == 404:
-                    raise AIError.model_error(f"{provider_name}: Model not found or endpoint not available") from e
+                    raise AIError.model_error(
+                        f"{provider_name}: Model not found or endpoint not available",
+                        suggestion="Run 'uvx gac model list' to see supported models, or check the model name.",
+                    ) from e
                 elif e.response.status_code >= 500:
                     raise AIError.connection_error(
-                        f"{provider_name}: Server error (HTTP {e.response.status_code})"
+                        f"{provider_name}: Server error (HTTP {e.response.status_code})",
+                        suggestion="The provider's servers may be temporarily down. Try again in a few minutes.",
                     ) from e
                 else:
                     raise AIError.model_error(

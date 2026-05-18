@@ -126,6 +126,9 @@ def handle_oauth_retry(e: AIError, ctx: WorkflowContext, config: GACConfig) -> i
 
     if provider is None:
         console.print(f"[red]Failed to generate commit message: {e!s}[/red]")
+        suggestion = getattr(e, "suggestion", None)
+        if suggestion:
+            console.print(f"[yellow]💡 {suggestion}[/yellow]")
         error_str = str(e).lower()
         if "reasoning_effort" in error_str:
             console.print(
