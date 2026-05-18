@@ -2,6 +2,7 @@
 
 import logging
 from datetime import datetime
+from typing import Any
 
 import gac.stats.store as store
 
@@ -18,21 +19,71 @@ logger = logging.getLogger(__name__)
 
 
 class TokenAccumulator:
-    """Encapsulated mutable state for per-gac token tracking."""
+    """Encapsulated mutable state for per-gac token and metadata tracking.
+
+    Collects per-gac data across record_tokens() and record_commit() calls,
+    then finalized by record_gac() which writes a history record.
+    """
 
     def __init__(self) -> None:
         self._current_tokens: int = 0
+        self._prompt_tokens: int = 0
+        self._output_tokens: int = 0
+        self._reasoning_tokens: int = 0
+        self._duration_ms: int = 0
+        self._commits: int = 0
+        self._files: int = 0
+        self._model: str | None = None
+        self._project: str | None = None
+        self._started_at: datetime | None = None
         self.is_new_biggest: bool = False
 
     def add(self, tokens: int) -> None:
         self._current_tokens += tokens
 
+    def add_tokens(self, prompt: int, output: int, reasoning: int, duration_ms: int = 0) -> None:
+        """Record token details and duration for the current gac."""
+        self._prompt_tokens += prompt
+        self._output_tokens += output
+        self._reasoning_tokens += reasoning
+        self._duration_ms += duration_ms
+        self._current_tokens += prompt + output + reasoning
+
+    def add_commit(self) -> None:
+        """Increment the commit counter for the current gac."""
+        self._commits += 1
+
+    def set_files(self, count: int) -> None:
+        """Set the file count for the current gac."""
+        self._files = count
+
+    def set_meta(self, model: str | None, project: str | None) -> None:
+        """Set model and project for the current gac (first call wins for started_at)."""
+        if self._started_at is None:
+            self._started_at = datetime.now()
+        self._model = model or self._model
+        self._project = project or self._project
+
     def reset(self) -> None:
         self._current_tokens = 0
+        self._prompt_tokens = 0
+        self._output_tokens = 0
+        self._reasoning_tokens = 0
+        self._duration_ms = 0
+        self._commits = 0
+        self._files = 0
+        self._model = None
+        self._project = None
+        self._started_at = None
+        self.is_new_biggest = False
 
     @property
     def current(self) -> int:
         return self._current_tokens
+
+    @property
+    def has_data(self) -> bool:
+        return self._current_tokens > 0 or self._commits > 0
 
 
 # Module-level singleton — existing code continues to work
@@ -60,14 +111,15 @@ def _set_new_biggest_gac(value: bool) -> None:
     _accumulator.is_new_biggest = value
 
 
-def record_gac(project_name: str | None = None, model: str | None = None) -> None:
+def record_gac(project_name: str | None = None, model: str | None = None, files: int = 0) -> None:
     """Record a gac workflow run in the statistics.
 
     Args:
         project_name: Name of the project. Auto-detected from git if not provided.
         model: Name of the AI model used for this gac (e.g. 'anthropic:claude-haiku-4-5').
+        files: Number of files included in this gac.
 
-    This should be called when a gac workflow starts (after validation passes).
+    This should be called when a gac workflow completes successfully.
 
     Does nothing if GAC_DISABLE_STATS environment variable is set.
     """
@@ -76,6 +128,10 @@ def record_gac(project_name: str | None = None, model: str | None = None) -> Non
 
     if project_name is None:
         project_name = store.get_current_project_name()
+
+    # Track metadata for the per-gac history record.
+    # Commits are counted via record_commit(), not here.
+    _accumulator.set_meta(model, project_name)
 
     stats = store.load_stats()
     now = datetime.now()
@@ -111,8 +167,13 @@ def record_gac(project_name: str | None = None, model: str | None = None) -> Non
                 "commits": 0,
                 "prompt_tokens": 0,
                 "output_tokens": 0,
+                "total_files": 0,
             }
         stats["projects"][project_name]["gacs"] += 1
+        if files > 0:
+            stats["projects"][project_name]["total_files"] = (
+                stats["projects"][project_name].get("total_files", 0) + files
+            )
 
     # Update model stats
     if model:
@@ -137,6 +198,23 @@ def record_gac(project_name: str | None = None, model: str | None = None) -> Non
         stats["biggest_gac_tokens"] = _accumulator.current
         stats["biggest_gac_date"] = now.isoformat()
         _accumulator.is_new_biggest = True
+
+    # Write per-gac history record (ring buffer, capped at HISTORY_CAP)
+    if _accumulator.has_data:
+        history_record: dict[str, Any] = {
+            "ts": (_accumulator._started_at or now).isoformat(),
+            "project": project_name,
+            "model": model or _accumulator._model,
+            "prompt_tokens": _accumulator._prompt_tokens,
+            "output_tokens": _accumulator._output_tokens,
+            "reasoning_tokens": _accumulator._reasoning_tokens,
+            "duration_ms": _accumulator._duration_ms,
+            "commits": _accumulator._commits,
+        }
+        if files > 0:
+            history_record["files"] = files
+        store.append_history(stats, history_record)
+
     _accumulator.reset()
 
     store.save_stats(stats)
@@ -159,6 +237,10 @@ def record_commit(project_name: str | None = None, model: str | None = None) -> 
 
     if project_name is None:
         project_name = store.get_current_project_name()
+
+    # Track per-gac commit count for history records.
+    _accumulator.add_commit()
+    _accumulator.set_meta(model, project_name)
 
     stats = store.load_stats()
     now = datetime.now()
@@ -190,6 +272,7 @@ def record_commit(project_name: str | None = None, model: str | None = None) -> 
                 "commits": 0,
                 "prompt_tokens": 0,
                 "output_tokens": 0,
+                "total_files": 0,
             }
         stats["projects"][project_name]["commits"] += 1
 
@@ -255,7 +338,8 @@ def record_tokens(
     stats["total_reasoning_tokens"] = stats.get("total_reasoning_tokens", 0) + reasoning_tokens
 
     # Accumulate into per-gac token total (finalized by record_gac)
-    _accumulator.add(prompt_tokens + output_tokens + reasoning_tokens)
+    _accumulator.add_tokens(prompt_tokens, output_tokens, reasoning_tokens, duration_ms or 0)
+    _accumulator.set_meta(model, project_name)
 
     stats["daily_prompt_tokens"][today] = stats["daily_prompt_tokens"].get(today, 0) + prompt_tokens
     stats["daily_output_tokens"][today] = stats.get("daily_output_tokens", {}).get(today, 0) + output_tokens
@@ -274,6 +358,7 @@ def record_tokens(
                 "prompt_tokens": 0,
                 "output_tokens": 0,
                 "reasoning_tokens": 0,
+                "total_files": 0,
             }
         proj = stats["projects"][project_name]
         proj["prompt_tokens"] = proj.get("prompt_tokens", 0) + prompt_tokens

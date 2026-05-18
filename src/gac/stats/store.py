@@ -10,7 +10,26 @@ from typing import Any, TypedDict
 
 logger = logging.getLogger(__name__)
 
-STATS_FILE = Path.home() / ".gac_stats.json"
+STATS_FILE = Path.home() / ".gac" / "stats.json"
+_LEGACY_STATS_FILE = Path.home() / ".gac_stats.json"
+
+
+def _migrate_stats_file_location() -> None:
+    """One-time migration: move ~/.gac_stats.json → ~/.gac/stats.json.
+
+    If the legacy file exists and the new doesn't, it is moved.
+    If both exist, the legacy file is left alone.  Errors are logged
+    but never raised — best-effort convenience migration.
+    """
+    if not _LEGACY_STATS_FILE.exists() or STATS_FILE.exists():
+        return
+    try:
+        STATS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        _LEGACY_STATS_FILE.rename(STATS_FILE)
+        logger.info(f"Migrated stats file: {_LEGACY_STATS_FILE} → {STATS_FILE}")
+    except OSError as e:
+        logger.warning(f"Could not migrate stats file location: {e}")
+
 
 _FALSY_VALUES = {"", "0", "false", "no", "off", "n"}
 
@@ -25,44 +44,44 @@ _DURATION_DEFAULTS: dict[str, int] = {
 }
 
 
-# =============================================================================
 # TYPED DICT
-# =============================================================================
 
 
 class GACStats(TypedDict):
     """TypedDict for GAC usage statistics."""
 
-    total_gacs: int  # Number of gac workflow runs
-    total_commits: int  # Number of actual commits created
-    total_prompt_tokens: int  # Total prompt tokens consumed
-    total_output_tokens: int  # Total output tokens consumed (excludes reasoning)
-    total_reasoning_tokens: int  # Total reasoning/thinking tokens consumed
-    biggest_gac_tokens: int  # Most tokens (prompt+output+reasoning) in a single gac run
-    biggest_gac_date: str | None  # ISO datetime when the biggest gac occurred
+    total_gacs: int
+    total_commits: int
+    total_prompt_tokens: int
+    total_output_tokens: int  # excludes reasoning
+    total_reasoning_tokens: int
+    biggest_gac_tokens: int
+    biggest_gac_date: str | None
     first_used: str | None
     last_used: str | None
-    daily_gacs: dict[str, int]  # date -> gac count
-    daily_commits: dict[str, int]  # date -> commit count
-    daily_prompt_tokens: dict[str, int]  # date -> prompt token count
-    daily_output_tokens: dict[str, int]  # date -> output token count (excludes reasoning)
-    daily_reasoning_tokens: dict[str, int]  # date -> reasoning token count
-    weekly_gacs: dict[str, int]  # ISO week (e.g. 2026-W18) -> gac count
-    weekly_commits: dict[str, int]  # ISO week -> commit count
-    weekly_prompt_tokens: dict[str, int]  # ISO week -> prompt token count
-    weekly_output_tokens: dict[str, int]  # ISO week -> output token count (excludes reasoning)
-    weekly_reasoning_tokens: dict[str, int]  # ISO week -> reasoning token count
-    projects: dict[str, Any]  # project_name -> {gacs, commits, prompt_tokens, output_tokens, reasoning_tokens}
-    models: dict[str, Any]  # model_name -> {gacs, commits, prompt_tokens, output_tokens, reasoning_tokens}
-    _version: int  # Schema version for migrations
+    daily_gacs: dict[str, int]
+    daily_commits: dict[str, int]
+    daily_prompt_tokens: dict[str, int]
+    daily_output_tokens: dict[str, int]
+    daily_reasoning_tokens: dict[str, int]
+    weekly_gacs: dict[str, int]  # ISO week e.g. 2026-W18
+    weekly_commits: dict[str, int]
+    weekly_prompt_tokens: dict[str, int]
+    weekly_output_tokens: dict[str, int]
+    weekly_reasoning_tokens: dict[str, int]
+    projects: dict[str, Any]
+    models: dict[str, Any]
+    history: list[dict[str, Any]]  # ring buffer capped at HISTORY_CAP
+    _version: int
 
 
-_CURRENT_STATS_VERSION = 3  # v3: output_tokens excludes reasoning_tokens; rename completion→output
+_CURRENT_STATS_VERSION = 4  # v4: per-gac history ring buffer
+
+# Max history records (~150 bytes/record × 1000 = ~150 KB).
+HISTORY_CAP = 1000
 
 
-# =============================================================================
 # HELPERS
-# =============================================================================
 
 
 def _normalize_models(models: dict[str, Any]) -> dict[str, Any]:
@@ -77,21 +96,83 @@ def _normalize_models(models: dict[str, Any]) -> dict[str, Any]:
     return models
 
 
-def _enrich_models_with_speed(models: list[tuple[str, Any]]) -> list[tuple[str, Any]]:
+def _compute_recent_model_stats(history: list[dict[str, Any]], days: int = 30) -> dict[str, dict[str, Any]]:
+    """Compute per-model speed and latency from the last N days of gac history.
+
+    Returns ``{model_name: {"recent_tps": int, "recent_latency_ms": int}}``
+    for models with at least one timed gac in the window.
+    """
+    cutoff = datetime.now().timestamp() - days * 86400
+    buckets: dict[str, dict[str, int]] = {}  # model -> {output, reasoning, duration_ms, commits, count}
+    for gac in history:
+        ts = gac.get("ts", "")
+        try:
+            gac_time = datetime.fromisoformat(ts).timestamp()
+        except (ValueError, TypeError):
+            continue
+        if gac_time < cutoff:
+            continue
+        model = gac.get("model")
+        if not model:
+            continue
+        duration_ms = gac.get("duration_ms", 0)
+        output_t = gac.get("output_tokens", 0)
+        reasoning_t = gac.get("reasoning_tokens", 0)
+        commits = gac.get("commits", 0)
+        if duration_ms <= 0:
+            continue
+        b = buckets.setdefault(model, {"output": 0, "reasoning": 0, "duration_ms": 0, "commits": 0, "count": 0})
+        b["output"] += output_t
+        b["reasoning"] += reasoning_t
+        b["duration_ms"] += duration_ms
+        b["commits"] += max(commits, 1)  # at least 1 commit per gac
+        b["count"] += 1
+
+    result: dict[str, dict[str, Any]] = {}
+    for model, b in buckets.items():
+        if b["duration_ms"] <= 0:
+            continue
+        generated = b["output"] + b["reasoning"]
+        result[model] = {
+            "recent_tps": round(generated * 1000 / b["duration_ms"]),
+            "recent_latency_ms": round(b["duration_ms"] / b["count"]),
+            "recent_latency_per_commit_ms": round(b["duration_ms"] / b["commits"]),
+        }
+    return result
+
+
+def _enrich_models_with_speed(
+    models: list[tuple[str, Any]], history: list[dict[str, Any]] | None = None, recent_days: int = 30
+) -> list[tuple[str, Any]]:
     enriched: list[tuple[str, Any]] = []
+    recent = _compute_recent_model_stats(history, recent_days) if history else {}
     for name, data in models:
         avg_tps = None
         avg_latency_ms = None
+        avg_latency_per_commit_ms = None
         if data.get("duration_count", 0) > 0 and data.get("total_duration_ms", 0) > 0:
-            # Speed = all output tokens (output text + reasoning) per second.
-            # Reasoning tokens are generated during the same wall-clock
-            # duration, so excluding them understates throughput for
-            # thinking models like o3, deepseek-r1, etc.
             timed_output = data["timed_output_tokens"] + data.get("timed_reasoning_tokens", 0)
             avg_tps = round(timed_output * 1000 / data["total_duration_ms"])
-            # Average latency = mean wall-clock time per API call (ms)
             avg_latency_ms = round(data["total_duration_ms"] / data["duration_count"])
-        enriched.append((name, {**data, "avg_tps": avg_tps, "avg_latency_ms": avg_latency_ms}))
+        commits = data.get("commits", 0)
+        total_duration = data.get("total_duration_ms", 0)
+        if commits > 0 and total_duration > 0:
+            avg_latency_per_commit_ms = round(total_duration / commits)
+        r = recent.get(name, {})
+        enriched.append(
+            (
+                name,
+                {
+                    **data,
+                    "avg_tps": avg_tps,
+                    "avg_latency_ms": avg_latency_ms,
+                    "avg_latency_per_commit_ms": avg_latency_per_commit_ms,
+                    "recent_tps": r.get("recent_tps"),
+                    "recent_latency_ms": r.get("recent_latency_ms"),
+                    "recent_latency_per_commit_ms": r.get("recent_latency_per_commit_ms"),
+                },
+            )
+        )
     return enriched
 
 
@@ -162,9 +243,7 @@ def get_current_project_name() -> str | None:
     return None
 
 
-# =============================================================================
 # MIGRATION
-# =============================================================================
 
 
 def _migrate_v1_to_v2(data: dict[str, Any]) -> dict[str, Any]:
@@ -308,6 +387,22 @@ def _migrate_v2_to_v3(data: dict[str, Any]) -> dict[str, Any]:
     return data
 
 
+def _migrate_v3_to_v4(data: dict[str, Any]) -> dict[str, Any]:
+    """Migrate stats from v3 to v4: add empty history ring buffer.
+
+    v4 introduces a per-gac history ring buffer (capped at HISTORY_CAP)
+    that stores individual gac metadata records. Existing aggregate
+    fields are unchanged — they continue to be the primary data source
+    for totals and breakdowns.
+    """
+    if int(data.get("_version", 0)) >= 4:
+        return data
+
+    data.setdefault("history", [])
+    data["_version"] = 4
+    return data
+
+
 def _migrate(data: dict[str, Any]) -> dict[str, Any]:
     """Apply schema migrations in order until reaching the current version."""
     version = int(data.get("_version", 0))
@@ -316,12 +411,13 @@ def _migrate(data: dict[str, Any]) -> dict[str, Any]:
         version = int(data.get("_version", 0))
     if version < 3:
         data = _migrate_v2_to_v3(data)
+        version = int(data.get("_version", 0))
+    if version < 4:
+        data = _migrate_v3_to_v4(data)
     return data
 
 
-# =============================================================================
 # LOAD / SAVE / RESET
-# =============================================================================
 
 
 def _empty_stats() -> GACStats:
@@ -348,6 +444,7 @@ def _empty_stats() -> GACStats:
         "weekly_reasoning_tokens": {},
         "projects": {},
         "models": {},
+        "history": [],
         "_version": _CURRENT_STATS_VERSION,
     }
 
@@ -358,6 +455,7 @@ def load_stats() -> GACStats:
     Returns:
         GACStats dictionary with usage statistics
     """
+    _migrate_stats_file_location()
     empty = _empty_stats()
 
     if not STATS_FILE.exists():
@@ -402,6 +500,7 @@ def load_stats() -> GACStats:
             "weekly_reasoning_tokens": data.get("weekly_reasoning_tokens", {}),
             "projects": data.get("projects", {}),
             "models": _normalize_models(data.get("models", {})),
+            "history": data.get("history", []),
             "_version": data.get("_version", _CURRENT_STATS_VERSION),
         }
     except (json.JSONDecodeError, OSError) as e:
@@ -499,6 +598,24 @@ def reset_stats() -> None:
     reset_gac_token_accumulator()
     _set_new_biggest_gac(False)
     logger.info("Statistics reset")
+
+
+def append_history(stats: GACStats, record: dict[str, Any]) -> None:
+    """Append a per-gac history record and trim to HISTORY_CAP.
+
+    The history is a ring buffer: newest records are at the end.
+    When the cap is exceeded, the oldest records (front of the list)
+    are dropped.
+
+    Args:
+        stats: The mutable stats dict to update.
+        record: A dict with per-gac metadata (ts, project, model, tokens, etc).
+    """
+    history = stats.get("history", [])
+    history.append(record)
+    if len(history) > HISTORY_CAP:
+        del history[: len(history) - HISTORY_CAP]
+    stats["history"] = history
 
 
 def find_model_key(models: dict[str, Any], model_id: str) -> str | None:

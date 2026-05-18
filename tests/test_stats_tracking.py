@@ -374,3 +374,60 @@ class TestBiggestGac:
             # Without reset, the accumulator held 650 from the first request
             # plus 60 from the second = 710 (inflated!)
             assert stats["biggest_gac_tokens"] == 710
+
+
+class TestFileTracking:
+    """Tests for per-gac file count tracking."""
+
+    def test_files_in_history_record(self, tmp_path) -> None:
+        from gac.stats import record_gac, record_tokens, reset_gac_token_accumulator
+        from gac.stats.store import load_stats
+
+        with patch("gac.stats.store.STATS_FILE", tmp_path / "test_stats.json"):
+            with patch("gac.stats.store._LEGACY_STATS_FILE", tmp_path / "test_legacy.json"):
+                reset_gac_token_accumulator()
+                record_tokens(100, 50, model="openai:gpt-4")
+                record_gac(model="openai:gpt-4", files=7)
+
+                stats = load_stats()
+                history = stats.get("history", [])
+                assert len(history) == 1
+                assert history[0]["files"] == 7
+
+    def test_files_zero_omitted_from_history(self, tmp_path) -> None:
+        from gac.stats import record_gac, record_tokens, reset_gac_token_accumulator
+        from gac.stats.store import load_stats
+
+        with patch("gac.stats.store.STATS_FILE", tmp_path / "test_stats.json"):
+            with patch("gac.stats.store._LEGACY_STATS_FILE", tmp_path / "test_legacy.json"):
+                reset_gac_token_accumulator()
+                record_tokens(100, 50, model="openai:gpt-4")
+                record_gac(model="openai:gpt-4", files=0)
+
+                stats = load_stats()
+                history = stats.get("history", [])
+                assert len(history) == 1
+                assert "files" not in history[0]
+
+    def test_project_total_files(self, tmp_path) -> None:
+        from gac.stats import record_gac, record_tokens, reset_gac_token_accumulator
+        from gac.stats.store import load_stats
+
+        with patch("gac.stats.store.STATS_FILE", tmp_path / "test_stats.json"):
+            with patch("gac.stats.store._LEGACY_STATS_FILE", tmp_path / "test_legacy.json"):
+                reset_gac_token_accumulator()
+                record_tokens(100, 50, model="openai:gpt-4", project_name="my-proj")
+                record_gac(model="openai:gpt-4", project_name="my-proj", files=5)
+
+                reset_gac_token_accumulator()
+                record_tokens(100, 50, model="openai:gpt-4", project_name="my-proj")
+                record_gac(model="openai:gpt-4", project_name="my-proj", files=3)
+
+                stats = load_stats()
+                assert stats["projects"]["my-proj"]["total_files"] == 8
+
+    def test_old_history_records_missing_files(self) -> None:
+        """Old history records without 'files' field should default to 0."""
+        # Simulate reading old history
+        record = {"ts": "2025-01-01T00:00:00", "model": "test", "commits": 1}
+        assert record.get("files", 0) == 0

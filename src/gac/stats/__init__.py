@@ -11,8 +11,10 @@ Backward compatibility (read):
     continues to work as before.
 
 STATS_FILE — compatibility note:
-    Reading ``gac.stats.STATS_FILE`` works via __getattr__ and returns
-    the current ``gac.stats.store.STATS_FILE``.  However, writing
+    The stats file lives at ``~/.gac/stats.json`` (migrated from
+    ``~/.gac_stats.json`` on first load).  Reading ``gac.stats.STATS_FILE``
+    works via __getattr__ and returns the current
+    ``gac.stats.store.STATS_FILE``.  However, writing
     ``gac.stats.STATS_FILE = X`` only shadows the proxy in the package
     dict — it does **not** propagate to ``gac.stats.store.STATS_FILE``
     (Python modules have no __setattr__ per PEP 562).  Code that
@@ -37,11 +39,13 @@ from gac.stats.store import (
     _CURRENT_STATS_VERSION,
     _DURATION_DEFAULTS,
     _FALSY_VALUES,
+    HISTORY_CAP,
     GACStats,
     _enrich_models_with_speed,
     _migrate_v1_to_v2,
     _normalize_models,
     _safe_format_date,
+    append_history,
     compute_total_tokens,
     find_model_key,
     format_tokens,
@@ -77,6 +81,7 @@ __all__ = [
     "reset_gac_token_accumulator",
     # Store
     "GACStats",
+    "HISTORY_CAP",
     "STATS_FILE",
     "_CURRENT_STATS_VERSION",
     "_DURATION_DEFAULTS",
@@ -85,6 +90,7 @@ __all__ = [
     "_enrich_models_with_speed",
     "_normalize_models",
     "_safe_format_date",
+    "append_history",
     "compute_total_tokens",
     "find_model_key",
     "format_tokens",

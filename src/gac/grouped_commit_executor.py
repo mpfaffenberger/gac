@@ -104,7 +104,7 @@ def execute_grouped_commits(
             console.print("[green]Original staging area restored.[/green]")
             return 1
 
-        record_gac(model=model)
+        record_gac(model=model, files=len(original_staged_files) if original_staged_files else 0)
 
     if push:
         try:
