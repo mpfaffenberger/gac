@@ -1,0 +1,65 @@
+name: PyPI Download Stats
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch PyPI stats
+        id: stats
+        run: |
+          RECENT=$(curl -s "https://pypistats.org/api/packages/gac/recent")
+          OVERALL=$(curl -s "https://pypistats.org/api/packages/gac/overall")
+
+          LAST_DAY=$(echo "$RECENT" | jq '.data.last_day')
+          LAST_WEEK=$(echo "$RECENT" | jq '.data.last_week')
+          LAST_MONTH=$(echo "$RECENT" | jq '.data.last_month')
+          TOTAL=$(echo "$OVERALL" | jq '[.data[] | select(.category == "without_mirrors") | .downloads] | add')
+
+          echo "last_day=$LAST_DAY" >> $GITHUB_OUTPUT
+          echo "last_week=$LAST_WEEK" >> $GITHUB_OUTPUT
+          echo "last_month=$LAST_MONTH" >> $GITHUB_OUTPUT
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -sS -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "📦 PyPI Download Stats — gac",
+                "url": "https://clickpy.clickhouse.com/dashboard/gac",
+                "color": 5793266,
+                "fields": [
+                  {
+                    "name": "Last 24h",
+                    "value": "${{ steps.stats.outputs.last_day }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Last 7 days",
+                    "value": "${{ steps.stats.outputs.last_week }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Last 30 days",
+                    "value": "${{ steps.stats.outputs.last_month }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "All-time total",
+                    "value": "${{ steps.stats.outputs.total }}",
+                    "inline": false
+                  }
+                ],
+                "footer": {
+                  "text": "pypistats.org • without mirrors"
+                }
+              }]
+            }'
