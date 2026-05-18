@@ -70,7 +70,7 @@ def configure_reasoning_effort_workflow(env_path: Path | str) -> bool:
         click.echo(
             "Reasoning Effort\n"
             "Controls how much internal reasoning a model performs before responding.\n"
-            "'none' disables reasoning entirely (supported by some models like OpenAI o-series).\n"
+            "'none' disables reasoning entirely (supported by some models).\n"
             "If your model doesn't support `reasoning_effort` or you're not sure, choose Skip."
         )
 
