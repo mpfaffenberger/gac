@@ -48,14 +48,14 @@ uvx gac  # Сгенерируйте и закоммитьте с помощью 
 
 ## Основные функции
 
-### 🌐 **29+ Поддерживаемые провайдеры**
+### 🌐 **30+ Поддерживаемые провайдеры**
 
-- **Anthropic** • **Azure OpenAI** • **Cerebras** • **ChatGPT (OAuth)** • **Chutes.ai**
-- **Claude Code (OAuth)** • **Crof.ai** • **DeepSeek** • **Fireworks** • **Gemini** • **GitHub Copilot (OAuth)**
-- **Groq** • **Kimi for Coding** • **LM Studio** • **MiniMax.io** • **Mistral AI** • **Moonshot AI**
-- **Neuralwatt** • **Ollama** • **OpenAI** • **OpenCode Go** • **OpenRouter** • **Qwen Cloud (CN & INTL)**
-- **Replicate** • **Streamlake/Vanchin** • **Synthetic.new** • **Together AI** • **Wafer.ai**
-- **Z.AI (API & Coding Plans)** • **Custom Endpoints (Anthropic/OpenAI)**
+- **Anthropic** • **Azure OpenAI** • **Cerebras** • **ChatGPT (OAuth)** • **Chutes.ai** • **Claude Code (OAuth)**
+- **Crof.ai** • **DeepInfra** • **DeepSeek** • **Fireworks** • **Gemini** • **GitHub Copilot (OAuth)** • **Groq**
+- **Kimi for Coding** • **LM Studio** • **MiniMax.io** • **Mistral AI** • **Moonshot AI** • **Neuralwatt** • **Ollama**
+- **OpenAI** • **OpenCode Go** • **OpenRouter** • **Qwen Cloud (CN & INTL)** • **Replicate** • **Streamlake/Vanchin**
+- **Synthetic.new** • **Together AI** • **Wafer.ai** • **Z.AI (API & Coding Plans)**
+- **Custom Endpoints (Anthropic/OpenAI)**
 
 ### 🧠 **Умный анализ ИИ**
 

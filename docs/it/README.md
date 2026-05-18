@@ -48,14 +48,14 @@ Questo è tutto! Rivedi il messaggio generato e conferma con `y`.
 
 ## Funzionalità Principali
 
-### 🌐 **29+ Provider Supportati**
+### 🌐 **30+ Provider Supportati**
 
-- **Anthropic** • **Azure OpenAI** • **Cerebras** • **ChatGPT (OAuth)** • **Chutes.ai**
-- **Claude Code (OAuth)** • **Crof.ai** • **DeepSeek** • **Fireworks** • **Gemini** • **GitHub Copilot (OAuth)**
-- **Groq** • **Kimi for Coding** • **LM Studio** • **MiniMax.io** • **Mistral AI** • **Moonshot AI**
-- **Neuralwatt** • **Ollama** • **OpenAI** • **OpenCode Go** • **OpenRouter** • **Qwen Cloud (CN & INTL)**
-- **Replicate** • **Streamlake/Vanchin** • **Synthetic.new** • **Together AI** • **Wafer.ai**
-- **Z.AI (API & Coding Plans)** • **Custom Endpoints (Anthropic/OpenAI)**
+- **Anthropic** • **Azure OpenAI** • **Cerebras** • **ChatGPT (OAuth)** • **Chutes.ai** • **Claude Code (OAuth)**
+- **Crof.ai** • **DeepInfra** • **DeepSeek** • **Fireworks** • **Gemini** • **GitHub Copilot (OAuth)** • **Groq**
+- **Kimi for Coding** • **LM Studio** • **MiniMax.io** • **Mistral AI** • **Moonshot AI** • **Neuralwatt** • **Ollama**
+- **OpenAI** • **OpenCode Go** • **OpenRouter** • **Qwen Cloud (CN & INTL)** • **Replicate** • **Streamlake/Vanchin**
+- **Synthetic.new** • **Together AI** • **Wafer.ai** • **Z.AI (API & Coding Plans)**
+- **Custom Endpoints (Anthropic/OpenAI)**
 
 ### 🧠 **Analisi Intelligente LLM**
 
