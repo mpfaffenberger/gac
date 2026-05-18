@@ -375,9 +375,10 @@ Các lệnh con sau đây có sẵn:
 - `uvx gac editor` (hoặc `uvx gac edit`) — Bộ chọn editor tương tác cho phím `e` tại prompt xác nhận (đặt GAC_EDITOR)
 - `uvx gac diff` — Hiển thị git diff đã lọc với các tùy chọn cho các thay đổi đã được staged/chưa staged, màu sắc và cắt bớt
 - `uvx gac serve` — Khởi động GAC như một [MCP server](MCP.md) để tích hợp AI agent (truyền tải stdio)
-- `uvx gac stats show` — Xem thống kê sử dụng gac của bạn (tổng số, chuỗi, hoạt động hàng ngày & hàng tuần, sử dụng token, dự án hàng đầu, mô hình hàng đầu)
-- `uvx gac stats models` — Xem thống kê chi tiết cho tất cả mô hình với phân tích token và biểu đồ so sánh tốc độ
-- `uvx gac stats projects` — Xem thống kê tất cả dự án với phân tích token
+- `uvx gac stats show` — Xem thống kê sử dụng gac của bạn (tổng số, chuỗi, hoạt động hàng ngày & hàng tuần, sử dụng token, dự án hàng đầu với tệp trung bình, mô hình hàng đầu với tốc độ và độ trễ)
+- `uvx gac stats models` — Thống kê chi tiết cho tất cả mô hình với phân tích token, tốc độ, độ trễ và biểu đồ độ trễ theo commit
+- `uvx gac stats projects` — Thống kê cho tất cả dự án với phân tích token và tệp trung bình mỗi gac
+- `uvx gac stats recent` — 10 gac gần đây với token, tốc độ, độ trễ, tệp mỗi gac (`-n 20` cho thêm)
 - `uvx gac stats reset` — Đặt lại tất cả thống kê về không (yêu cầu xác nhận)
 - `uvx gac stats reset model <model-id>` — Đặt lại thống kê cho một mô hình cụ thể (không phân biệt chữ hoa/thường)
 
@@ -510,8 +511,9 @@ Khi bạn từ chối thống kê trong `uvx gac init` và phát hiện tệp `~
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `uvx gac stats`                        | Hiển thị thống kê của bạn (giống như `uvx gac stats show`)                                                                 |
 | `uvx gac stats show`                   | Hiển thị thống kê đầy đủ: tổng số, chuỗi, hoạt động hàng ngày & hàng tuần, sử dụng token, dự án hàng đầu, mô hình hàng đầu |
-| `uvx gac stats models`                 | Hiển thị thống kê chi tiết cho **tất cả** các mô hình đã sử dụng, với phân tích token và biểu đồ so sánh tốc độ            |
-| `uvx gac stats projects`               | Hiển thị thống kê **tất cả** các dự án với phân tích token                                                                 |
+| `uvx gac stats models`                 | Thống kê chi tiết cho **tất cả** mô hình với phân tích token, tốc độ, độ trễ và biểu đồ độ trễ theo commit                 |
+| `uvx gac stats projects`               | Thống kê cho **tất cả** dự án với phân tích token và tệp trung bình mỗi gac                                                |
+| `uvx gac stats recent`                 | 10 gac gần đây (`-n 20` cho thêm), với token, tốc độ, độ trễ, tệp mỗi gac                                                  |
 | `uvx gac stats reset`                  | Đặt lại tất cả thống kê về không (yêu cầu xác nhận)                                                                        |
 | `uvx gac stats reset model <model-id>` | Đặt lại thống kê cho một mô hình cụ thể (không phân biệt chữ hoa/thường)                                                   |
 
@@ -527,6 +529,9 @@ uvx gac stats models
 # Thống kê tất cả dự án
 uvx gac stats projects
 
+# Lịch sử gac gần đây
+uvx gac stats recent -n 20
+
 # Đặt lại tất cả thống kê (với yêu cầu xác nhận)
 uvx gac stats reset
 
@@ -541,19 +546,27 @@ Chạy `uvx gac stats` hiển thị:
 - **Tổng số gac và commit** — bao nhiêu lần bạn đã sử dụng gac và bao nhiêu commit nó đã tạo
 - **Chuỗi hiện tại và dài nhất** — các ngày liên tiếp có hoạt động gac (🔥 ở 5+ ngày)
 - **Tóm tắt hoạt động** — gac, commit và token hôm nay và tuần này so với ngày đỉnh và tuần đỉnh của bạn
-- **Dự án hàng đầu** — 5 repo tích cực nhất của bạn theo số gac + commit, với sử dụng token theo dự án
+- **Dự án hàng đầu** — 5 repo tích cực nhất của bạn theo số gac + commit, với tệp trung bình mỗi gac và sử dụng token
+- **Mô hình hàng đầu** — 5 mô hình được sử dụng nhiều nhất với tốc độ tổng thể, độ trễ và sử dụng token
 
-Running `uvx gac stats projects` hiển thị **tất cả** các dự án (không chỉ 5 dự án hàng đầu) với:
+Chạy `uvx gac stats projects` hiển thị **tất cả** các dự án (không chỉ 5 dự án hàng đầu) với:
 
-- **Bảng tất cả dự án** — mỗi dự án được sắp xếp theo hoạt động, với số gac, số commit, token prompt, token output, token suy luận và tổng token
-- **Mô hình hàng đầu** — 5 mô hình được sử dụng nhiều nhất với token prompt, output và tổng số đã tiêu thụ
+- **Bảng tất cả dự án** — mỗi dự án được sắp xếp theo hoạt động, với số gac, số commit, tỷ lệ commit mỗi gac, tệp trung bình mỗi gac, token prompt, token output, token suy luận, tổng token và tỷ lệ trong tổng số gac
+- **Biểu đồ thanh hoạt động** — thanh ngang hiển thị số gac tương đối theo dự án
+- **Biểu đồ thanh sử dụng token** — thanh ngang hiển thị mức tiêu thụ token tương đối theo dự án
 
-Running `uvx gac stats models` hiển thị **tất cả** các mô hình (không chỉ 5 mô hình hàng đầu) với:
+Chạy `uvx gac stats models` hiển thị **tất cả** các mô hình (không chỉ 5 mô hình hàng đầu) với:
 
-- **Bảng tất cả mô hình** — mỗi mô hình đã sử dụng được sắp xếp theo hoạt động, với số gac, tốc độ (token/giây), token prompt, token output, token suy luận và tổng token
-- **Biểu đồ so sánh tốc độ** — biểu đồ thanh ngang của tất cả các mô hình có tốc độ đã biết, sắp xếp từ nhanh nhất đến chậm nhất, mã màu theo phần trăm tốc độ (🟡 siêu nhanh, 🟢 nhanh, 🔵 vừa phải, 🔘 chậm)
+- **Bảng tất cả mô hình** — mỗi mô hình đã sử dụng được sắp xếp theo hoạt động, với số gac, số commit, tốc độ tổng thể (token/giây), độ trễ tổng thể, token prompt, token output, token suy luận và tổng token
+- **Biểu đồ so sánh tốc độ (30d)** — biểu đồ thanh ngang tốc độ gần đây (30 ngày qua) của các mô hình, sắp xếp từ nhanh nhất đến chậm nhất, mã màu theo phần trăm tốc độ (🟡 siêu nhanh, 🟢 nhanh, 🔵 vừa phải, 🔘 chậm)
+- **Biểu đồ so sánh độ trễ (30d)** — biểu đồ thanh ngang độ trễ gần đây mỗi lần gọi, sắp xếp từ ngắn nhất đến dài nhất
+- **Biểu đồ độ trễ mỗi commit (30d)** — biểu đồ thanh ngang độ trễ gần đây chia cho số commit, hiển thị thời gian chờ thực tế mỗi commit (một mô hình thực hiện 5 commit trong gac 10s tốn 2s/commit vs một mô hình thực hiện 1 commit trong gac 25s ở 25s/commit)
 - **Ăn mừng điểm cao** — 🏆 cúp khi bạn thiết lập kỷ lục hàng ngày, hàng tuần, token, hoặc chuỗi mới; 🥈 khi ngang bằng
 - **Tin nhắn khích lệ** — những nhắc nhở theo ngữ cảnh dựa trên hoạt động của bạn
+
+Chạy `uvx gac stats recent` hiển thị 10 gac gần đây nhất (cấu hình với `-n`):
+
+- **Bảng gac gần đây** — mỗi gac với thời gian tương đối, dự án, mô hình, số commit, tệp, tốc độ, độ trễ và phân tích token mỗi gac
 
 ### Vô Hiệu Hóa Thống Kê
 

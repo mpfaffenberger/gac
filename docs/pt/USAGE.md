@@ -424,9 +424,10 @@ Os seguintes subcomandos estão disponíveis:
 - `uvx gac editor` (ou `uvx gac edit`) — Seletor interativo de editor para a tecla `e` no prompt de confirmação (configura GAC_EDITOR)
 - `uvx gac diff` — Mostrar git diff filtrado com opções para mudanças preparadas/não preparadas, cor e truncamento
 - `uvx gac serve` — Iniciar o GAC como [servidor MCP](MCP.md) para integração com agentes de IA (transporte stdio)
-- `uvx gac stats show` — Ver suas estatísticas de uso do gac (totais, sequências, atividade diária e semanal, uso de tokens, projetos principais, modelos principais)
-- `uvx gac stats models` — Ver estatísticas detalhadas de todos os modelos com detalhamento de tokens e gráfico de comparação de velocidade
-- `uvx gac stats projects` — Ver estatísticas de todos os projetos com detalhamento de tokens
+- `uvx gac stats show` — Ver suas estatísticas de uso do gac (totais, sequências, atividade diária e semanal, uso de tokens, projetos principais com arquivos médios, modelos principais com velocidade e latência)
+- `uvx gac stats models` — Estatísticas detalhadas para todos os modelos com detalhamento de tokens, velocidade, latência e gráficos latência por commit
+- `uvx gac stats projects` — Estatísticas para todos os projetos com detalhamento de tokens e arquivos médios por gac
+- `uvx gac stats recent` — Últimos 10 gacs com tokens, velocidade, latência e arquivos por gac (`-n 20` para mais)
 - `uvx gac stats reset` — Redefinir todas as estatísticas para zero (solicita confirmação)
 - `uvx gac stats reset model <model-id>` — Redefinir estatísticas de um modelo específico (insensível a maiúsculas/minúsculas)
 
@@ -559,8 +560,9 @@ Quando você recusa as estatísticas durante `uvx gac init` e um `~/.gac_stats.j
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `uvx gac stats`                        | Mostrar suas estatísticas (o mesmo que `uvx gac stats show`)                                                                          |
 | `uvx gac stats show`                   | Exibir estatísticas completas: totais, sequências, atividade diária e semanal, uso de tokens, projetos principais, modelos principais |
-| `uvx gac stats models`                 | Exibir estatísticas detalhadas de **todos** os modelos usados, com detalhamento de tokens e gráfico de comparação de velocidade       |
-| `uvx gac stats projects`               | Mostrar estatísticas de **todos** os projetos com detalhamento de tokens                                                              |
+| `uvx gac stats models`                 | Estatísticas detalhadas para **todos** os modelos com detalhamento de tokens, velocidade, latência e gráficos latência por commit     |
+| `uvx gac stats projects`               | Estatísticas para **todos** os projetos com detalhamento de tokens e arquivos médios por gac                                          |
+| `uvx gac stats recent`                 | Últimos 10 gacs (`-n 20` para mais), com tokens, velocidade, latência e arquivos por gac                                              |
 | `uvx gac stats reset`                  | Redefinir todas as estatísticas para zero (solicita confirmação)                                                                      |
 | `uvx gac stats reset model <model-id>` | Redefinir estatísticas de um modelo específico (insensível a maiúsculas/minúsculas)                                                   |
 
@@ -576,6 +578,9 @@ uvx gac stats models
 # Estatísticas de todos os projetos
 uvx gac stats projects
 
+# Histórico recente de gacs
+uvx gac stats recent -n 20
+
 # Redefinir todas as estatísticas (com confirmação)
 uvx gac stats reset
 
@@ -590,19 +595,27 @@ Executar `uvx gac stats` exibe:
 - **Gacs e commits totais** — quantas vezes você usou gac e quantos commits ele criou
 - **Sequência atual e mais longa** — dias consecutivos com atividade gac (🔥 aos 5+ dias)
 - **Resumo de atividade** — gacs, commits e tokens de hoje e desta semana vs seu pico diário e semanal
-- **Projetos principais** — seus 5 repositórios mais ativos por contagem de gac + commits, com uso de tokens por projeto
+- **Projetos principais** — seus 5 repositórios mais ativos por contagem de gac + commits, com arquivos médios por gac e uso de tokens
+- **Modelos principais** — seus 5 modelos mais usados com velocidade histórica, latência e uso de tokens
 
-Running `uvx gac stats projects` mostra **todos** os projetos (não apenas os 5 principais) com:
+Executar `uvx gac stats projects` mostra **todos** os projetos (não apenas os 5 principais) com:
 
-- **Tabela de todos os projetos** — cada projeto ordenado por atividade, com contagem de gac, contagem de commits, tokens de prompt, tokens de output, tokens de raciocínio e tokens totais
-- **Modelos principais** — seus 5 modelos mais usados com tokens de prompt, output e totais consumidos
+- **Tabela de todos os projetos** — cada projeto ordenado por atividade, com contagem de gac, contagem de commits, ratio de commits por gac, arquivos médios por gac, tokens de prompt, tokens de output, tokens de raciocínio, tokens totais e parcela do total de gacs
+- **Gráfico de barras de atividade** — barras horizontais mostrando a contagem relativa de gacs por projeto
+- **Gráfico de barras de uso de tokens** — barras horizontais mostrando o consumo relativo de tokens por projeto
 
-Running `uvx gac stats models` mostra **todos** os modelos (não apenas os 5 principais) com:
+Executar `uvx gac stats models` mostra **todos** os modelos (não apenas os 5 principais) com:
 
-- **Tabela de todos os modelos** — cada modelo usado ordenado por atividade, com contagem de gac, velocidade (tokens/seg), tokens de prompt, tokens de output, tokens de raciocínio e tokens totais
-- **Gráfico de comparação de velocidade** — um gráfico de barras horizontais de todos os modelos com velocidades conhecidas, ordenados do mais rápido ao mais lento, coloridos por percentil de velocidade (🟡 ultrarrápido, 🟢 rápido, 🔵 moderado, 🔘 lento)
+- **Tabela de todos os modelos** — cada modelo usado ordenado por atividade, com contagem de gac, contagem de commits, velocidade histórica (tokens/seg), latência histórica, tokens de prompt, tokens de output, tokens de raciocínio e tokens totais
+- **Gráfico de comparação de velocidade (30d)** — um gráfico de barras horizontais de velocidades recentes (últimos 30 dias) dos modelos, ordenados do mais rápido ao mais lento, coloridos por percentil de velocidade (🟡 ultrarrápido, 🟢 rápido, 🔵 moderado, 🔘 lento)
+- **Gráfico de comparação de latência (30d)** — um gráfico de barras horizontais de latência recente por chamada, ordenada da mais curta à mais longa
+- **Gráfico de latência por commit (30d)** — um gráfico de barras horizontais de latência recente dividida por contagem de commits, mostrando tempo real de espera por commit (um modelo que faz 5 commits em um gac de 10s custa 2s/commit vs um que faz 1 commit em um gac de 25s a 25s/commit)
 - **Celebrações de recordes** — 🏆 troféus quando você estabelece novos recordes diários, semanais, de tokens ou de sequência; 🥈 por empatá-los
 - **Mensagens de encorajamento** — sugestões contextuais baseadas na sua atividade
+
+Executar `uvx gac stats recent` mostra seus últimos 10 gacs (configurável com `-n`):
+
+- **Tabela de gacs recentes** — cada gac com tempo relativo, projeto, modelo, contagem de commits, arquivos, velocidade, latência e detalhamento de tokens por gac
 
 ### Desativar estatísticas
 

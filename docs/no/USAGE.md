@@ -375,9 +375,10 @@ Følgende underkommandoer er tilgjengelige:
 - `uvx gac editor` (eller `uvx gac edit`) — Interaktiv editorvelger for `e`-knappen ved bekreftelsesprompten (setter GAC_EDITOR)
 - `uvx gac diff` — Vis filtrert git diff med alternativer for staged/unstaged endringer, farge og trunkering
 - `uvx gac serve` — Start GAC som [MCP-server](MCP.md) for AI-agent integrasjon (stdio transport)
-- `uvx gac stats show` — Vis din gac-bruksstatistikk (totaler, streaks, daglig & ukentlig aktivitet, tokenbruk, topprosjekter, toppmodeller)
-- `uvx gac stats models` — Vis detaljert statistikk for alle modeller med token-nedbryting og hastighetssammenligningsdiagram
-- `uvx gac stats projects` — Vis statistikk for alle prosjekter med token-nedbryting
+- `uvx gac stats show` — Vis din gac-bruksstatistikk (totaler, streaks, daglig & ukentlig aktivitet, tokenbruk, topprosjekter med snitt filer, toppmodeller med fart og latens)
+- `uvx gac stats models` — Detaljert statistikk for alle modeller med token-oppdeling, hastighet, latens og latens-per-commit-diagrammer
+- `uvx gac stats projects` — Statistikk for alle prosjekter med token-oppdeling og snitt filer per gac
+- `uvx gac stats recent` — Siste 10 gacs med tokens, hastighet, latens og filer per gac (`-n 20` for flere)
 - `uvx gac stats reset` — Tilbakestill all statistikk til null (ber om bekreftelse)
 - `uvx gac stats reset model <model-id>` — Tilbakestill statistikk for en spesifikk modell (ufølsom for store/små bokstaver)
 
@@ -506,14 +507,15 @@ Når du avslår statistikk under `uvx gac init` og en eksisterende `~/.gac_stats
 
 ### Statistikk-underkommandoer
 
-| Kommando                               | Beskrivelse                                                                                                       |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `uvx gac stats`                        | Vis din statistikk (samme som `uvx gac stats show`)                                                               |
-| `uvx gac stats show`                   | Vis fullstendig statistikk: totaler, streaks, daglig & ukentlig aktivitet, tokenbruk, topprosjekter, toppmodeller |
-| `uvx gac stats models`                 | Vis detaljert statistikk for **alle** brukte modeller, med token-nedbryting og hastighetssammenligningsdiagram    |
-| `uvx gac stats projects`               | Vis statistikk for **alle** prosjekter med token-nedbryting                                                       |
-| `uvx gac stats reset`                  | Tilbakestill all statistikk til null (ber om bekreftelse)                                                         |
-| `uvx gac stats reset model <model-id>` | Tilbakestill statistikk for en spesifikk modell (ufølsom for store/små bokstaver)                                 |
+| Kommando                               | Beskrivelse                                                                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `uvx gac stats`                        | Vis din statistikk (samme som `uvx gac stats show`)                                                                      |
+| `uvx gac stats show`                   | Vis fullstendig statistikk: totaler, streaks, daglig & ukentlig aktivitet, tokenbruk, topprosjekter, toppmodeller        |
+| `uvx gac stats models`                 | Detaljert statistikk for **alle** brukte modeller med token-oppdeling, hastighet, latens og latens-per-commit-diagrammer |
+| `uvx gac stats projects`               | Statistikk for **alle** prosjekter med token-oppdeling og snitt filer per gac                                            |
+| `uvx gac stats recent`                 | Siste 10 gacs (`-n 20` for flere), med tokens, hastighet, latens og filer per gac                                        |
+| `uvx gac stats reset`                  | Tilbakestill all statistikk til null (ber om bekreftelse)                                                                |
+| `uvx gac stats reset model <model-id>` | Tilbakestill statistikk for en spesifikk modell (ufølsom for store/små bokstaver)                                        |
 
 ### Eksempler
 
@@ -526,6 +528,9 @@ uvx gac stats models
 
 # Statistikk for alle prosjekter
 uvx gac stats projects
+
+# Nylig gac-historikk
+uvx gac stats recent -n 20
 
 # Tilbakestill all statistikk (med bekreftelsesprompt)
 uvx gac stats reset
@@ -541,19 +546,27 @@ uvx gac stats reset model wafer:deepseek-v4-pro
 - **Totalt antall gacs og committer** — hvor mange ganger du har brukt gac og hvor mange committer det har opprettet
 - **Nåværende og lengste streak** — etterfølgende dager med gac-aktivitet (🔥 ved 5+ dager)
 - **Aktivitetssammendrag** — dagens og denne ukens gacs, committer og tokens sammenlignet med din toppedag og toppeuke
-- **Topprosjekter** — dine 5 mest aktive repos etter gac- + commit-antall, med tokenbruk per prosjekt
+- **Topprosjekter** — dine 5 mest aktive repos etter gac- + commit-antall, med snitt filer per gac og tokenbruk
+- **Toppmodeller** — dine 5 mest brukte modeller med total fart, latens og tokenbruk
 
-Running `uvx gac stats projects` viser **alle** prosjekter (ikke bare de 5 øverste) med:
+Å kjøre `uvx gac stats projects` viser **alle** prosjekter (ikke bare de 5 øverste) med:
 
-- **Alle prosjekter-tabell** — hvert prosjekt sortert etter aktivitet, med gac-antall, commit-antall, prompt-tokens, output-tokens, reasoning-tokens og totale tokens
-- **Toppmodeller** — dine 5 mest brukte modeller med prompt-, output- og totale tokens forbruk
+- **Alle prosjekter-tabell** — hvert prosjekt sortert etter aktivitet, med gac-antall, commit-antall, commits-per-gac-ratio, snitt filer per gac, prompt-tokens, output-tokens, reasoning-tokens, totale tokens og andel av totale gacs
+- **Aktivitetsstolpediagram** — horisontale stolper som viser relativt gac-antall per prosjekt
+- **Tokenbrukstolpediagram** — horisontale stolper som viser relativt tokenforbruk per prosjekt
 
-Running `uvx gac stats models` viser **alle** modeller (ikke bare de 5 øverste) med:
+Å kjøre `uvx gac stats models` viser **alle** modeller (ikke bare de 5 øverste) med:
 
-- **Alle modeller-tabell** — hver brukte modell sortert etter aktivitet, med gac-antall, hastighet (tokens/sek), prompt-tokens, output-tokens, reasoning-tokens og totale tokens
-- **Hastighetssammenligning** — et horisontalt stolpediagram av alle modeller med kjente hastigheter, sortert fra raskest til tregest, fargekodet etter hastighetspersentil (🟡 lynrask, 🟢 rask, 🔵 moderat, 🔘 treg)
+- **Alle modeller-tabell** — hver brukt modell sortert etter aktivitet, med gac-antall, commit-antall, total fart (tokens/sek), total latens, prompt-tokens, output-tokens, reasoning-tokens og totale tokens
+- **Fartssammenligning (30d)-diagram** — et horisontalt stolpediagram av nylige (siste 30 dager) modelfarter, sortert fra raskest til tregest, fargekodet etter fartspersentil (🟡 lynrask, 🟢 rask, 🔵 moderat, 🔘 treg)
+- **Latenssammenligning (30d)-diagram** — et horisontalt stolpediagram av nylig latens per kall, sortert fra kortest til lengst
+- **Latens-per-commit (30d)-diagram** — et horisontalt stolpediagram av nylig latens delt på commit-antall, viser ekte ventetid per commit (en modell som gjør 5 committer i en 10s gac koster 2s/commit vs en som gjør 1 commit i en 25s gac til 25s/commit)
 - **Highscore-feiringer** — 🏆 trofeer når du setter nye daglige, ukentlige, token- eller streak-rekorder; 🥈 for å tangere dem
 - **Oppmuntringsmeldinger** — kontekstuelle oppmuntringer basert på din aktivitet
+
+Å kjøre `uvx gac stats recent` viser dine siste 10 gacs (konfigurerbar med `-n`):
+
+- **Nylige gacs-tabell** — hver gac med relativ tid, prosjekt, modell, commit-antall, filer, fart, latens og token-nedbrytning per gac
 
 ### Deaktivere statistikk
 
