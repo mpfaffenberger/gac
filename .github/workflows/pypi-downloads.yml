@@ -12,13 +12,12 @@ jobs:
       - name: Fetch PyPI stats
         id: stats
         run: |
-          RECENT=$(curl -s "https://pypistats.org/api/packages/gac/recent")
           OVERALL=$(curl -s "https://pypistats.org/api/packages/gac/overall")
 
-          LAST_DAY=$(echo "$RECENT" | jq '.data.last_day')
-          LAST_WEEK=$(echo "$RECENT" | jq '.data.last_week')
-          LAST_MONTH=$(echo "$RECENT" | jq '.data.last_month')
-          TOTAL=$(echo "$OVERALL" | jq '[.data[] | select(.category == "without_mirrors") | .downloads] | add')
+          LAST_DAY=$(echo "$OVERALL" | jq '[.data[] | select(.category == "with_mirrors")] | sort_by(.date) | reverse | .[0].downloads')
+          LAST_WEEK=$(echo "$OVERALL" | jq '[.data[] | select(.category == "with_mirrors")] | sort_by(.date) | reverse | .[0:7] | [.[].downloads] | add')
+          LAST_MONTH=$(echo "$OVERALL" | jq '[.data[] | select(.category == "with_mirrors")] | sort_by(.date) | reverse | .[0:30] | [.[].downloads] | add')
+          TOTAL=$(echo "$OVERALL" | jq '[.data[] | select(.category == "with_mirrors") | .downloads] | add')
 
           echo "last_day=$LAST_DAY" >> $GITHUB_OUTPUT
           echo "last_week=$LAST_WEEK" >> $GITHUB_OUTPUT
@@ -59,7 +58,7 @@ jobs:
                   }
                 ],
                 "footer": {
-                  "text": "pypistats.org • without mirrors"
+                  "text": "pypistats.org • with mirrors"
                 }
               }]
             }'
