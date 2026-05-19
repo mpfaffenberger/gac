@@ -2,7 +2,8 @@ from unittest.mock import patch
 
 import pytest
 
-from gac.config import load_config, validate_config
+from gac.config import _parse_diff_context_lines_env, load_config, validate_config
+from gac.constants import Utility
 from gac.errors import ConfigError
 
 
@@ -285,6 +286,16 @@ class TestValidateConfig:
             config = load_config()
             assert config["reasoning_effort"] is None
 
+    def test_reasoning_effort_invalid_passthrough(self, tmp_path, monkeypatch):
+        """GAC_REASONING_EFFORT=extreme passes through for validation to catch."""
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("GAC_REASONING_EFFORT", "extreme")
+
+        with patch("gac.config.Path.home") as mock_home:
+            mock_home.return_value = tmp_path / "nonexistent_home"
+            with pytest.raises(ConfigError, match=r"reasoning_effort must be one of"):
+                load_config()
+
     def test_reasoning_effort_case_insensitive(self, tmp_path, monkeypatch):
         """Test that GAC_REASONING_EFFORT is parsed case-insensitively."""
         monkeypatch.chdir(tmp_path)
@@ -302,6 +313,31 @@ class TestValidateConfig:
             config = load_config()
             assert config["reasoning_effort"] == "medium"
 
+    # diff_context_lines validation tests
+    def test_diff_context_lines_valid_values(self):
+        """Test that valid diff_context_lines values pass validation."""
+        validate_config({"diff_context_lines": 0})
+        validate_config({"diff_context_lines": 50})
+        validate_config({"diff_context_lines": 100})
+
+    def test_diff_context_lines_wrong_type(self):
+        """Test that diff_context_lines with wrong type raises ConfigError."""
+        config = {"diff_context_lines": "5"}  # String instead of int
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be an integer, got str"):
+            validate_config(config)
+
+    def test_diff_context_lines_below_range(self):
+        """Test that diff_context_lines below 0 raises ConfigError."""
+        config = {"diff_context_lines": -1}
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be >= 0, got -1"):
+            validate_config(config)
+
+    def test_diff_context_lines_above_range(self):
+        """Test that diff_context_lines above 100 raises ConfigError."""
+        config = {"diff_context_lines": 101}
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be <= 100, got 101"):
+            validate_config(config)
+
     # Integration test with load_config
     def test_load_config_validates(self, tmp_path, monkeypatch):
         """Test that load_config() calls validate_config() and raises on invalid values."""
@@ -316,3 +352,55 @@ class TestValidateConfig:
 
             with pytest.raises(ConfigError, match=r"temperature must be <= 2\.0, got 3\.0"):
                 load_config()
+
+
+class TestParseDiffContextLinesEnv:
+    """Unit tests for _parse_diff_context_lines_env()."""
+
+    def test_not_set_returns_default(self, monkeypatch):
+        """When GAC_DIFF_CONTEXT_LINES is not set, return the default."""
+        monkeypatch.delenv("GAC_DIFF_CONTEXT_LINES", raising=False)
+        assert _parse_diff_context_lines_env() == Utility.DIFF_CONTEXT_LINES
+
+    def test_empty_string_returns_default(self, monkeypatch):
+        """When GAC_DIFF_CONTEXT_LINES is empty, return the default."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "")
+        assert _parse_diff_context_lines_env() == Utility.DIFF_CONTEXT_LINES
+
+    def test_valid_integer(self, monkeypatch):
+        """When GAC_DIFF_CONTEXT_LINES is a valid integer, return it."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "5")
+        assert _parse_diff_context_lines_env() == 5
+
+    def test_boundary_zero(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES=0 is a valid boundary value."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "0")
+        assert _parse_diff_context_lines_env() == 0
+
+    def test_boundary_hundred(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES=100 is a valid boundary value."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "100")
+        assert _parse_diff_context_lines_env() == 100
+
+    def test_non_integer_raises(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES=abc raises ConfigError about integer."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "abc")
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be an integer, got 'abc'"):
+            _parse_diff_context_lines_env()
+
+    def test_negative_raises(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES=-1 raises ConfigError about range."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "-1")
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be >= 0 and <= 100, got -1"):
+            _parse_diff_context_lines_env()
+
+    def test_too_large_raises(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES=101 raises ConfigError about range."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", "101")
+        with pytest.raises(ConfigError, match=r"diff_context_lines must be >= 0 and <= 100, got 101"):
+            _parse_diff_context_lines_env()
+
+    def test_whitespace_stripped(self, monkeypatch):
+        """GAC_DIFF_CONTEXT_LINES with surrounding whitespace is stripped and parsed."""
+        monkeypatch.setenv("GAC_DIFF_CONTEXT_LINES", " 7 ")
+        assert _parse_diff_context_lines_env() == 7
