@@ -192,11 +192,19 @@ def record_gac(project_name: str | None = None, model: str | None = None, files:
             }
         stats["models"][model]["gacs"] += 1
 
-    # Finalize per-gac token total: check if this gac is the biggest ever
+    # Finalize per-gac records: check if this gac is the biggest ever
     _accumulator.is_new_biggest = False
     if _accumulator.current > 0 and _accumulator.current > stats.get("biggest_gac_tokens", 0):
         stats["biggest_gac_tokens"] = _accumulator.current
         stats["biggest_gac_date"] = now.isoformat()
+        _accumulator.is_new_biggest = True
+    if _accumulator._commits > 0 and _accumulator._commits > stats.get("biggest_gac_commits", 0):
+        stats["biggest_gac_commits"] = _accumulator._commits
+        stats["biggest_gac_commits_date"] = now.isoformat()
+        _accumulator.is_new_biggest = True
+    if files > 0 and files > stats.get("biggest_gac_files", 0):
+        stats["biggest_gac_files"] = files
+        stats["biggest_gac_files_date"] = now.isoformat()
         _accumulator.is_new_biggest = True
 
     # Write per-gac history record (ring buffer, capped at HISTORY_CAP)

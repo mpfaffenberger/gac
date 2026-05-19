@@ -22,6 +22,10 @@ def get_stats_summary() -> dict[str, Any]:
     total_tokens = total_prompt_tokens + total_output_tokens + total_reasoning_tokens
     biggest_gac_tokens = stats.get("biggest_gac_tokens", 0)
     biggest_gac_date = stats.get("biggest_gac_date")
+    biggest_gac_commits = stats.get("biggest_gac_commits", 0)
+    biggest_gac_commits_date = stats.get("biggest_gac_commits_date")
+    biggest_gac_files = stats.get("biggest_gac_files", 0)
+    biggest_gac_files_date = stats.get("biggest_gac_files_date")
     first_used = stats["first_used"]
     last_used = stats["last_used"]
     daily_gacs = stats["daily_gacs"]
@@ -99,6 +103,12 @@ def get_stats_summary() -> dict[str, Any]:
     first_used_str = "Never" if first_used is None else store._safe_format_date(first_used)
     last_used_str = "Never" if last_used is None else store._safe_format_date(last_used)
     biggest_gac_date_str = None if biggest_gac_date is None else store._safe_format_date(biggest_gac_date)
+    biggest_gac_commits_date_str = (
+        None if biggest_gac_commits_date is None else store._safe_format_date(biggest_gac_commits_date)
+    )
+    biggest_gac_files_date_str = (
+        None if biggest_gac_files_date is None else store._safe_format_date(biggest_gac_files_date)
+    )
 
     # Coerce biggest_gac_tokens to int safely
     try:
@@ -135,6 +145,10 @@ def get_stats_summary() -> dict[str, Any]:
         "total_tokens": total_tokens,
         "biggest_gac_tokens": biggest_gac_tokens,
         "biggest_gac_date": biggest_gac_date_str,
+        "biggest_gac_commits": biggest_gac_commits,
+        "biggest_gac_commits_date": biggest_gac_commits_date_str,
+        "biggest_gac_files": biggest_gac_files,
+        "biggest_gac_files_date": biggest_gac_files_date_str,
         "first_used": first_used_str,
         "last_used": last_used_str,
         "today_gacs": today_gacs,

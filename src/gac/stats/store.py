@@ -57,6 +57,10 @@ class GACStats(TypedDict):
     total_reasoning_tokens: int
     biggest_gac_tokens: int
     biggest_gac_date: str | None
+    biggest_gac_commits: int
+    biggest_gac_commits_date: str | None
+    biggest_gac_files: int
+    biggest_gac_files_date: str | None
     first_used: str | None
     last_used: str | None
     daily_gacs: dict[str, int]
@@ -75,7 +79,7 @@ class GACStats(TypedDict):
     _version: int
 
 
-_CURRENT_STATS_VERSION = 4  # v4: per-gac history ring buffer
+_CURRENT_STATS_VERSION = 5  # v5: biggest_gac_commits/files records
 
 # Max history records (~150 bytes/record × 1000 = ~150 KB).
 HISTORY_CAP = 1000
@@ -403,6 +407,47 @@ def _migrate_v3_to_v4(data: dict[str, Any]) -> dict[str, Any]:
     return data
 
 
+def _migrate_v4_to_v5(data: dict[str, Any]) -> dict[str, Any]:
+    """Migrate stats from v4 to v5: add biggest_gac_commits and biggest_gac_files.
+
+    v5 introduces two new "biggest gac" dimensions alongside the existing
+    token-based one:
+    - ``biggest_gac_commits`` / ``biggest_gac_commits_date``: the single gac
+      invocation that produced the most commits (relevant for ``--group`` mode).
+    - ``biggest_gac_files`` / ``biggest_gac_files_date``: the single gac
+      invocation that touched the most files.
+
+    For existing data, we backfill these from the history ring buffer
+    when available; otherwise we default to 0 / None.
+    """
+    if int(data.get("_version", 0)) >= 5:
+        return data
+
+    # Backfill from history if available
+    history = data.get("history", [])
+    best_commits = 0
+    best_commits_ts: str | None = None
+    best_files = 0
+    best_files_ts: str | None = None
+    for record in history:
+        commits = int(record.get("commits", 0))
+        files = int(record.get("files", 0))
+        if commits > best_commits:
+            best_commits = commits
+            best_commits_ts = record.get("ts")
+        if files > best_files:
+            best_files = files
+            best_files_ts = record.get("ts")
+
+    data.setdefault("biggest_gac_commits", best_commits)
+    data.setdefault("biggest_gac_commits_date", best_commits_ts)
+    data.setdefault("biggest_gac_files", best_files)
+    data.setdefault("biggest_gac_files_date", best_files_ts)
+
+    data["_version"] = 5
+    return data
+
+
 def _migrate(data: dict[str, Any]) -> dict[str, Any]:
     """Apply schema migrations in order until reaching the current version."""
     version = int(data.get("_version", 0))
@@ -414,6 +459,9 @@ def _migrate(data: dict[str, Any]) -> dict[str, Any]:
         version = int(data.get("_version", 0))
     if version < 4:
         data = _migrate_v3_to_v4(data)
+        version = int(data.get("_version", 0))
+    if version < 5:
+        data = _migrate_v4_to_v5(data)
     return data
 
 
@@ -430,6 +478,10 @@ def _empty_stats() -> GACStats:
         "total_reasoning_tokens": 0,
         "biggest_gac_tokens": 0,
         "biggest_gac_date": None,
+        "biggest_gac_commits": 0,
+        "biggest_gac_commits_date": None,
+        "biggest_gac_files": 0,
+        "biggest_gac_files_date": None,
         "first_used": None,
         "last_used": None,
         "daily_gacs": {},
@@ -486,6 +538,10 @@ def load_stats() -> GACStats:
             "total_reasoning_tokens": data.get("total_reasoning_tokens", 0),
             "biggest_gac_tokens": data.get("biggest_gac_tokens", 0),
             "biggest_gac_date": data.get("biggest_gac_date"),
+            "biggest_gac_commits": data.get("biggest_gac_commits", 0),
+            "biggest_gac_commits_date": data.get("biggest_gac_commits_date"),
+            "biggest_gac_files": data.get("biggest_gac_files", 0),
+            "biggest_gac_files_date": data.get("biggest_gac_files_date"),
             "first_used": data.get("first_used"),
             "last_used": data.get("last_used"),
             "daily_gacs": data.get("daily_gacs", {}),
