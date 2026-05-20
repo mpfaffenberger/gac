@@ -216,13 +216,6 @@ VS Code 等 GUI 编辑器会自动处理：gac 会插入 `--wait`，使进程在
 
 想要在之后仅更新提供商或模型且不修改语言？使用 `uvx gac model`，它会跳过语言相关的提示。
 
-```bash
-# 示例配置
-GAC_MODEL=anthropic:your-model-name
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-```
-
 查看 `.gac.env.example` 了解所有可用选项。
 
 **想要其他语言的提交信息？**运行 `uvx gac language` 从 25+ 种语言中选择，包括 Español、Français、日本語 等。

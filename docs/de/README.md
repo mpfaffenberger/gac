@@ -216,13 +216,6 @@ Führen Sie `uvx gac init` aus, um Ihren Provider interaktiv zu konfigurieren, o
 
 Später Provider oder Modelle ändern, ohne Spracheinstellungen zu berühren? Verwenden Sie `uvx gac model` für einen Optimierten Ablauf, der die Spracheingabeaufforderungen überspringt.
 
-```bash
-# Beispielkonfiguration
-GAC_MODEL=anthropic:your-model-name
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-```
-
 Siehe `.gac.env.example` für alle verfügbaren Optionen.
 
 **Möchten Sie Commit-Nachrichten in einer anderen Sprache?** Führen Sie `uvx gac language` aus, um aus 25+ Sprachen zu wählen, inklusive Español, Français, 日本語 und mehr.

@@ -216,13 +216,6 @@ VS Code 같은 GUI 에디터는 자동으로 처리됩니다: gac이 `--wait`을
 
 나중에 언어 설정을 건드리지 않고 프로바이더나 모델을 변경해야 하나요? 언어 프롬프트를 건너뛰는 간소화된 흐름을 위해 `uvx gac model`을 사용하세요.
 
-```bash
-# 설정 예제
-GAC_MODEL=anthropic:your-model-name
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-```
-
 사용 가능한 모든 옵션은 `.gac.env.example`을 참조하세요.
 
 **다른 언어로 커밋 메시지를 원하시나요?** `uvx gac language`를 실행하여 Español, Français, 日本語 등 25+ 언어 중에서 선택하세요.

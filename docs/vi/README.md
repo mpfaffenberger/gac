@@ -216,13 +216,6 @@ Chạy `uvx gac init` để cấu hình nhà cung cấp của bạn một cách 
 
 Cần thay đổi nhà cung cấp hoặc mô hình sau này mà không ảnh hưởng đến cài đặt ngôn ngữ? Sử dụng `uvx gac model` cho quy trình hợp lý bỏ qua các gợi ý ngôn ngữ.
 
-```bash
-# Ví dụ cấu hình
-GAC_MODEL=anthropic:your-model-name
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-```
-
 Xem `.gac.env.example` cho tất cả các tùy chọn có sẵn.
 
 **Muốn thông điệp commit bằng ngôn ngữ khác?** Chạy `uvx gac language` để chọn từ 25+ ngôn ngữ bao gồm Español, Français, 日本語 và nhiều hơn nữa.

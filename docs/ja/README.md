@@ -216,13 +216,6 @@ VS Code のような GUI エディタは自動的に処理されます：gac が
 
 後からプロバイダーやモデルを変更したいが言語設定は触りたくない場合？`uvx gac model` を使用して言語プロンプトをスキップしたストリームラインなフローを実行します。
 
-```bash
-# 設定例
-GAC_MODEL=anthropic:your-model-name
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-```
-
 利用可能なすべてのオプションについては `.gac.env.example` を参照。
 
 **別の言語でコミットメッセージが必要ですか？** `uvx gac language を実行して、Español、Français、日本語など 25+ の言語から選択してください。
