@@ -2,7 +2,7 @@ name: PyPI Download Stats
 
 on:
   schedule:
-    - cron: "30 0 * * *"
+    - cron: "30 0 * * 0"
   workflow_dispatch:
 
 jobs:
@@ -14,9 +14,7 @@ jobs:
         run: |
           STATS=$(curl -s -X POST 'https://sql-clickhouse.clickhouse.com:8443/?user=demo' \
             --data-binary "SELECT
-              sumIf(count, date >= today() - 1) AS last_day,
               sumIf(count, date >= today() - 7) AS last_week,
-              sumIf(count, date >= today() - 30) AS last_month,
               sum(count) AS total
             FROM pypi.pypi_downloads_per_day
             WHERE project = 'gac'
@@ -24,9 +22,7 @@ jobs:
 
           fmt() { LC_ALL=en_US.UTF-8 printf "%'d" "$1"; }
 
-          echo "last_day=$(fmt "$(echo "$STATS" | jq -r '.last_day')")" >> $GITHUB_OUTPUT
           echo "last_week=$(fmt "$(echo "$STATS" | jq -r '.last_week')")" >> $GITHUB_OUTPUT
-          echo "last_month=$(fmt "$(echo "$STATS" | jq -r '.last_month')")" >> $GITHUB_OUTPUT
           echo "total=$(fmt "$(echo "$STATS" | jq -r '.total')")" >> $GITHUB_OUTPUT
 
       - name: Send Discord notification
@@ -42,24 +38,14 @@ jobs:
                 "color": 5793266,
                 "fields": [
                   {
-                    "name": "Last 24h",
-                    "value": "${{ steps.stats.outputs.last_day }}",
-                    "inline": true
-                  },
-                  {
                     "name": "Last 7 days",
                     "value": "${{ steps.stats.outputs.last_week }}",
                     "inline": true
                   },
                   {
-                    "name": "Last 30 days",
-                    "value": "${{ steps.stats.outputs.last_month }}",
-                    "inline": true
-                  },
-                  {
                     "name": "All-time total",
                     "value": "${{ steps.stats.outputs.total }}",
-                    "inline": false
+                    "inline": true
                   }
                 ],
                 "footer": {
