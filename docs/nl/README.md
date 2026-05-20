@@ -192,13 +192,6 @@ r
 
 # Bewerk het commitbericht
 e
-# Standaard: in-place TUI met vi/emacs-keybindings
-# Druk op Esc+Enter of Ctrl+S om in te dienen, Ctrl+C om te annuleren
-
-# Stel GAC_EDITOR in om uw voorkeurseditor te openen:
-# GAC_EDITOR=code gac → opent VS Code (--wait automatisch toegepast)
-# GAC_EDITOR=vim gac → opent vim
-# GAC_EDITOR=nano gac → opent nano
 
 # Of typ gewoon uw feedback direct!
 maak het korter en focus op de prestatieverbetering

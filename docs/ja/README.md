@@ -192,13 +192,6 @@ r
 
 # コミットメッセージを編集
 e
-# デフォルト: vi/emacs キーバインドのインプレース TUI
-# Esc+EnterまたはCtrl+Sで送信、Ctrl+Cでキャンセル
-
-# GAC_EDITOR を設定してお好みのエディタを開く:
-# GAC_EDITOR=code gac → VS Code を開く（--wait が自動適用）
-# GAC_EDITOR=vim gac → vim を開く
-# GAC_EDITOR=nano gac → nano を開く
 
 # またはフィードバックを直接入力！
 もっと短くして、パフォーマンス改善に集中

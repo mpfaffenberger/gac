@@ -192,13 +192,6 @@ r
 
 # 编辑提交信息
 e
-# 默认：带 vi/emacs 键绑定的就地 TUI
-# 按 Esc+Enter 或 Ctrl+S 提交，Ctrl+C 取消
-
-# 设置 GAC_EDITOR 以打开您偏好的编辑器：
-# GAC_EDITOR=code gac → 打开 VS Code（--wait 自动添加）
-# GAC_EDITOR=vim gac → 打开 vim
-# GAC_EDITOR=nano gac → 打开 nano
 
 # 或者直接输入你的反馈！
 让它更短并专注于性能改进

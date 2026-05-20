@@ -192,13 +192,6 @@ r
 
 # Rediger commit-meldingen
 e
-# Som standard: innebygd TUI med vi/emacs-tastebindinger
-# Trykk Esc+Enter eller Ctrl+S for å sende inn, Ctrl+C for å avbryte
-
-# Sett GAC_EDITOR for å åpne din foretrukne editor i stedet:
-# GAC_EDITOR=code gac → åpner VS Code (--wait automatisk lagt til)
-# GAC_EDITOR=vim gac → åpner vim
-# GAC_EDITOR=nano gac → åpner nano
 
 # Eller skriv bare tilbakemeldingen din direkte!
 gjør den kortere og fokuser på ytelsesforbedringen

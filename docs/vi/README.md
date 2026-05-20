@@ -192,13 +192,6 @@ r
 
 # Chỉnh sửa thông điệp commit
 e
-# Mặc định: TUI tại chỗ với phím tắt vi/emacs
-# Nhấn Esc+Enter hoặc Ctrl+S để gửi, Ctrl+C để hủy
-
-# Đặt GAC_EDITOR để mở trình soạn thảo ưa thích:
-# GAC_EDITOR=code gac → mở VS Code (--wait tự động áp dụng)
-# GAC_EDITOR=vim gac → mở vim
-# GAC_EDITOR=nano gac → mở nano
 
 # Hoặc chỉ gõ phản hồi của bạn trực tiếp!
 làm nó ngắn hơn và tập trung vào cải thiện hiệu suất

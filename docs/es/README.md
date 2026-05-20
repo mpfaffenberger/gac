@@ -192,13 +192,6 @@ r
 
 # Editar el mensaje de commit
 e
-# Por defecto: TUI in-place con keybindings vi/emacs
-# Presiona Esc+Enter o Ctrl+S para enviar, Ctrl+C para cancelar
-
-# Establece GAC_EDITOR para abrir tu editor preferido en su lugar:
-# GAC_EDITOR=code gac → abre VS Code (--wait se aplica automáticamente)
-# GAC_EDITOR=vim gac → abre vim
-# GAC_EDITOR=nano gac → abre nano
 
 # ¡O simplemente escribe tu retroalimentación directamente!
 hazlo más corto y enfócate en la mejora de rendimiento

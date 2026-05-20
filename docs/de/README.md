@@ -192,13 +192,7 @@ r
 
 # Die Commit-Nachricht bearbeiten
 e
-# Standardmäßig: In-Place-TUI mit vi/emacs-Keybindings
-# Esc+Enter oder Ctrl+S zum Absenden, Ctrl+C zum Abbrechen
 
-# Setzen Sie GAC_EDITOR, um stattdessen Ihren bevorzugten Editor zu öffnen:
-# GAC_EDITOR=code gac → öffnet VS Code (--wait automatisch angewendet)
-# GAC_EDITOR=vim gac → öffnet vim
-# GAC_EDITOR=nano gac → öffnet nano
 # Oder geben Sie Ihr Feedback direkt ein!
 mache es kürzer und konzentriere dich auf die Performance-Verbesserung
 verwende conventional commit Format mit Scope

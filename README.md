@@ -192,13 +192,6 @@ r
 
 # Edit the commit message
 e
-# By default: in-place TUI with vi/emacs keybindings
-# Press Esc+Enter or Ctrl+S to submit, Ctrl+C to cancel
-
-# Set GAC_EDITOR to open your preferred editor instead:
-# GAC_EDITOR=code gac    → opens VS Code (--wait auto-applied)
-# GAC_EDITOR=vim gac     → opens vim
-# GAC_EDITOR=nano gac    → opens nano
 
 # Or just type your feedback directly!
 make it shorter and focus on the performance improvement

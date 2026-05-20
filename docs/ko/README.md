@@ -192,13 +192,6 @@ r
 
 # 커밋 메시지 편집
 e
-# 기본적으로: vi/emacs 키바인딩의 인플레이스 TUI
-# Esc+Enter 또는 Ctrl+S로 제출, Ctrl+C로 취소
-
-# GAC_EDITOR를 설정하여 원하는 에디터를 여세요:
-# GAC_EDITOR=code gac → VS Code 열기 (--wait 자동 적용)
-# GAC_EDITOR=vim gac → vim 열기
-# GAC_EDITOR=nano gac → nano 열기
 
 # 또는 피드백을 직접 입력하세요!
 더 짧게 만들고 성능 개선에 집중해줘

@@ -192,13 +192,6 @@ r
 
 # कमिट मैसेज एडिट करें
 e
-# डिफ़ॉल्ट रूप से: vi/emacs कीबाइंडिंग्स के साथ इन-प्लेस TUI
-# सबमिट करने के लिए Esc+Enter या Ctrl+S दबाएं, रद्द करने के लिए Ctrl+C
-
-# अपना पसंदीदा एडिटर खोलने के लिए GAC_EDITOR सेट करें:
-# GAC_EDITOR=code gac → VS Code खोलता है (--wait स्वतः लागू)
-# GAC_EDITOR=vim gac → vim खोलता है
-# GAC_EDITOR=nano gac → nano खोलता है
 
 # या बस अपनी फीडबैक सीधे टाइप करें!
 make it shorter and focus on the performance improvement
